@@ -179,7 +179,7 @@ let testClass = new storyElement(
 )
 let testNaming = new storyElement(
     'form',
-    ['Hello!', 'Please enter your name.'],
+    ['Greetings, hero!', 'Thank you for testing the game.', 'Please enter your name.'],
     undefined,
     testClass
 )

@@ -15,7 +15,8 @@ import {
 } from './comp_hud';
 import { 
     enemies, 
-    listEnemies 
+    listEnemies,
+    switchAttack
 } from "./comp_battle_functions";
 import { 
     grabItem 
@@ -47,6 +48,7 @@ import {
     randomEvent2a,
     randomEvent2b
 } from './comp_story_objects';
+const eventEmitter = require('./comp_event_emitter');
 // game-long vars
 let isPlayerExploring = false;
 let playerConsequences = [];
@@ -240,15 +242,15 @@ function newChoice(storyElement) {
         choiceButton.addEventListener('click', () => {
             playerConsequences.push(thisChoice.choiceModifiers);
             if (thisChoice.choiceModifiers == 'classJanitor') {
-                char1 = new Janitor(char1.name, 13, 15, 100, 100, 'Normal Attack'); 
+                Janitor.call(char1, char1.name, 13, 15, 100, 100, 'Normal Attack', '', '', '', []);
                 menu_window.textContent = menu_window.textContent.replace('Your class is unknown.', 'You are a Janitor.');
                 special_button.addEventListener('click', () => { switchAttack(char1) });    
             } else if (thisChoice.choiceModifiers == 'classAccountant') {
-                char1 = new Accountant(char1.name, 13, 15, 100, 100, 'Normal Attack'); 
+                Accountant.call(char1, char1.name, 13, 15, 100, 100, 'Normal Attack', '', '', '', []);
                 menu_window.textContent = menu_window.textContent.replace('Your class is unknown.', 'You are an Accountant.');
                 special_button.addEventListener('click', () => { switchAttack(char1) });    
             } else if (thisChoice.choiceModifiers == 'classDancer') {
-                char1 = new Dancer(char1.name, 13, 15, 100, 100, 'Normal Attack'); 
+                Dancer.call(char1, char1.name, 13, 15, 100, 100, 'Normal Attack', '', '', '', []);
                 menu_window.textContent = menu_window.textContent.replace('Your class is unknown.', 'You are a Dancer.');
                 special_button.addEventListener('click', () => { switchAttack(char1) });     
             }
@@ -260,14 +262,16 @@ function newChoice(storyElement) {
 let storyAfterBattle = null;
 function newBattleStarter(storyElement) {
     storyElement.modifiers.forEach((currentEnemy) => { currentEnemy.currentHP = currentEnemy.maxHP });
-    enemies = storyElement.modifiers;
+    enemies.splice(0, enemies.length, ...storyElement.modifiers);
     storyAfterBattle = storyElement;
     let board = document.querySelector('#explorationBoard');
     if (board !== null) { board.style.display = 'none'; }
     listEnemies();
 }
-function isBattleOver(battleResult) {
-    if (battleResult == 'win') {
+eventEmitter.on('battle:win', () => {
+  
+// function isBattleOver(battleResult) {
+    // if (battleResult == 'win') {
         if (isPlayerExploring == true) {
             let board = document.querySelector('#explorationBoard');
             board.style.display = 'grid';        
@@ -282,8 +286,10 @@ function isBattleOver(battleResult) {
         top_bar.removeChild(top_bar.firstChild);
         while (main_window.firstChild) { main_window.removeChild(main_window.firstChild) };
         storyTeller(storyAfterBattle.nextStoryElement);
-        storyAfterBattle = null;    
-    } else {
+        storyAfterBattle = null;   
+}); 
+    // } else {
+eventEmitter.on('battle:lose', () => {
         let entry = document.createElement('p');
         entry.textContent = 'You died!';
         entry.setAttribute('style', 'color:red;');
@@ -292,8 +298,8 @@ function isBattleOver(battleResult) {
         button_window.removeChild(special_button);
         button_window.removeChild(inventory_button);
         button_window.removeChild(stats_button);
-    }
-}
+    // }
+});
 // new character creation function
 function newFormMaker(storyElement) {
     let form_card = document.createElement('div');
@@ -308,7 +314,7 @@ function newFormMaker(storyElement) {
     main_window.appendChild(form_card);
     submit.addEventListener('click', (event) => {
         event.preventDefault();
-        answer = input.value;
+        let answer = input.value;
         char1.name = answer;
         newUpdateNames(answer);
         while (main_window.firstChild) { main_window.removeChild(main_window.firstChild); }
@@ -390,7 +396,6 @@ function newExploration(storyElement) {
     // clicking to move
     // This works because it doesn't NEED a current position. it ALWAYS calculates from the starting one
     boardUnder.addEventListener('click', (event) => {
-        console.log(whichTileDidYouClick(event.clientX, event.clientY));
         let clickedTile = document.querySelector(`#${whichTileDidYouClick(event.clientX, event.clientY)}`);
         let clickedTileBoundaries = clickedTile.getBoundingClientRect();
         let moveX = clickedTileBoundaries.left + 4 - initialCircleX;
@@ -489,9 +494,7 @@ statsDialog.innerHTML = `
     </div>
 `;
 document.body.appendChild(statsDialog);
-console.log('stats_button:', stats_button);
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOM fully loaded');
     stats_button.addEventListener('click', () => {
         statsDialog.showModal();
         let closeButton2 = document.querySelector('#closeButton2');
@@ -568,12 +571,5 @@ function statsFlagsUpdater() {
         }
     };
 }
-// export
-export {
-    statsDialog,
-    statsLinesUpdater,
-    giveStats,
-    statsFlagsUpdater
-}
 // TESTER. start game
-storyTeller(testExploration);
+storyTeller(testNaming);
