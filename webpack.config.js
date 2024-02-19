@@ -2,21 +2,34 @@ const path = require('path');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
+    mode: 'development',
     entry: {
-        index: './src/comp_story_functions.js',
-    },
-    output: {
-        filename: 'bundle.js',
-        path: path.resolve(__dirname, 'dist'),
-        clean: true,
+        index: path.resolve(__dirname, 'src/comp_story_functions.js'),
     },
     plugins: [
         new HTMLWebpackPlugin({
-            template: './src/index.html',
+            template: path.resolve(__dirname, 'src/index.html'),
             filename: 'index.html',
             title: `You Do God's Work - Text RPG`,
         })
     ],
+    devtool: 'inline-source-map',
+    devServer: {
+        static: path.resolve(__dirname, 'src'),
+    },
+    watchOptions: {
+        ignored: /node_modules/,
+        aggregateTimeout: 300,
+        poll: 1000
+    },
+    output: {
+        filename: '[contenthash].bundle.js',
+        path: path.resolve(__dirname, 'dist'),
+        clean: true,
+    },
+    optimization: {
+        runtimeChunk: 'single',
+    },
     module: {
         rules: [
             {

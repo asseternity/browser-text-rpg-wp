@@ -28,7 +28,7 @@ import {
     // imp1,
     // imp2
 } from './comp_objects_and_methods';
-
+const eventEmitter = require('./comp_event_emitter.js');
 // important vars
 let enemies = [];
 let enemyToAttack;
@@ -45,11 +45,13 @@ function isHeDead(damagedEnemy) {
         let deadMonsterID = enemies.findIndex(i => i.name == damagedEnemy.name);
         enemies.splice(deadMonsterID, 1);
         if (enemies.length == 0) {
-            isBattleOver('win');
+            eventEmitter.emit('battle:win');
+            // isBattleOver('win');
         }
     };
     if (char1.currentHP <= 0) {
-        isBattleOver('lose');
+        eventEmitter.emit('battle:lose');
+        // isBattleOver('lose');
     }
 }
 // update enemies list
