@@ -32,6 +32,7 @@ const eventEmitter = require('./comp_event_emitter.js');
 // important vars
 let enemies = [];
 let enemyToAttack;
+let playerConsequences = [];
 //button effects
 let attack_button = document.querySelector('#attackButton');
 attack_button.addEventListener('click', () => char1.attack(enemyToAttack));
@@ -103,9 +104,9 @@ function switchAttack(char) {
             let entry = document.createElement('p');
             entry.textContent = `${char.name} is ready to use ${char.specialAttack}.`;
             log_window.appendChild(entry);
-        }
-    }
-}
+        };
+    };
+};
 //start battle
 function startBattle(...encounterEnemies) {
     encounterEnemies.forEach((thisEnemy) => {
@@ -121,5 +122,6 @@ export {
     switchAttack,
     startBattle,
     enemies,
-    enemyToAttack
+    enemyToAttack,
+    playerConsequences
 }

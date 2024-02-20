@@ -1,5 +1,6 @@
 // import: char1, classes
 import './index.css';
+import titleImg from './title.png';
 import {
     // Character,
     Janitor,
@@ -39,7 +40,7 @@ document.body.appendChild(mainMenuDialog);
 
 mainMenuDialog.innerHTML = 
 `
-<img src='title.png' style='width:100%;margin-top:15px;'>   
+<img src="${titleImg}" style='width:100%;margin-top:15px;'>   
 <div style='display:flex;flex-direction:column;justify-content:center;align-items:center;margin-top:50px;'>
     <button id='startGameButton' style='font-size:150%;display:block;margin:0 auto; border: 1px solid silver; border-radius: 5px; margin-bottom:20px;width:250px;'>Start game</button>
     <button id='settingsButton' style='font-size:150%;display:block;margin:0 auto; border: 1px solid silver; border-radius: 5px; margin-bottom:20px;width:250px;'>Settings</button>

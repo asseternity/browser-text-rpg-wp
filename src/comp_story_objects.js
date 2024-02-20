@@ -168,18 +168,18 @@ let testClass = new storyElement(
     ['Now it is time to choose your class.', 'Choose wisely.', 'Or just clickity-clack.'],
     [{choiceText: 'Janitor.',
     choiceModifiers: 'classJanitor',
-    choiceNextStory: testDescription},
+    choiceNextStory: testExploration},
     {choiceText: 'Accountant.',
     choiceModifiers: 'classAccountant',
-    choiceNextStory: testDescription},
+    choiceNextStory: testExploration},
     {choiceText: 'Dancer.',
     choiceModifiers: 'classDancer',
-    choiceNextStory: testDescription}],
+    choiceNextStory: testExploration}],
     undefined    
 )
 let testNaming = new storyElement(
     'form',
-    ['Greetings, hero!', 'Thank you for testing the game.', 'Please enter your name.'],
+    ['Greetings!', 'Thank you for testing the game.', 'Please enter your name.'],
     undefined,
     testClass
 )
