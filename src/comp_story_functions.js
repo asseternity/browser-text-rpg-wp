@@ -16,7 +16,8 @@ import {
 import { 
     enemies, 
     listEnemies,
-    switchAttack
+    switchAttack,
+    playerConsequences
 } from "./comp_battle_functions";
 import { 
     grabItem 
@@ -51,7 +52,6 @@ import {
 const eventEmitter = require('./comp_event_emitter');
 // game-long vars
 let isPlayerExploring = false;
-let playerConsequences = [];
 // update storyElements
 function newUpdateNames(answer) {
     let allStoryElements = storyElement.getAllInstances();
@@ -241,15 +241,19 @@ function newChoice(storyElement) {
         main_window.appendChild(choiceButton);
         choiceButton.addEventListener('click', () => {
             playerConsequences.push(thisChoice.choiceModifiers);
+            console.log(playerConsequences);
             if (thisChoice.choiceModifiers == 'classJanitor') {
+                Object.setPrototypeOf(char1, Janitor.prototype);
                 Janitor.call(char1, char1.name, 13, 15, 100, 100, 'Normal Attack', '', '', '', []);
                 menu_window.textContent = menu_window.textContent.replace('Your class is unknown.', 'You are a Janitor.');
                 special_button.addEventListener('click', () => { switchAttack(char1) });    
             } else if (thisChoice.choiceModifiers == 'classAccountant') {
+                Object.setPrototypeOf(char1, Accountant.prototype);
                 Accountant.call(char1, char1.name, 13, 15, 100, 100, 'Normal Attack', '', '', '', []);
                 menu_window.textContent = menu_window.textContent.replace('Your class is unknown.', 'You are an Accountant.');
                 special_button.addEventListener('click', () => { switchAttack(char1) });    
             } else if (thisChoice.choiceModifiers == 'classDancer') {
+                Object.setPrototypeOf(char1, Dancer.prototype);
                 Dancer.call(char1, char1.name, 13, 15, 100, 100, 'Normal Attack', '', '', '', []);
                 menu_window.textContent = menu_window.textContent.replace('Your class is unknown.', 'You are a Dancer.');
                 special_button.addEventListener('click', () => { switchAttack(char1) });     
