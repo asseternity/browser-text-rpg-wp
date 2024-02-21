@@ -1,41 +1,8 @@
 // import
 import './index.css';
-import {
-    iconTree,
-    iconTree2
-} from './comp_assets';
-import { 
-    // Character,
-    // Monster,
-    // Janitor,
-    // Accountant,
-    // Dancer,
-    // char1,
-    goblin_grunt,
-    goblin_fighter,
-    goblin_shaman,
-    goblin_chieftain,
-    wizard,
-    imp1,
-    imp2
-} from './comp_objects_and_methods';
-import {
-    // inventoryDialog,
-    // grabItem,
-    // equipItem,
-    // unequipItem,
-    // newItem,
-    magicArmor,
-    magicSword,
-    magicRing,
-    ultraArmor,
-    ultraRing,
-    ultraSword,
-    rustyArmor,
-    rustySword,
-    goldRing,
-    healthPotion
-} from './comp_inventory_system';
+import { iconTree, iconTree2 } from './comp_assets';
+import { monsters } from './comp_objects_and_methods';
+import { allItems } from './comp_inventory_system';
 // class storyElement { type(dialogue, choice, battle, description, item); text = []; 
 // modifiers(for battle: array of enemies, for choice/dialogue: choices, for item: item name);
 // nextStory }
@@ -62,7 +29,7 @@ let randomEvent2b = new storyElement(
 let randomEvent2a = new storyElement(
     'battle',
     ['Encounter 2 is pissed though.', 'Oh, it is super pissed.', 'Time to fight!'],
-    [goblin_grunt],
+    [monsters.goblin_grunt],
     randomEvent2b
 )
 let randomEvent2 = new storyElement(
@@ -74,7 +41,7 @@ let randomEvent2 = new storyElement(
 let randomEvent1a = new storyElement(
     'item',
     ['This event is nice! It gives you an item!'],
-    magicArmor,
+    allItems.magicArmor,
     undefined
 )
 let randomEvent1 = new storyElement(
@@ -148,13 +115,13 @@ let testChoice = new storyElement(
 let testItem = new storyElement(
     'item',
     ['Enemies are dead!', 'This description has more strings.', 'Like one more.', 'Thank you for your patience.', 'As a reward, here is an item.'],
-    magicSword,
+    allItems.magicSword,
     testChoice
 ) 
 let testBattle = new storyElement(
     'battle',
     ['Well now it is time to play!', 'This array has fewer strings too! Muahahaha.', 'It is a fight!'],
-    [imp1, imp2, goblin_chieftain, goblin_fighter],
+    [monsters.imp1, monsters.imp2, monsters.goblin_chieftain, monsters.goblin_fighter],
     testItem
 )
 let testDescription = new storyElement(
@@ -183,23 +150,7 @@ let testNaming = new storyElement(
     undefined,
     testClass
 )
+// object for exporting
+let storyElements = { testNaming, testClass, testDescription, testBattle, testItem, testChoice, testChoiceOutcome1, testChoiceOutcome2, testDescription, testAfterDialogue, testExploration, randomEvent1, randomEvent1a, randomEvent2, randomEvent2a, randomEvent2b }
 // export
-export {
-    storyElement,
-    testNaming,
-    testClass,
-    testDescription,
-    testBattle,
-    testItem,
-    testChoice,
-    testChoiceOutcome1,
-    testChoiceOutcome2,
-    testDialogue,
-    testAfterDialogue,
-    testExploration,
-    randomEvent1,
-    randomEvent1a,
-    randomEvent2,
-    randomEvent2a,
-    randomEvent2b
-}
+export { storyElement, storyElements }
