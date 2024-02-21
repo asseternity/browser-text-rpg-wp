@@ -1,9 +1,11 @@
 # TO DO LIST.
+// ugly removal of the scroll window on the left
 // general script
 // change 'Dude' to something else.
 // ending exploration? new board? reset moveOn?
 // hide stats!
-// hide menu_window?
+// MINIGAMES!!!!
+
 // break up the trees with other icons in the Forest of Mirrors
 // add a fakeChoice mechanic for fast scripting? 
 // new classes
