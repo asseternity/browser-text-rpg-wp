@@ -1,23 +1,6 @@
 // import: enemies array, isHeDead, listEnemies
 import './index.css';
 import { enemies, isHeDead, listEnemies } from "./comp_battle_functions";
-// import {
-//     inventoryDialog,
-//     grabItem,
-//     equipItem,
-//     unequipItem,
-//     newItem,
-//     magicArmor,
-//     magicSword,
-//     magicRing,
-//     ultraArmor,
-//     ultraRing,
-//     ultraSword,
-//     rustyArmor,
-//     rustySword,
-//     goldRing,
-//     healthPotion
-// } from './comp_inventory_system';
 // log_window
 let log_window = document.querySelector('.log');
 // object constructor functions
@@ -174,7 +157,7 @@ Object.setPrototypeOf(Janitor.prototype, Character.prototype);
 Object.setPrototypeOf(Accountant.prototype, Character.prototype); 
 Object.setPrototypeOf(Dancer.prototype, Character.prototype); 
 // character object
-let char1 = new Character('Dude', 25, 15, 100, 100, 'Normal Attack', '', '', '', []); 
+let char1 = new Character('Dude', 0, 10, 20, 100, 'Normal Attack', '', '', '', []); 
 // enemies objects
 let goblin_grunt = new Monster('Goblin', 0, 10, 40, 40, '');
 let goblin_fighter = new Monster('Goblin Fighter', 2, 13, 25, 25, '');
@@ -183,6 +166,9 @@ let goblin_chieftain = new Monster('Goblin Chieftain', 5, 17, 40, 40, '');
 let wizard = new Monster('Half Dead Old Guy', -1, 10, 5, 5, '');
 let imp1 = new Monster('Red Imp', 0, 5, 5, 5, '');
 let imp2 = new Monster('Blue Imp', 0, 5, 5, 5, '');
+let wisp1 = new Monster('Wisp', 1, 10, 10, 10);
+// monsters object
+let monsters = { goblin_grunt, goblin_fighter, goblin_shaman, goblin_chieftain, wizard, imp1, imp2, wisp1 }
 // monster counterattack
 //enemy turn logic
 Monster.prototype.counterattack = function() {
@@ -229,5 +215,6 @@ export {
     wizard,
     imp1,
     imp2,
-    menuUpdater
+    menuUpdater,
+    monsters
 }

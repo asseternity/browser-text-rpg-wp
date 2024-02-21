@@ -3,30 +3,13 @@ import './index.css';
 import { 
     top_bar,
     log_window,
-    // main_window,
     image_window,
-    // menu_window,
-    // button_window,
-    // attack_button,
-    // special_button,
-    // inventory_button,
-    // stats_button,
-    // dialogAnimationEnd
 } from './comp_hud';
 import { 
-    // Character,
-    // Monster,
     Janitor,
     Accountant,
     Dancer,
     char1,
-    // goblin_grunt,
-    // goblin_fighter,
-    // goblin_shaman,
-    // goblin_chieftain,
-    // wizard,
-    // imp1,
-    // imp2
 } from './comp_objects_and_methods';
 const eventEmitter = require('./comp_event_emitter.js');
 // important vars

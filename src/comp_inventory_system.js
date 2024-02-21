@@ -1,16 +1,8 @@
 // import: hud, char1, menuUpdater,
 import './index.css';
 import { 
-    // top_bar,
-    // log_window,
-    // main_window,
-    // image_window,
     menu_window,
-    // button_window,
-    // attack_button,
-    // special_button,
     inventory_button,
-    // stats_button,
     dialogAnimationEnd
 } from './comp_hud';
 import { 
@@ -56,7 +48,7 @@ let equippedWeaponBox = document.querySelector('#equippedWeaponBox');
 let equippedArmorBox = document.querySelector('#equippedArmorBox');
 let equippedMiscBox = document.querySelector('#equippedMiscBox');
 let allList = document.querySelector('#allList')
-// when an object is grabbed, splice it from allItems and += it to char1.inventory
+// when an object is grabbed
 function grabItem(item) {
     char1.inventory.push(item);
     let itemBullet = document.createElement('li')
@@ -71,7 +63,7 @@ function grabItem(item) {
         allList.appendChild(equipButton);
     }
 }
-// when an object is equipped, splice it from char1.inventory and make equippedWeapon = this item object
+// when an object is equipped
 function equipItem(item) {
     if (char1.inventory.includes(item)) {
         switch (item.type) {
@@ -122,7 +114,7 @@ function equipItem(item) {
         // console.log('ERROR: you do not have this item in your inventory')
     }
 }
-// when an item is unequipped, make equippedWeapon = '' and push the item object to char1.inventory
+// when an item is unequipped
 function unequipItem(item) {
     if (char1.equippedWeapon == item || char1.equippedArmor == item || char1.equippedMisc == item) {
         if (char1.equippedWeapon == item) {
@@ -148,7 +140,6 @@ function unequipItem(item) {
     }
 }
 // to character, add the following keys: equippedWeapon, equippedArmor, equippedMisc, inventory = []
-// let allItems = array of item objects
 // the item object will have keys: type (weapon, armor or misc); itemAttack; itemArmor
 function newItem(name, type, itemAttack, itemArmor, id) {
     return {
@@ -169,6 +160,8 @@ let rustySword = newItem('Rusty Sword', 'weapon', 1, 0, 'n7');
 let rustyArmor = newItem('Rusty Armor', 'armor', 0, 1, 'n8');
 let goldRing = newItem('Gold Ring', 'misc', 0, 1, 'n9');
 let healthPotion = newItem('Health Potion', 'quest item', 0, 0, 'n10');
+// exporting object
+let allItems = { magicArmor, magicRing, magicSword, ultraArmor, ultraRing, ultraSword, rustyArmor, rustySword, goldRing, healthPotion };
 // export
 export {
     inventoryDialog,
@@ -176,14 +169,5 @@ export {
     equipItem,
     unequipItem,
     newItem,
-    magicArmor,
-    magicSword,
-    magicRing,
-    ultraArmor,
-    ultraRing,
-    ultraSword,
-    rustyArmor,
-    rustySword,
-    goldRing,
-    healthPotion
+    allItems
 }

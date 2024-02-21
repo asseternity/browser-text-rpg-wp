@@ -2,13 +2,7 @@
 import './index.css';
 import titleImg from './title.png';
 import bgImg from './bg.jpg';
-import {
-    // Character,
-    Janitor,
-    Accountant,
-    Dancer,
-    char1
-} from './comp_objects_and_methods';
+import { char1 } from './comp_objects_and_methods';
 
 // initialize spaces and buttons
 let top_bar = document.querySelector('.top_bar');

@@ -13,15 +13,8 @@ import {
     stats_button,
     dialogAnimationEnd
 } from './comp_hud';
-import { 
-    enemies, 
-    listEnemies,
-    switchAttack,
-    playerConsequences
-} from "./comp_battle_functions";
-import { 
-    grabItem 
-} from './comp_inventory_system';
+import { enemies, listEnemies, switchAttack, playerConsequences } from "./comp_battle_functions";
+import { grabItem } from './comp_inventory_system';
 import {
     Character,
     Monster,
@@ -30,25 +23,8 @@ import {
     Dancer,
     char1,
 } from './comp_objects_and_methods';
-import { 
-    storyElement,
-    testNaming,
-    testClass,
-    testDescription,
-    testBattle,
-    testItem,
-    testChoice,
-    testChoiceOutcome1,
-    testChoiceOutcome2,
-    testDialogue,
-    testAfterDialogue,
-    testExploration,
-    randomEvent1,
-    randomEvent1a,
-    randomEvent2,
-    randomEvent2a,
-    randomEvent2b
-} from './comp_story_objects';
+import { storyElement, storyElements } from './comp_story_objects';
+import { scriptObjects } from './comp_script';
 const eventEmitter = require('./comp_event_emitter');
 // game-long vars
 let isPlayerExploring = false;
@@ -400,14 +376,16 @@ function newExploration(storyElement) {
     // clicking to move
     // This works because it doesn't NEED a current position. it ALWAYS calculates from the starting one
     boardUnder.addEventListener('click', (event) => {
-        let clickedTile = document.querySelector(`#${whichTileDidYouClick(event.clientX, event.clientY)}`);
-        let clickedTileBoundaries = clickedTile.getBoundingClientRect();
-        let moveX = clickedTileBoundaries.left + 4 - initialCircleX;
-        let moveY = clickedTileBoundaries.top + 4 - initialCircleY + window.scrollY;
-        circle.style.transform = `translate(${moveX}px, ${moveY}px)`;
-        tileTriggers(whichTileIsPlayerOn(circle), storyElement);
-        currentCircleX = clickedTileBoundaries.left + 4;
-        currentCircleY = clickedTileBoundaries.top + 4 + window.scrollY;
+        if (moveOn == true) {
+            let clickedTile = document.querySelector(`#${whichTileDidYouClick(event.clientX, event.clientY)}`);
+            let clickedTileBoundaries = clickedTile.getBoundingClientRect();
+            let moveX = clickedTileBoundaries.left + 4 - initialCircleX;
+            let moveY = clickedTileBoundaries.top + 4 - initialCircleY + window.scrollY;
+            circle.style.transform = `translate(${moveX}px, ${moveY}px)`;
+            tileTriggers(whichTileIsPlayerOn(circle), storyElement);
+            currentCircleX = clickedTileBoundaries.left + 4;
+            currentCircleY = clickedTileBoundaries.top + 4 + window.scrollY;
+        }
     });
 }
 // which tile did you click?
@@ -455,6 +433,7 @@ function tileTriggers(playersTile, storyElement) {
     }    
 // draw icons on tiles
 function drawIcons(storyElement) {
+    console.log(storyElement);
     let tiles = document.querySelectorAll('[id^="tile"]');
     for (let i = 0; i < tiles.length; i++) {
         for (let j = 0; j < storyElement.modifiers.length; j++)
@@ -576,4 +555,4 @@ function statsFlagsUpdater() {
     };
 }
 // TESTER. start game
-storyTeller(testNaming);
+storyTeller(scriptObjects.wakeUp1);
