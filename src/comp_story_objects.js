@@ -1,6 +1,6 @@
 // import
 import './index.css';
-import { iconTree, iconTree2 } from './comp_assets';
+import { icons } from './comp_assets';
 import { monsters } from './comp_objects_and_methods';
 import { allItems } from './comp_inventory_system';
 // class storyElement { type(dialogue, choice, battle, description, item); text = []; 
@@ -53,8 +53,8 @@ let randomEvent1 = new storyElement(
 let testExploration = new storyElement(
     'exploration',
     ['You set out on the road again.', 'The forest is lush and hard to walk through.', 'The stranger was right - it will be hard to find your way here.', '[Use WASD or click / tap on the map to move.]'],
-    [{encounterStoryElement: randomEvent1, tileNumber: '#tile30', icon: iconTree},
-    {encounterStoryElement: randomEvent2, tileNumber: '#tile100', icon: iconTree2}],
+    [{encounterStoryElement: randomEvent1, tileNumber: '#tile30', icon: icons.iconTree},
+    {encounterStoryElement: randomEvent2, tileNumber: '#tile100', icon: icons.iconTree2}],
     undefined
 )
 let testAfterDialogue = new storyElement(
