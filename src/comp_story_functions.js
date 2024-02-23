@@ -1,4 +1,7 @@
 // import: storyElement, storyElements, hud, grabItem, char1, classes, listEnemies, moveOn, enemies array, enemy objects
+import {
+    playerHand, opponentHand, currentBid, accusation, exampleLines, die1, die2, die3, die4, die5, die6, startDiceGame, falseCubes, roll6d4Player, roll6d4Opponent, roll1d4, rollPhase, bidPhase, fiftyFifty, oneThird, opponentResponse, opponentBid, callOut, gameEnd
+} from './comp_dice_game';
 import './index.css';
 import { 
     top_bar,
@@ -555,4 +558,5 @@ function statsFlagsUpdater() {
     };
 }
 // TESTER. start game
-storyTeller(scriptObjects.wakeUp1);
+// storyTeller(scriptObjects.wakeUp1);
+startDiceGame('Dave', exampleLines);
