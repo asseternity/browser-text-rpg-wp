@@ -1,13 +1,13 @@
 :root {
-    --purple1: #0C0032;
-    --purple2: #190061;
-    --purple3: #3500D3;
+    --purple1: #0F3325; 
+    --purple2: #1E2B21;
+    --purple3: #2E634F; 
     --grey: #282828;
 }
 
 @font-face {
     font-family: 'VT';
-    src: url('./VT323-Regular.ttf') format('truetype');
+    src: url('./KGNoRegretsSketch.ttf') format('truetype');
     font-weight: 400;
     font-style: normal;
 }
@@ -45,7 +45,7 @@ html, body {
 }
 
 .image_window button:hover {
-    background-color: var(--purple2);
+    background-color: var(--purple3);
 }
 
 .image_window p {
@@ -62,6 +62,30 @@ html, body {
 .main_window p, .main_window button, .main_window input {
     opacity: 0;
     animation: fadeIn 1s ease-out forwards;
+}
+
+.main_window select {
+    background-color: var(--grey);
+    padding: 5px;
+    font-family: 'VT';
+    margin-right:1000px;
+    margin-bottom: 10px;
+    color: white;
+}
+
+input.checkmark[type=checkbox] {
+    background-color: white;
+    outline: var(--grey) solid 2px;
+    border: 2px solid white;
+    appearance: none;
+}
+
+input.checkmark[type=checkbox]:checked {
+    background-color: var(--grey);
+}
+
+option {
+    font-family: 'VT';
 }
 
 dialog {
@@ -101,7 +125,7 @@ dialog {
 }
 
 .main_window button:hover{
-    background-color: var(--purple2);
+    background-color: var(--purple3);
 }
 
 .main_window input {
@@ -124,7 +148,7 @@ dialog {
 }
 
 .main_window input[type=submit]:hover {
-    background-color: var(--purple2);
+    background-color: var(--purple3);
 }
 
 .button_window {
@@ -146,11 +170,11 @@ button {
 }
 
 button:hover {
-    background-color: var(--purple1);
+    background-color: var(--purple3);
 }
 
 .button_window button {
-    font-size: 200%;
+    font-size: 150%;
 }
 
 .log {

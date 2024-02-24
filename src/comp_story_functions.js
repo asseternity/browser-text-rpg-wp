@@ -127,6 +127,12 @@ function textFlipper(storyElement, loop, style) {
                         moveOn = true;
                         storyTeller(storyElement.nextStoryElement);
                         break;
+                    case 'endExploration':
+                        let board = document.querySelector('#explorationBoard');
+                        image_window.removeChild(board);
+                        while (image_window.firstChild) { image_window.removeChild(image_window.firstChild) };
+                        storyTeller(storyElement.nextStoryElement);                        
+                        break;
                     case 'form':
                         newFormMaker(storyElement);
                         break;
@@ -221,20 +227,20 @@ function newChoice(storyElement) {
         choiceButton.addEventListener('click', () => {
             playerConsequences.push(thisChoice.choiceModifiers);
             console.log(playerConsequences);
-            if (thisChoice.choiceModifiers == 'classJanitor') {
+            if (thisChoice.choiceModifiers == 'classWraith') {
                 Object.setPrototypeOf(char1, Janitor.prototype);
                 Janitor.call(char1, char1.name, 13, 15, 100, 100, 'Normal Attack', '', '', '', []);
-                menu_window.textContent = menu_window.textContent.replace('Your class is unknown.', 'You are a Janitor.');
+                menu_window.textContent = menu_window.textContent.replace('Your class is unknown.', 'You are a Wraith.');
                 special_button.addEventListener('click', () => { switchAttack(char1) });    
-            } else if (thisChoice.choiceModifiers == 'classAccountant') {
+            } else if (thisChoice.choiceModifiers == 'classPoltergeist') {
                 Object.setPrototypeOf(char1, Accountant.prototype);
                 Accountant.call(char1, char1.name, 13, 15, 100, 100, 'Normal Attack', '', '', '', []);
-                menu_window.textContent = menu_window.textContent.replace('Your class is unknown.', 'You are an Accountant.');
+                menu_window.textContent = menu_window.textContent.replace('Your class is unknown.', 'You are a Poltegeist.');
                 special_button.addEventListener('click', () => { switchAttack(char1) });    
-            } else if (thisChoice.choiceModifiers == 'classDancer') {
+            } else if (thisChoice.choiceModifiers == 'classGuardianSpirit') {
                 Object.setPrototypeOf(char1, Dancer.prototype);
                 Dancer.call(char1, char1.name, 13, 15, 100, 100, 'Normal Attack', '', '', '', []);
-                menu_window.textContent = menu_window.textContent.replace('Your class is unknown.', 'You are a Dancer.');
+                menu_window.textContent = menu_window.textContent.replace('Your class is unknown.', 'You are a Guardian Spirit.');
                 special_button.addEventListener('click', () => { switchAttack(char1) });     
             }
             storyTeller(thisChoice.choiceNextStory);
@@ -482,12 +488,14 @@ statsDialog.innerHTML = `
 document.body.appendChild(statsDialog);
 document.addEventListener('DOMContentLoaded', () => {
     stats_button.addEventListener('click', () => {
-        statsDialog.showModal();
-        let closeButton2 = document.querySelector('#closeButton2');
-        closeButton2.addEventListener('click', () => {
-            statsDialog.classList.add('hide');
-            statsDialog.addEventListener('animationend', dialogAnimationEnd);
-        });
+        if (playerConsequences.includes('classWraith') || playerConsequences.includes('classPoltergeist') || playerConsequences.includes('classGuardianSpirit')) {
+            statsDialog.showModal();
+            let closeButton2 = document.querySelector('#closeButton2');
+            closeButton2.addEventListener('click', () => {
+                statsDialog.classList.add('hide');
+                statsDialog.addEventListener('animationend', dialogAnimationEnd);
+            });
+        }
     });
 });
 // tracking and updating stats
@@ -558,5 +566,6 @@ function statsFlagsUpdater() {
     };
 }
 // TESTER. start game
+storyTeller(storyElements.testNaming);
 // storyTeller(scriptObjects.wakeUp1);
-startDiceGame('Dave', exampleLines);
+// startDiceGame('Dave', exampleLines);

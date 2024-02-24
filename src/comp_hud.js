@@ -1,6 +1,5 @@
 // import: char1, classes
 import './index.css';
-import titleImg from './title.png';
 import bgImg from './bg.jpg';
 import { char1 } from './comp_objects_and_methods';
 
@@ -35,24 +34,24 @@ document.body.appendChild(mainMenuDialog);
 mainMenuDialog.innerHTML = 
 `
 <div style='display:flex;justify-content:center;border-bottom:5px solid silver'>
-    <img src="${titleImg}" style='width:80%;margin-top:15px;margin-bottom:20px;'>
+    <h1 style='margin-bottom: 5px;'>What Makes You Live?</h1>
 </div>
-<h1 style='text-align:center;margin-bottom:-10px;'>Main Menu</h2>   
+<h1 style='text-align:center;margin-bottom:-20px;'>Main Menu</h2>   
 <div style='display:flex;flex-direction:column;justify-content:center;align-items:center;margin-top:50px;'>
-    <button id='startGameButton' style='font-size:150%;display:block;margin:0 auto; border: 3px solid silver; border-radius: 5px; margin-bottom:20px;width:250px;'>Start game</button>
-    <button id='settingsButton' style='font-size:150%;display:block;margin:0 auto; border: 3px solid silver; border-radius: 5px; margin-bottom:20px;width:250px;'>Settings</button>
-    <button id='aboutButton' style='font-size:150%;display:block;margin:0 auto; border: 3px solid silver; border-radius: 5px; margin-bottom:20px;width:250px;'>About the creator</button>
-    <button id='contactButton' style='font-size:150%;display:block;margin:0 auto; border: 3px solid silver; border-radius: 5px; margin-bottom:5px;width:250px;'>Contact me</button>
+    <button id='startGameButton' style='font-size:100%;display:block;margin:0 auto; border: 3px solid silver; border-radius: 5px; margin-bottom:20px;width:250px;'>Start game</button>
+    <button id='settingsButton' style='font-size:100%;display:block;margin:0 auto; border: 3px solid silver; border-radius: 5px; margin-bottom:20px;width:250px;'>Settings</button>
+    <button id='aboutButton' style='font-size:100%;display:block;margin:0 auto; border: 3px solid silver; border-radius: 5px; margin-bottom:20px;width:250px;'>About the creator</button>
+    <button id='contactButton' style='font-size:100%;display:block;margin:0 auto; border: 3px solid silver; border-radius: 5px; margin-bottom:0;width:250px;'>Contact me</button>
 </div>
 <br>
-<p style='color:white;'><i>Note: If you play on mobile, scroll to the bottom of the screen to see the action buttons.</i></p>
+<p style='color:white;font-size:80%;'><i>Note: If you play on mobile, scroll to the bottom of the screen to see the action buttons.</i></p>
 `
 mainMenuDialog.showModal();
 
 let blackMenu = document.createElement('div');
-blackMenu.setAttribute('style', `background-color:black;position:absolute;height:1000px;width:100%;z-index:500;`);
+blackMenu.setAttribute('style', `background-color:black;position:absolute;height:100%;width:100%;z-index:500;overflow:hidden;`);
 let bgMenu = document.createElement('div');
-bgMenu.setAttribute('style', `height:100%;width:100%;opacity:0.5;background-image:url("${bgImg}");background-position:center;background-size:cover;`);
+bgMenu.setAttribute('style', `height:100%;width:100%;opacity:0.5;background-image:url("${bgImg}");background-position:center;background-size:cover;overflow:hidden;`);
 blackMenu.appendChild(bgMenu);
 let container = document.querySelector('.container');
 container.appendChild(blackMenu);
