@@ -62,27 +62,31 @@ Character.prototype.attack = function(selectedEnemy) {
                 switch (this.specialAttack) {
                     case 'Normal Attack':
                         break;
-                    case 'Bucket Splash':
-                        extraComment = ' with the Bucket Splash (-2 accuracy, +2 damage if hits)';
+                    case 'Spectral Blade':
+                        extraComment = ' with the Spectral Blade (-2 accuracy, +2 damage if hits)';
                         extraAttack = -2;
                         extraDamage = +4;
                         break;
-                    case 'Healing Twirl':
+                    case 'Spirit Blessing':
                         extraAttack = -1000;
                         break;
-                    case 'Book Toss':
-                        extraComment = ' with the Book Toss (-4 accuracy, but +6 damage if hits)';
+                    case 'Withering Bolt':
+                        extraComment = ' with the Withering Bolt (-4 accuracy, but +6 damage if hits)';
                         extraAttack = -4;
                         extraDamage = +6;
                         break;
-                    case 'Broom Smash':
-                    case 'Capoiera Kick':
-                        extraComment = ' with the Capoiera Kick (-4 accuracy, but stuns the target)';
+                    case 'Wrathful Visage':
+                        extraComment = ' with the Wrathful Visage (-4 accuracy, but stuns the target)';
                         extraAttack = -4;
                         if (attackRoll + extraAttack > selectedEnemy.armorClass) { selectedEnemy.status = 'stunned'; }
                         break;
-                    case 'Torch Throw (to burn tax evasion evidence)':
-                        extraComment = ' with the Torch Toss (usually used to burn away tax evasion evidence; -4 accuracy, but sets target on fire for one turn)';
+                    case 'Bind of the Guardian':
+                        extraComment = ' with the Bind of the Guardian (-4 accuracy, but stuns the target)';
+                        extraAttack = -4;
+                        if (attackRoll + extraAttack > selectedEnemy.armorClass) { selectedEnemy.status = 'stunned'; }
+                        break;
+                    case 'Essence Drain':
+                        extraComment = ' with the Essence Drain (-4 accuracy, but sets target on fire for one turn)';
                         extraAttack = -4;
                         if (attackRoll + extraAttack > selectedEnemy.armorClass) { selectedEnemy.status = 'burning'; }
                         break;                        
@@ -95,7 +99,7 @@ Character.prototype.attack = function(selectedEnemy) {
                     log_window.appendChild(entry);
                     isHeDead(selectedEnemy);
                     listEnemies();
-                } else if (this.specialAttack == 'Healing Twirl') {
+                } else if (this.specialAttack == 'Spirit Blessing') {
                     let healed;
                     let playerHPmissing = this.maxHP - this.currentHP;
                     if (playerHPmissing > 5) {
@@ -108,7 +112,7 @@ Character.prototype.attack = function(selectedEnemy) {
                         healed = 0;
                     }
                     let entry = document.createElement('p');
-                    entry.textContent = `${this.name} does a Healing Twirl, healing themself for ${healed} HP!`;
+                    entry.textContent = `${this.name} casts Spirit Blessing, healing themself for ${healed} HP!`;
                     entry.setAttribute('style','color:yellow');
                     log_window.appendChild(entry);
                     menuUpdater();
@@ -190,12 +194,12 @@ Monster.prototype.counterattack = function() {
 // ---menu text updater function---
 function menuUpdater() {
     let menu_window = document.querySelector('.menu');
-    if (char1 instanceof Janitor) {
-        menu_window.textContent = `You are ${char1.name}. Your are a Janitor. Your armor class is ${char1.armorClass}. Your HP is ${char1.currentHP}/${char1.maxHP}.`;
-    } else if (char1 instanceof Accountant) {
-        menu_window.textContent = `You are ${char1.name}. Your are an Accountant. Your armor class is ${char1.armorClass}. Your HP is ${char1.currentHP}/${char1.maxHP}.`;
-    } else if (char1 instanceof Dancer) {
-        menu_window.textContent = `You are ${char1.name}. Your are a Dancer. Your armor class is ${char1.armorClass}. Your HP is ${char1.currentHP}/${char1.maxHP}.`;
+    if (char1 instanceof Janitor) { // Wraith
+        menu_window.textContent = `You are ${char1.name}. Your are a Wraith. Your armor class is ${char1.armorClass}. Your HP is ${char1.currentHP}/${char1.maxHP}.`;
+    } else if (char1 instanceof Accountant) { // Poltergeist
+        menu_window.textContent = `You are ${char1.name}. Your are a Poltergeist. Your armor class is ${char1.armorClass}. Your HP is ${char1.currentHP}/${char1.maxHP}.`;
+    } else if (char1 instanceof Dancer) { // Guardian Spirit
+        menu_window.textContent = `You are ${char1.name}. Your are a Guardian Spirit. Your armor class is ${char1.armorClass}. Your HP is ${char1.currentHP}/${char1.maxHP}.`;
     } else {
         menu_window.textContent = `You are ${char1.name}. Your class is unknown. Your armor class is ${char1.armorClass}. Your HP is ${char1.currentHP}/${char1.maxHP}.`;
     }

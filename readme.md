@@ -1,21 +1,11 @@
 # TO DO LIST.
-// MINIGAME: dice game like in Sorcery!
-// explanation: in the same pocket dimension as the side quests
-
-// ugly removal of the scroll window on the left
-// new classes
-
+// remove icons when hasPlayerSeenMe turns to true!
 // gold
 // get through the script to where the side quests will be usable
+
+// pocket Dimension of Spirits (explanation for gambling: in the same pocket dimension as the side quests)
 // side quests
 
-// new ghostly aesthetic
-
-// change 'Dude' to something else so that it doesn't show?
-// ending exploration? new board? reset moveOn?
-// hide stats?
-
-// break up the trees with other icons in the Forest of Mirrors
 // add a fakeChoice mechanic for fast scripting? 
 // main menu - functionality
 // prod and dev builds in wp

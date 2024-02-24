@@ -1,9 +1,5 @@
 // initialize hud
-let top_bar = document.querySelector('.top_bar');
-let log_window = document.querySelector('.log');
 let main_window = document.querySelector('.main_window');
-let image_window = document.querySelector('.image_window');
-let menu_window = document.querySelector('.menu');
 // initialize vars
 let die1 = {result: 0, reRollFlag: false};
 let die2 = {result: 0, reRollFlag: false};
@@ -16,12 +12,12 @@ let opponentHand = [];
 let currentBid = { player: '', numberOfDice: 0, dots: 0 };
 let accusation = { accuser: '', numberOfDice: 0, dots: 0 };
 let exampleLines = {
-    openLine: `Come on, let's play.`,
-    bidLine: `Luck is on my side today.`,
-    bluffLine: `I have good dice today, kid.`,
-    accuseLine: `Yeah, I don't think so.`,
-    winLine: `Gotcha, kid.`,
-    loseLine: `Darn. You got lucky, pal.`
+    openLine: `Come on, let's play`,
+    bidLine: `Luck is on my side today`,
+    bluffLine: `I have good dice today, kid`,
+    accuseLine: `Yeah, I don't think so`,
+    winLine: `Gotcha, kid`,
+    loseLine: `Darn. You got lucky, pal`
 }
 function startDiceGame(opponentName, lines) {
     // clear main window
@@ -52,7 +48,7 @@ function falseCubes(opponentName, lines) {
     main_window.appendChild(rollDiceButton);
     rollDiceButton.addEventListener('click', () => {
         main_window.removeChild(rollDiceButton);
-        rollPhase(lines)
+        rollPhase(opponentName, lines)
     });
 }
 // rolling 6d4
@@ -78,7 +74,7 @@ function roll1d4() {
     return Math.floor((Math.random() * 4) + 1);
 }
 // rolling phase
-function rollPhase(lines) {
+function rollPhase(opponentName, lines) {
     // playerHand and opponentHand arrays get assigned six integers
     roll6d4Player();
     opponentHand = roll6d4Opponent();
@@ -94,6 +90,7 @@ function rollPhase(lines) {
         checkmark.setAttribute('type', 'checkbox');
         checkmark.setAttribute('value', `${i+1}`);
         checkmark.setAttribute('name', `${i+1}`);
+        checkmark.classList.add('checkmark');
         let label = document.createElement('label');
         label.setAttribute('for', `${i+1}`);
         label.textContent = `Dice ${i+1}`;
@@ -104,7 +101,43 @@ function rollPhase(lines) {
     }
     let submit = document.createElement('input');
     submit.setAttribute('type', 'submit');
+    submit.setAttribute('style', 'margin-top: 10px;');
     playerRerollForm.appendChild(submit);
+    // opponent re-rolls logic
+    let allOpponent1s = opponentHand.filter(i => i == 1);
+    let allOpponent2s = opponentHand.filter(i => i == 2);
+    let allOpponent3s = opponentHand.filter(i => i == 3);
+    let allOpponent4s = opponentHand.filter(i => i == 4);
+    let opponent1sObject = { number: allOpponent1s.length, dots: 1 };
+    let opponent2sObject = { number: allOpponent2s.length, dots: 2 };
+    let opponent3sObject = { number: allOpponent3s.length, dots: 3 };
+    let opponent4sObject = { number: allOpponent4s.length, dots: 4 };
+    let opponentObjects = [opponent1sObject, opponent2sObject, opponent3sObject, opponent4sObject];
+    console.log(`Orig opponentHand: ${opponentHand}`);
+    let opponentObjectsSorted = opponentObjects.sort((a, b) => (a.number > b.number) ? -1 : 1);
+    let opponentLastDots;
+    let opponentSecondToLastDots;
+    if (opponentObjectsSorted[3].number !== 0) {
+        opponentLastDots = opponentObjectsSorted[3].dots;
+        console.log(`Bad dots: ${opponentLastDots}`);
+        opponentSecondToLastDots = opponentObjectsSorted[2].dots;
+        console.log(`Second bad dots: ${opponentSecondToLastDots}`);    
+    } else {
+        opponentLastDots = opponentObjectsSorted[2].dots;
+        console.log(`Bad dots: ${opponentLastDots}`);
+        opponentSecondToLastDots = opponentObjectsSorted[1].dots;
+        console.log(`Second bad dots: ${opponentSecondToLastDots}`);
+    }
+    let opponentHandToKeep = opponentHand.filter(i => (i !== opponentLastDots && i !== opponentSecondToLastDots));
+    // if we remove 3 dice
+    // howManyDiceToReRoll = 6 - 3 = 3
+    // i = 0, i = 1, i = 2, runs three times
+    while (opponentHandToKeep.length < 6) {
+        let newOpponentRoll = roll1d4();
+        opponentHandToKeep.push(newOpponentRoll);
+    }
+    opponentHand = opponentHandToKeep;
+    console.log(`New Opponent Hand: ${opponentHand}`);
     // below that, a submit/reroll
     // playerHand is emptied
     // non-selected dice get added back to playerHand
@@ -129,20 +162,49 @@ function rollPhase(lines) {
                 j++;
             }
         }
-        bidPhase(lines);
+        bidPhase(opponentName, lines);
     });
 }
 // bidding phase
-function bidPhase(lines) {
+function bidPhase(opponentName, lines) {
 // writes a message. you rerolled dice. after re-rolls, your new hand is:
     let reRollMessage = document.createElement('p');
     if (currentBid.numberOfDice == 0) {
         while (main_window.firstChild) { main_window.removeChild(main_window.firstChild) };
-        reRollMessage.textContent = `After re-rolling, your new hand is: ${playerHand[0].result}, ${playerHand[1].result}, ${playerHand[2].result}, ${playerHand[3].result}, ${playerHand[4].result}, ${playerHand[5].result}. Time for the bluffing phase.`;
+        reRollMessage.textContent = `You re-roll some dice.`
+        let reRollMessage2 = document.createElement('p');
+        reRollMessage2.textContent = `Your new hand is: ${playerHand[0].result}, ${playerHand[1].result}, ${playerHand[2].result}, ${playerHand[3].result}, ${playerHand[4].result}, ${playerHand[5].result}. Time for the first bluffing phase.`;
+        main_window.appendChild(reRollMessage);
+        main_window.appendChild(reRollMessage2);
+        playerBluffs(opponentName, lines);
     } else {
-        reRollMessage.textContent = `Your hand is: ${playerHand[0].result}, ${playerHand[1].result}, ${playerHand[2].result}, ${playerHand[3].result}, ${playerHand[4].result}, ${playerHand[5].result}. Time for the bluffing phase.`;
+        reRollMessage.textContent = `Your hand is: ${playerHand[0].result}, ${playerHand[1].result}, ${playerHand[2].result}, ${playerHand[3].result}, ${playerHand[4].result}, ${playerHand[5].result}. Do you want to bluff, or accuse the opponent?`;
+        main_window.appendChild(reRollMessage);
+        // decide what to do here!
+        let whatToDoButtons = document.createElement('div');
+        main_window.appendChild(whatToDoButtons);
+        let bluffButton = document.createElement('button');
+        bluffButton.textContent = 'Bluff';
+        bluffButton.style.marginRight = '5px';
+        whatToDoButtons.appendChild(bluffButton);
+        let accuseButton = document.createElement('button');
+        accuseButton.textContent = 'Accuse';
+        whatToDoButtons.appendChild(accuseButton);
+        bluffButton.addEventListener('click', () => {
+            main_window.removeChild(whatToDoButtons);
+            playerBluffs(opponentName, lines);
+        });
+        accuseButton.addEventListener('click', () => {
+            main_window.removeChild(whatToDoButtons);
+            accusation.accuser = 'Player';
+            accusation.numberOfDice = currentBid.numberOfDice;
+            accusation.dots = currentBid.dots;
+            let gameResult = callOut();
+            gameEnd(gameResult, opponentName, lines);    
+        });
     }
-    main_window.appendChild(reRollMessage);
+}
+function playerBluffs(opponentName, lines) {
     // creates a dropdown form to bluff: "I have [1/2/3/4] of [1/2/3/4]"
     let bluffForm = document.createElement('form');
     main_window.appendChild(bluffForm);
@@ -218,16 +280,16 @@ function bidPhase(lines) {
                 let bidMessage = document.createElement('p');
                 bidMessage.textContent = `You bid: "I have ${currentBid.numberOfDice} of ${currentBid.dots} dots".`;
                 main_window.appendChild(bidMessage);
-                opponentResponse(lines);    
+                opponentResponse(opponentName, lines);    
             }
         } else {
             event.preventDefault();
             currentBid = { player: 'player', numberOfDice: numberSelect.value, dots: dotsSelect.value };
             while(main_window.firstChild) {main_window.removeChild(main_window.firstChild)};
             let bidMessage = document.createElement('p');
-            bidMessage.textContent = `You bid: "I have ${currentBid.numberOfDice} of ${currentBid.dots} dots.`;
+            bidMessage.textContent = `You bid: "I have ${currentBid.numberOfDice} of ${currentBid.dots} dots".`;
             main_window.appendChild(bidMessage);
-            opponentResponse(lines);
+            opponentResponse(opponentName, lines);
         }
     });
 }
@@ -239,31 +301,48 @@ function oneThird() {
     return Math.floor((Math.random() * 3) + 1);
 }
 // opponent response
-function opponentResponse(lines) {
-    // initialize form hud
-    let numberSelect = document.querySelector('#numberOfDice');
-    let dotsSelect = document.querySelector('#dots');
+function opponentResponse(opponentName, lines) {
     // set currentBid
     // if currentBid.numberOfdice > 2, opponent calls bluff
     // fill the accusation object with 'opponent', and 'currentBid'
     if (currentBid.numberOfDice > 2) {
-        accusation = { accuser: 'opponent', numberOfDice: numberSelect.value, dots: dotsSelect.value };
-        callOut();
+        accusation = { accuser: 'opponent', numberOfDice: currentBid.numberOfDice, dots: currentBid.dots };
+        let accuseLineEntry = document.createElement('p');
+        accuseLineEntry.textContent = `${opponentName}: "${lines.accuseLine}".`;
+        main_window.appendChild(accuseLineEntry);
+        let accuseContinueButton = document.createElement('button');
+        accuseContinueButton.textContent = 'Continue';
+        main_window.appendChild(accuseContinueButton);
+        accuseContinueButton.addEventListener('click', () => {
+            main_window.removeChild(accuseContinueButton);
+            let gameResult = callOut();
+            gameEnd(gameResult, opponentName, lines);    
+        });
     // if currentBid.numberOfdice =2
     } else if (currentBid.numberOfDice == 2) {
     // then 50% to call out a bluff anyway
         if (fiftyFifty() == 2) {
-            accusation = { accuser: 'opponent', numberOfDice: numberSelect.value, dots: dotsSelect.value };
-            callOut();
-    // if that doesn't trigger, the opponent bids    
+            accusation = { accuser: 'opponent', numberOfDice: currentBid.numberOfDice, dots: currentBid.dots };
+            let accuseLineEntry = document.createElement('p');
+            accuseLineEntry.textContent = `${opponentName}: "${lines.accuseLine}".`;
+            main_window.appendChild(accuseLineEntry);
+            let accuseContinueButton = document.createElement('button');
+            accuseContinueButton.textContent = 'Continue';
+            main_window.appendChild(accuseContinueButton);
+            accuseContinueButton.addEventListener('click', () => {
+                main_window.removeChild(accuseContinueButton);
+                let gameResult = callOut();
+                gameEnd(gameResult, opponentName, lines);    
+            });
+        // if that doesn't trigger, the opponent bids    
         } else {
-            opponentBid(lines);
+            opponentBid(opponentName, lines);
         }
     } else {
-        opponentBid(lines);
+        opponentBid(opponentName, lines);
     }
 }
-function opponentBid(lines) {
+function opponentBid(opponentName, lines) {
     // opponent looks at opponentHand, identifying if there are any repeats
     let allOpponent1s = opponentHand.filter(i => i == 1);
     let allOpponent2s = opponentHand.filter(i => i == 2);
@@ -328,13 +407,13 @@ function opponentBid(lines) {
     currentBid = temporaryOpponentBid;
     // then they say one of their 'bettinglines' (add that) 
     let bluffLine1Entry = document.createElement('p');
-    bluffLine1Entry.textContent = lines.bluffLine;
+    bluffLine1Entry.textContent = `${opponentName}: "${lines.bluffLine}".`;
     main_window.appendChild(bluffLine1Entry);
     let bluffLine2Entry = document.createElement('p');
-    bluffLine2Entry.textContent = `I rolled ${currentBid.numberOfDice} dice with ${currentBid.dots} dots.`;    
+    bluffLine2Entry.textContent = `"I rolled ${currentBid.numberOfDice} dice with ${currentBid.dots} dots."`;    
     main_window.appendChild(bluffLine2Entry);
     // re-bid, but can only do higher now!
-    bidPhase(lines);
+    bidPhase(opponentName, lines);
     // thoughts on re-bidding: reuse the same function flow
     // introduce a limit on what the player can bid
     // but the limits don't work if currentBid is empty
@@ -342,13 +421,68 @@ function opponentBid(lines) {
 // calling out a bluff
 function callOut() {
     // if accusation.accuser = player, checks opponentHand, if accusation.accuser = opponent, checks playerHand
-    // checks that player/opponentHand.includes the integer = to the 'dots'
+    // these are set up differently, so different calculations
+    if (accusation.accuser == 'opponent') {
+        // playerHand = [die1, ...]
+        // die1 = {result: 0, ...}
+        let allCorrectDots = playerHand.filter(i => (i.result == accusation.dots));
+        console.log(`ALL CORRECT DOTS: ${allCorrectDots}`);
+        console.log(`ACCUSATION DOTS: ${accusation.dots}`);
+        console.log(`ACCUSATION NUMBER OF DICE: ${accusation.numberOfDice}`);
+        if (allCorrectDots.length >= accusation.numberOfDice) {
+            return 'playerWins';
+        } else {
+            return 'opponentWins';
+        }
+    } else {
+        // opponentHand = [1, 3, 4, 1, 3, 2]
+        let allCorrectDots = opponentHand.filter(i => (i == accusation.dots));
+        console.log(`ALL CORRECT DOTS: ${allCorrectDots}`);
+        console.log(`ACCUSATION DOTS: ${accusation.dots}`);
+        console.log(`ACCUSATION NUMBER OF DICE: ${accusation.numberOfDice}`);
+        if (allCorrectDots.length >= accusation.numberOfDice) {
+            return 'opponentWins'; 
+        } else {
+            return 'playerWins';
+        }
+    }
+    // checks that player/opponentHand.includes the integer equaling to the 'dots'
     // loops through the check a number of times = numberOfDice
     // if all true, accusation.accuser is the loser
     // returns a winner
 }
 // ending the game
-function gameEnd() {
+function gameEnd(result, opponentName, lines) {
+    // a message, who is being accused and what are they being accused of
+    let gameEndEntry = document.createElement('p');
+    if (accusation.accuser == 'Player') {
+        gameEndEntry.textContent = `Accusation! You and ${opponentName} check the bluff. Your opponent is the bluffer. They said they have ${accusation.numberOfDice} of ${accusation.dots} dots. Time to see if they're bluffing.`
+    } else {
+        gameEndEntry.textContent = `Accusation! You and ${opponentName} check the bluff. You are the bluffer. You said that you've got ${accusation.numberOfDice} of ${accusation.dots} dots. ${opponentName} checks if you're bluffing.`
+    }
+    main_window.appendChild(gameEndEntry);
+    let continueButton = document.createElement('button');
+    continueButton.textContent = 'Let us find out'
+    main_window.appendChild(continueButton);
+    continueButton.addEventListener('click', () => {
+        main_window.removeChild(continueButton);
+        gameEnd2(result, opponentName, lines);
+    })
+}
+function gameEnd2(result, opponentName, lines) {
+    let opponentEndLineEntry = document.createElement('p');
+    if (result == 'playerWins') {
+        let gameResultEntry = document.createElement('p');
+        gameResultEntry.textContent = 'And.... You win!';
+        main_window.appendChild(gameResultEntry);
+        opponentEndLineEntry.textContent = `${opponentName}: "${lines.loseLine}."`
+    } else {
+        let gameResultEntry = document.createElement('p');
+        gameResultEntry.textContent = `And.... ${opponentName} wins!`;
+        main_window.appendChild(gameResultEntry);
+        opponentEndLineEntry.textContent = `${opponentName}: "${lines.winLine}."`
+    }
+    main_window.appendChild(opponentEndLineEntry);
     // saying the 'winLine' or 'loseLine'  
     // keep track of gold!
     // show gold in the inventory

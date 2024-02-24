@@ -63,31 +63,25 @@ function selectEnemy(enemy) {
     top_bar.textContent = `Selected enemy: ${enemy.name}.`;
 }
 // special button that switches attack modes
-let JanitorSpecials = ['Normal Attack', 'Bucket Splash', 'Broom Smash'];
-let AccountantSpecials = ['Normal Attack', 'Book Toss', 'Torch Throw (to burn tax evasion evidence)'];
-let DancerSpecials = ['Normal Attack', 'Healing Twirl', 'Capoiera Kick'];
+let JanitorSpecials = ['Spirit Slam', 'Spectral Blade', 'Wrathful Visage'];
+let AccountantSpecials = ['Spirit Slam', 'Withering Bolt', 'Essence Drain'];
+let DancerSpecials = ['Spirit Slam', 'Spirit Blessing', 'Bind of the Guardian'];
 let attackIndex = 0;
 function switchAttack(char) {
-    if (playerConsequences.includes('classJanitor') || playerConsequences.includes('classAccountant') || playerConsequences.includes('classDancer')) {
+    if (playerConsequences.includes('classWraith') || playerConsequences.includes('classPoltergeist') || playerConsequences.includes('classGuardianSpirit')) {
         if (char instanceof Janitor) {
             attackIndex = (attackIndex + 1) % JanitorSpecials.length;
             char.specialAttack = JanitorSpecials[attackIndex];
-            let entry = document.createElement('p');
-            entry.textContent = `${char.name} is ready to use ${char.specialAttack}.`;
-            log_window.appendChild(entry);
         } else if (char instanceof Accountant) {
             attackIndex = (attackIndex + 1) % AccountantSpecials.length;
             char.specialAttack = AccountantSpecials[attackIndex];
-            let entry = document.createElement('p');
-            entry.textContent = `${char.name} is ready to use ${char.specialAttack}.`;
-            log_window.appendChild(entry);
         } else if (char instanceof Dancer) {
             attackIndex = (attackIndex + 1) % DancerSpecials.length;
             char.specialAttack = DancerSpecials[attackIndex];
-            let entry = document.createElement('p');
-            entry.textContent = `${char.name} is ready to use ${char.specialAttack}.`;
-            log_window.appendChild(entry);
-        };
+        }
+        let entry = document.createElement('p');
+        entry.textContent = `You get ready to use ${char.specialAttack}.`;
+        log_window.appendChild(entry);
     };
 };
 //start battle
