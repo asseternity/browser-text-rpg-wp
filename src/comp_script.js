@@ -1,5 +1,5 @@
 import { monsters } from './comp_objects_and_methods';
-import { allItems } from './comp_inventory_system';
+import { allItems, playerGold, addGold } from './comp_inventory_system';
 import { icons } from './comp_assets';
 import { storyElement } from './comp_story_objects';
 // --- script ---
@@ -12,12 +12,29 @@ let wisp1 = new storyElement('randomEncounter',
     ['1', '2'],
     {hasPlayerSeenMe: false},
     wisp2)
-    let corpse2 = new storyElement('description',
-    [`1`, `2`],
+let corpseLeave = new storyElement('description',
+    [`You turn around, not wishing to disturb the corpse.`, `You'll make it out of here.`, `Not this way, but you will.`],
     'explorationEvent',
-    undefined)
+    ['stats', 'benevolence', 10])
+let corpseSearch2 = new storyElement('description',
+    [`Your hand moves right through the snow.`, `You try again. You can't move the snow.`, `You turn around.`, `At first, you thought that the blizzard filled in any tracks in the snow. Now that you're looking - it's not that.`, `You're not leaving any footprints in the snow at all.`, `What the hell is going on?`],
+    'explorationEvent',
+    ['stats', 'evil', 10])
+let corpseSearch1 = new storyElement('description',
+    [`Alone, with no belongings, in the middle of winter in the Forest of Mirrors?`, `Yeah, you'll take anything, or it'll be very easy to end up like this person.`, `You lower yourself towards the body, trying to remove some snow from the body.`],
+    'explorationEvent',
+    corpseSearch2)
+let corpse2 = new storyElement('choice',
+    [`Looting would be a new low.`, `Although...`, `You're in no condition to be picky.`, `Search the body?`],
+    [{choiceText: 'Search the body.',
+    choiceModifiers: 'FoMsearchedBody',
+    choiceNextStory: corpseSearch1},
+    {choiceText: 'Leave the body alone.',
+    choiceModifiers: 'FoMleftBody',
+    choiceNextStory: corpseLeave}],
+    'explorationEvent')
 let corpse1 = new storyElement('randomEncounter',
-    ['1', '2'],
+    ['You continue moving through the Forest of Mirrors, when you see a mound in the snow.', 'The snow seems to be covering something.', 'Your suspicions are true. It is a lonely body, in the frosted forest, covered in snow.'],
     {hasPlayerSeenMe: false},
     corpse2)
 let tuskwolf3 = new storyElement('description',
@@ -49,7 +66,7 @@ let wakeUpLie1 = new storyElement('description',
     wakeUpLie2)
 let wakeUpRise2 = new storyElement('description',
     ['You get to your feet. Again, with surprising ease.', 'You must not have been out for long. You feel lucky. Frost takes lives quickly.', 'You look back down. The wind has already done its job - there is almost no indentation in the snow from your body already.', `You don't feel particularly cold yet, but you rub your hands for warmth nevertheless.`],
-    undefined,
+    ['gold', 200],
     wakeUpMove)
 let wakeUpRise1 = new storyElement('description',
     ['You seem to be lying on your belly.', 'You plant your hands in the snow, trying to rise to your knees.', 'You rise to your knees with surprising ease.', `You look around. Your satchel doesn't seem to be with you. How did you get here? Were you robbed?`],

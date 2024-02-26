@@ -27,6 +27,8 @@ inventoryDialog.innerHTML = `
         </div>
         <br>
         <br>
+        Gold: <span id='goldBox'></span>
+        <br>
         <div id='allBox'>
             Bag:
             <ul id='allList'>
@@ -43,6 +45,14 @@ inventory_button.addEventListener('click', () => {
         inventoryDialog.addEventListener('animationend', dialogAnimationEnd);
     })
 })
+// gold system
+let playerGold = 0;
+let goldBox = document.querySelector('#goldBox');
+goldBox.textContent = playerGold;
+function addGold(amount) {
+    playerGold += amount;
+    goldBox.textContent = playerGold;
+}
 // grab elements from dialog
 let equippedWeaponBox = document.querySelector('#equippedWeaponBox');
 let equippedArmorBox = document.querySelector('#equippedArmorBox');
@@ -169,5 +179,7 @@ export {
     equipItem,
     unequipItem,
     newItem,
-    allItems
+    allItems,
+    playerGold,
+    addGold
 }

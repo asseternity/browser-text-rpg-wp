@@ -1,10 +1,11 @@
 // import: enemies array, isHeDead, listEnemies
 import './index.css';
 import { enemies, isHeDead, listEnemies } from "./comp_battle_functions";
+import { Race, races } from './comp_races';
 // log_window
 let log_window = document.querySelector('.log');
 // object constructor functions
-function Character(name, attackBonus, armorClass, currentHP, maxHP, specialAttack, equippedWeapon, equippedArmor, equippedMisc, inventory) {
+function Character(name, attackBonus, armorClass, currentHP, maxHP, specialAttack, equippedWeapon, equippedArmor, equippedMisc, inventory, race) {
     this.name = name;
     this.attackBonus = attackBonus;
     this.armorClass = armorClass;
@@ -15,6 +16,7 @@ function Character(name, attackBonus, armorClass, currentHP, maxHP, specialAttac
     this.equippedArmor = '';
     this.equippedMisc = '';
     this.inventory = [];
+    this.race = race;
 }
 
 function Monster(name, monsterAttackBonus, armorClass, currentHP, maxHP, status) {
@@ -91,8 +93,8 @@ Character.prototype.attack = function(selectedEnemy) {
                         if (attackRoll + extraAttack > selectedEnemy.armorClass) { selectedEnemy.status = 'burning'; }
                         break;                        
                 }
-                if (attackRoll + extraAttack > selectedEnemy.armorClass) {
-                    selectedEnemy.currentHP -= attackRoll + extraAttack + extraDamage - selectedEnemy.armorClass;
+                if (attackRoll + extraAttack + this.race.raceAttackBonus > selectedEnemy.armorClass) {
+                    selectedEnemy.currentHP -= attackRoll + extraAttack + extraDamage + this.race.raceAttackBonus - selectedEnemy.armorClass;
                     let entry = document.createElement('p');
                     entry.textContent = `${this.name} attacks ${selectedEnemy.name}${extraComment}! The attack hits and deals ${attackRoll + extraAttack + extraDamage - selectedEnemy.armorClass} damage!`;
                     entry.setAttribute('style','color:yellow');
@@ -147,21 +149,21 @@ Character.prototype.attack = function(selectedEnemy) {
     }
 }
 // character classes
-function Janitor(name, attackBonus, armorClass, currentHP, maxHP, specialAttack, equippedWeapon, equippedArmor, equippedMisc, inventory) {
-    Character.call(this, name, attackBonus, armorClass, currentHP, maxHP, specialAttack, equippedWeapon, equippedArmor, equippedMisc, inventory);
+function Janitor(name, attackBonus, armorClass, currentHP, maxHP, specialAttack, equippedWeapon, equippedArmor, equippedMisc, inventory, race) {
+    Character.call(this, name, attackBonus, armorClass, currentHP, maxHP, specialAttack, equippedWeapon, equippedArmor, equippedMisc, inventory, race);
 }
-function Accountant(name, attackBonus, armorClass, currentHP, maxHP, specialAttack, equippedWeapon, equippedArmor, equippedMisc, inventory) {
-    Character.call(this, name, attackBonus, armorClass, currentHP, maxHP, specialAttack, equippedWeapon, equippedArmor, equippedMisc, inventory);
+function Accountant(name, attackBonus, armorClass, currentHP, maxHP, specialAttack, equippedWeapon, equippedArmor, equippedMisc, inventory, race) {
+    Character.call(this, name, attackBonus, armorClass, currentHP, maxHP, specialAttack, equippedWeapon, equippedArmor, equippedMisc, inventory, race);
 }
-function Dancer(name, attackBonus, armorClass, currentHP, maxHP, specialAttack, equippedWeapon, equippedArmor, equippedMisc, inventory) {
-    Character.call(this, name, attackBonus, armorClass, currentHP, maxHP, specialAttack, equippedWeapon, equippedArmor, equippedMisc, inventory);
+function Dancer(name, attackBonus, armorClass, currentHP, maxHP, specialAttack, equippedWeapon, equippedArmor, equippedMisc, inventory, race) {
+    Character.call(this, name, attackBonus, armorClass, currentHP, maxHP, specialAttack, equippedWeapon, equippedArmor, equippedMisc, inventory, race);
 }
 // setting prototypes
 Object.setPrototypeOf(Janitor.prototype, Character.prototype);
 Object.setPrototypeOf(Accountant.prototype, Character.prototype); 
 Object.setPrototypeOf(Dancer.prototype, Character.prototype); 
 // character object
-let char1 = new Character('Dude', 0, 10, 20, 100, 'Normal Attack', '', '', '', []); 
+let char1 = new Character('Dude', 0, 10, 20, 100, 'Normal Attack', '', '', '', [], '');
 // enemies objects
 let goblin_grunt = new Monster('Goblin', 0, 10, 40, 40, '');
 let goblin_fighter = new Monster('Goblin Fighter', 2, 13, 25, 25, '');
@@ -195,11 +197,11 @@ Monster.prototype.counterattack = function() {
 function menuUpdater() {
     let menu_window = document.querySelector('.menu');
     if (char1 instanceof Janitor) { // Wraith
-        menu_window.textContent = `You are ${char1.name}. Your are a Wraith. Your armor class is ${char1.armorClass}. Your HP is ${char1.currentHP}/${char1.maxHP}.`;
+        menu_window.textContent = `You are ${char1.name}. Your are a Wraith. In life, you were a ${char1.race.name}. Your armor class is ${char1.armorClass}. Your HP is ${char1.currentHP}/${char1.maxHP}.`;
     } else if (char1 instanceof Accountant) { // Poltergeist
-        menu_window.textContent = `You are ${char1.name}. Your are a Poltergeist. Your armor class is ${char1.armorClass}. Your HP is ${char1.currentHP}/${char1.maxHP}.`;
+        menu_window.textContent = `You are ${char1.name}. Your are a Poltergeist. In life, you were a ${char1.race.name}. Your armor class is ${char1.armorClass}. Your HP is ${char1.currentHP}/${char1.maxHP}.`;
     } else if (char1 instanceof Dancer) { // Guardian Spirit
-        menu_window.textContent = `You are ${char1.name}. Your are a Guardian Spirit. Your armor class is ${char1.armorClass}. Your HP is ${char1.currentHP}/${char1.maxHP}.`;
+        menu_window.textContent = `You are ${char1.name}. Your are a Guardian Spirit. In life, you were a ${char1.race.name}. Your armor class is ${char1.armorClass}. Your HP is ${char1.currentHP}/${char1.maxHP}.`;
     } else {
         menu_window.textContent = `You are ${char1.name}. Your class is unknown. Your armor class is ${char1.armorClass}. Your HP is ${char1.currentHP}/${char1.maxHP}.`;
     }

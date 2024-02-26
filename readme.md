@@ -1,8 +1,5 @@
 # TO DO LIST.
-// remove icons when hasPlayerSeenMe turns to true!
-// gold
 // get through the script to where the side quests will be usable
-
 // pocket Dimension of Spirits (explanation for gambling: in the same pocket dimension as the side quests)
 // side quests
 

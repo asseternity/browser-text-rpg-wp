@@ -17,7 +17,7 @@ import {
     dialogAnimationEnd
 } from './comp_hud';
 import { enemies, listEnemies, switchAttack, playerConsequences } from "./comp_battle_functions";
-import { grabItem } from './comp_inventory_system';
+import { grabItem, playerGold, addGold } from './comp_inventory_system';
 import {
     Character,
     Monster,
@@ -25,9 +25,11 @@ import {
     Accountant,
     Dancer,
     char1,
+    menuUpdater
 } from './comp_objects_and_methods';
 import { storyElement, storyElements } from './comp_story_objects';
 import { scriptObjects } from './comp_script';
+import { Race, races } from './comp_races';
 const eventEmitter = require('./comp_event_emitter');
 // game-long vars
 let isPlayerExploring = false;
@@ -71,20 +73,30 @@ function newUpdateNames(answer) {
 function storyTeller(storyElement) {
     while (main_window.firstChild) {main_window.removeChild(main_window.firstChild)};
     if (storyElement !== undefined) {
-        if (storyElement.type !== 'dialogue' && storyElement.type !== 'consequence') {
-            textFlipper(storyElement, 0);
-        } else if (storyElement.type == 'dialogue') {
-            newDialogueMaker(storyElement, 0);
+        if (storyElement[0] == 'stats' || storyElement[0] == 'gold') {
+            if (storyElement[0] == 'stats') {
+                giveStats(1, 2);
+            } else {
+                addGold(1);
+            }
         } else {
-            consequenceShower(storyElement, 0);
+            if (storyElement !== undefined) {
+                if (storyElement.type !== 'dialogue' && storyElement.type !== 'consequence') {
+                    textFlipper(storyElement, 0);
+                } else if (storyElement.type == 'dialogue') {
+                    newDialogueMaker(storyElement, 0);
+                } else {
+                    consequenceShower(storyElement, 0);
+                }
+            }    
         }
-    } else {}
+    }
 }
 //--- supplementary functions ---
 // new continue button operator
 let announcement;
 function textFlipper(storyElement, loop, style) {
-    if (storyElement.type == 'randomEncounter' || storyElement.modifiers == 'explorationEvent') { moveOn = false; }
+    if (storyElement.type == 'randomEncounter' || storyElement.modifiers == 'explorationEvent' || storyElement.nextStoryElement == 'explorationEvent') { moveOn = false; }
     let storyParagraph = document.createElement('p');
     storyParagraph.textContent = storyElement.text[loop];
     if (style == 'yellow') { storyParagraph.setAttribute('style','color:yellow;'); }
@@ -125,6 +137,18 @@ function textFlipper(storyElement, loop, style) {
                         while (main_window.firstChild) { main_window.removeChild(main_window.firstChild) };
                         storyElement.modifiers.hasPlayerSeenMe = true;
                         moveOn = true;
+                        let circle = document.querySelector('#circle');
+                        console.log(circle);
+                        let currentTile = whichTileIsPlayerOn(circle);
+                        console.log(currentTile);
+                        for (let i = 0; i < 126; i++) {
+                            let loopedTile = document.querySelector(`#tile${i}`);
+                            if (loopedTile.id == currentTile) {
+                                if (loopedTile.hasChildNodes) {
+                                    loopedTile.removeChild(loopedTile.firstChild);
+                                }
+                            }
+                        }
                         storyTeller(storyElement.nextStoryElement);
                         break;
                     case 'endExploration':
@@ -139,6 +163,14 @@ function textFlipper(storyElement, loop, style) {
                 }
                 if (storyElement.modifiers == 'explorationEvent') {
                     moveOn = true;
+                } else if (storyElement.modifiers !== undefined) {
+                    if (storyElement.modifiers[0] == 'stats' || storyElement.modifiers[0] == 'gold') {
+                        if (storyElement.modifiers[0] == 'stats') {
+                            giveStats(storyElement.modifiers[1], storyElement.modifiers[2]);
+                        } else {
+                            addGold(storyElement.modifiers[1]);
+                        }
+                    }
                 }
             }
         })
@@ -226,22 +258,47 @@ function newChoice(storyElement) {
         main_window.appendChild(choiceButton);
         choiceButton.addEventListener('click', () => {
             playerConsequences.push(thisChoice.choiceModifiers);
-            console.log(playerConsequences);
             if (thisChoice.choiceModifiers == 'classWraith') {
                 Object.setPrototypeOf(char1, Janitor.prototype);
-                Janitor.call(char1, char1.name, 13, 15, 100, 100, 'Normal Attack', '', '', '', []);
+                Janitor.call(char1, char1.name, 0, 10, 20, 100, 'Normal Attack', '', '', '', []);
                 menu_window.textContent = menu_window.textContent.replace('Your class is unknown.', 'You are a Wraith.');
                 special_button.addEventListener('click', () => { switchAttack(char1) });    
             } else if (thisChoice.choiceModifiers == 'classPoltergeist') {
                 Object.setPrototypeOf(char1, Accountant.prototype);
-                Accountant.call(char1, char1.name, 13, 15, 100, 100, 'Normal Attack', '', '', '', []);
+                Accountant.call(char1, char1.name, 0, 10, 20, 100, 'Normal Attack', '', '', '', []);
                 menu_window.textContent = menu_window.textContent.replace('Your class is unknown.', 'You are a Poltegeist.');
                 special_button.addEventListener('click', () => { switchAttack(char1) });    
             } else if (thisChoice.choiceModifiers == 'classGuardianSpirit') {
                 Object.setPrototypeOf(char1, Dancer.prototype);
-                Dancer.call(char1, char1.name, 13, 15, 100, 100, 'Normal Attack', '', '', '', []);
+                Dancer.call(char1, char1.name, 0, 10, 20, 100, 'Normal Attack', '', '', '', []);
                 menu_window.textContent = menu_window.textContent.replace('Your class is unknown.', 'You are a Guardian Spirit.');
                 special_button.addEventListener('click', () => { switchAttack(char1) });     
+            }
+            if (thisChoice.choiceModifiers == 'raceRealmer') {
+                char1.race = races.Realmer;
+                menu_window.textContent = menu_window.textContent.replace(' Your armor class', ' In life, you were a Realmer. Your armor class');
+                char1.currentHP += char1.race.raceHPBonus;
+                char1.maxHP += char1.race.raceHPBonus;
+                char1.armorClass += char1.race.raceArmorBonus;
+                menuUpdater();
+                let stats_race = document.querySelector('#stats_race');
+                stats_race.textContent = 'In life, you were a Realmer.'
+            } else if (thisChoice.choiceModifiers == 'raceMortar') {
+                char1.race = races.Mortar;
+                menu_window.textContent = menu_window.textContent.replace(' Your armor class', ' In life, you were a Mortar. Your armor class');
+                char1.currentHP += char1.race.raceHPBonus;
+                char1.maxHP += char1.race.raceHPBonus;
+                char1.armorClass += char1.race.raceArmorBonus;
+                menuUpdater();
+                stats_race.textContent = 'In life, you were a Mortar.'
+            } else if (thisChoice.choiceModifiers == 'raceDeadlander') {
+                char1.race = races.Deadlander;
+                menu_window.textContent = menu_window.textContent.replace(' Your armor class', ' In life, you were a Deadlander. Your armor class');
+                char1.currentHP += char1.race.raceHPBonus;
+                char1.maxHP += char1.race.raceHPBonus;
+                char1.armorClass += char1.race.raceArmorBonus;
+                menuUpdater();
+                stats_race.textContent = 'In life, you were a Deadlander.'
             }
             storyTeller(thisChoice.choiceNextStory);
         });
@@ -566,6 +623,7 @@ function statsFlagsUpdater() {
     };
 }
 // TESTER. start game
-storyTeller(storyElements.testNaming);
-// storyTeller(scriptObjects.wakeUp1);
+// storyTeller(storyElements.testNaming);
+// addGold(5000);
+storyTeller(scriptObjects.wakeUp1);
 // startDiceGame('Dave', exampleLines);

@@ -2,7 +2,7 @@
 import './index.css';
 import { icons } from './comp_assets';
 import { monsters } from './comp_objects_and_methods';
-import { allItems } from './comp_inventory_system';
+import { allItems, playerGold, addGold } from './comp_inventory_system';
 // class storyElement { type(dialogue, choice, battle, description, item); text = []; 
 // modifiers(for battle: array of enemies, for choice/dialogue: choices, for item: item name);
 // nextStory }
@@ -178,18 +178,32 @@ let testDescription = new storyElement(
     undefined,
     testBattle
 )
+let testRace = new storyElement(
+    'choice',
+    ['Now it is time to choose your race.', 'Choose wisely.'],
+    [{choiceText: 'Realmer.',
+    choiceModifiers: 'raceRealmer',
+    choiceNextStory: testExploration},
+    {choiceText: 'Mortar.',
+    choiceModifiers: 'raceMortar',
+    choiceNextStory: testExploration},
+    {choiceText: 'Deadlander.',
+    choiceModifiers: 'raceDeadlander',
+    choiceNextStory: testExploration}],
+    undefined    
+)
 let testClass = new storyElement(
     'choice',
     ['Now it is time to choose your class.', 'Choose wisely.', 'Or just clickity-clack.'],
     [{choiceText: 'Wraith.',
     choiceModifiers: 'classWraith',
-    choiceNextStory: testExploration},
+    choiceNextStory: testRace},
     {choiceText: 'Poltergeist.',
     choiceModifiers: 'classPoltergeist',
-    choiceNextStory: testExploration},
+    choiceNextStory: testRace},
     {choiceText: 'Guardian Spirit.',
     choiceModifiers: 'classGuardianSpirit',
-    choiceNextStory: testExploration}],
+    choiceNextStory: testRace}],
     undefined    
 )
 let testNaming = new storyElement(
