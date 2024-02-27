@@ -93,8 +93,11 @@ Character.prototype.attack = function(selectedEnemy) {
                         if (attackRoll + extraAttack > selectedEnemy.armorClass) { selectedEnemy.status = 'burning'; }
                         break;                        
                 }
-                if (attackRoll + extraAttack + this.race.raceAttackBonus > selectedEnemy.armorClass) {
-                    selectedEnemy.currentHP -= attackRoll + extraAttack + extraDamage + this.race.raceAttackBonus - selectedEnemy.armorClass;
+                if (this.race !== '') {
+                    extraAttack += this.race.raceAttackBonus;
+                }
+                if (attackRoll + extraAttack > selectedEnemy.armorClass) {
+                    selectedEnemy.currentHP -= attackRoll + extraAttack + extraDamage - selectedEnemy.armorClass;
                     let entry = document.createElement('p');
                     entry.textContent = `${this.name} attacks ${selectedEnemy.name}${extraComment}! The attack hits and deals ${attackRoll + extraAttack + extraDamage - selectedEnemy.armorClass} damage!`;
                     entry.setAttribute('style','color:yellow');

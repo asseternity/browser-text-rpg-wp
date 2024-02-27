@@ -75,9 +75,9 @@ function storyTeller(storyElement) {
     if (storyElement !== undefined) {
         if (storyElement[0] == 'stats' || storyElement[0] == 'gold') {
             if (storyElement[0] == 'stats') {
-                giveStats(1, 2);
+                giveStats(storyElement[1], storyElement[2]);
             } else {
-                addGold(1);
+                addGold(storyElement[1]);
             }
         } else {
             if (storyElement !== undefined) {
