@@ -170,8 +170,9 @@ let rustySword = newItem('Rusty Sword', 'weapon', 1, 0, 'n7');
 let rustyArmor = newItem('Rusty Armor', 'armor', 0, 1, 'n8');
 let goldRing = newItem('Gold Ring', 'misc', 0, 1, 'n9');
 let healthPotion = newItem('Health Potion', 'quest item', 0, 0, 'n10');
+let wispBall = newItem('Dimly Glowing Ball', 'misc', 0, 1, 'n11');
 // exporting object
-let allItems = { magicArmor, magicRing, magicSword, ultraArmor, ultraRing, ultraSword, rustyArmor, rustySword, goldRing, healthPotion };
+let allItems = { wispBall, magicArmor, magicRing, magicSword, ultraArmor, ultraRing, ultraSword, rustyArmor, rustySword, goldRing, healthPotion };
 // export
 export {
     inventoryDialog,

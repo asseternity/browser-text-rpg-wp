@@ -49,7 +49,7 @@ function listEnemies() {
     enemies.forEach((thisEnemy) => {
         let enemy_entry = document.createElement('p');
         let enemy_button = document.createElement('button');
-        enemy_entry.textContent = `${thisEnemy.name} stands there. It has AC of ${thisEnemy.armorClass}, attack bonus of ${thisEnemy.monsterAttackBonus} and HP of ${thisEnemy.currentHP}/${thisEnemy.maxHP}.`
+        enemy_entry.textContent = `${thisEnemy.name} is there. It has AC of ${thisEnemy.armorClass}, attack bonus of ${thisEnemy.monsterAttackBonus} and HP of ${thisEnemy.currentHP}/${thisEnemy.maxHP}.`
         enemy_button.textContent = `Select`;
         enemy_button.setAttribute('id', thisEnemy.name);
         enemy_button.addEventListener('click', () => selectEnemy(thisEnemy));

@@ -4,12 +4,37 @@ import { icons } from './comp_assets';
 import { storyElement } from './comp_story_objects';
 // --- script ---
 // THE FOREST OF MIRRORS
-let wisp2 = new storyElement('description',
-    [`1`, `2`],
+let wispLeave = new storyElement('description',
+    [`You turn around step away from the light.`, `If it's a campfire, you can't be sure that these people won't be hostile.`, `And, with the blizzard and your blurred vision - from your injuries? - you can't even be sure that it's a campfire.`],
     'explorationEvent',
     undefined)
+let wispApproach4 = new storyElement('item',
+    [`The wisp ball flies towards you again. This time you're ready and you land a strike in the middle of its glowing body.`, `With a fizzing sound, the wisp explodes into tiny specks of light.`, `You see one of the bigger specks, a fist-sized ball of light, has landed under your feet.`, `You reach into the snow and pick it up. It emits a warming aura.`, `[Click the Inventory button to equip items]`],
+    allItems.wispBall,
+    undefined)
+let wispApproach3 = new storyElement('battle',
+    [`You turn around, trying to keep it in sight.`, `It seems to be a glowing wisp of light.`, `It seems to be getting ready to swoop in towards you again.`, `It's certainly no campfire, and it doesn't seem to be friendly. You need answers, but survival comes first. You're not sure you can take many more of this "wisp's" fly-bys. You have nothing but your fists to defend yourself with.`],
+    [monsters.wisp1],
+    wispApproach4)
+let wispApproach2 = new storyElement('description',
+    [`The blizzard, the trees and the snow don't help.`, `As you step closer, the light suddenly moves. It flies a little upwards, and then moves closer towards you.`, `The light speeds up, flying towards you, until it flies right through you, painfully burning your flesh.`],
+    undefined,
+    wispApproach3)
+let wispApproach1 = new storyElement('description',
+    [`You decide to walk closer to the light.`, `You need help. Answers. Warmth. Anything.`, `You step slowly, trying to see what the light is.`],
+    undefined,
+    wispApproach2)
+let wisp2 = new storyElement('choice',
+    [`Your vision is so blurry that you can't quite make out what the light is.`, `Perhaps, campfire? Perhaps someone is in this forest after all.`, `It could also be bandits. Poachers. Worshihppers of evil Suns, ready to take advantage of a dying traveler.`, `Approach the light source?`],
+    [{choiceText: 'Slowly approach the light.',
+    choiceModifiers: 'FoMsawWisp',
+    choiceNextStory: wispApproach1},
+    {choiceText: 'Turn around and walk away form the light.',
+    choiceModifiers: 'FoMnotSeenWisp',
+    choiceNextStory: wispLeave}],
+    undefined)
 let wisp1 = new storyElement('randomEncounter',
-    ['1', '2'],
+    [`You continue trudging through the snow.`, `You don't seem to feel your feel. You hope it's not due to frostbite.`, `As you lift your head to look forward, placing your hand against your forehead to block off the wind, you see a light between the trees.`],
     {hasPlayerSeenMe: false},
     wisp2)
 let corpseLeave = new storyElement('description',
