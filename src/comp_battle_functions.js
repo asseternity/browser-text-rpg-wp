@@ -4,6 +4,7 @@ import {
     top_bar,
     log_window,
     image_window,
+    main_window,
 } from './comp_hud';
 import { 
     Janitor,
@@ -15,7 +16,6 @@ const eventEmitter = require('./comp_event_emitter.js');
 // important vars
 let enemies = [];
 let enemyToAttack;
-let playerConsequences = [];
 //button effects
 let attack_button = document.querySelector('#attackButton');
 attack_button.addEventListener('click', () => char1.attack(enemyToAttack));
@@ -33,9 +33,27 @@ function isHeDead(damagedEnemy) {
             // isBattleOver('win');
         }
     };
+    isPlayerDead();
+}
+function isPlayerDead() {
     if (char1.currentHP <= 0) {
         eventEmitter.emit('battle:lose');
-        // isBattleOver('lose');
+        for (let i = 0; i < main_window.children.length; i++) {
+            if (main_window.children[i].tagName.toLowerCase() == 'button') {
+                main_window.removeChild(main_window.children[i]);
+            }
+        }
+        for (let j = 0; j < image_window.children.length; j++) {
+            if (image_window.children[j].tagName.toLowerCase() == 'button') {
+                image_window.removeChild(image_window.children[j]);
+            }
+        }
+        while(top_bar.firstChild) {top_bar.removeChild(top_bar.firstChild)};
+        let death = document.createElement('div');
+        death.setAttribute('style', `position:absolute;height:100%;width:100%;z-index:500;overflow:hidden;`);
+        death.classList.add('death');
+        let container = document.querySelector('.container');
+        container.appendChild(death);
     }
 }
 // update enemies list
@@ -67,8 +85,18 @@ let JanitorSpecials = ['Spirit Slam', 'Spectral Blade', 'Wrathful Visage'];
 let AccountantSpecials = ['Spirit Slam', 'Withering Bolt', 'Essence Drain'];
 let DancerSpecials = ['Spirit Slam', 'Spirit Blessing', 'Bind of the Guardian'];
 let attackIndex = 0;
+let playerClass = '';
+eventEmitter.on('Wraith', () => {
+    playerClass = 'Wraith';
+});
+eventEmitter.on('Poltergeist', () => {
+    playerClass = 'Poltergeist';
+});
+eventEmitter.on('GuardianSpirit', () => {
+    playerClass = 'GuardianSpirit';
+});
 function switchAttack(char) {
-    if (playerConsequences.includes('classWraith') || playerConsequences.includes('classPoltergeist') || playerConsequences.includes('classGuardianSpirit')) {
+    if (playerClass !== '') {
         if (char instanceof Janitor) {
             attackIndex = (attackIndex + 1) % JanitorSpecials.length;
             char.specialAttack = JanitorSpecials[attackIndex];
@@ -95,10 +123,10 @@ function startBattle(...encounterEnemies) {
 // export
 export {
     isHeDead,
+    isPlayerDead,
     listEnemies,
     switchAttack,
     startBattle,
     enemies,
-    enemyToAttack,
-    playerConsequences
+    enemyToAttack
 }

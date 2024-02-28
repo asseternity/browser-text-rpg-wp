@@ -15,7 +15,7 @@ let special_button = document.querySelector('#specialButton');
 let inventory_button = document.querySelector('#inventoryButton');
 let stats_button = document.querySelector('#statsButton');
 //draw player stats
-menu_window.textContent = `You are a person. Your class is unknown. Your armor class is ${char1.armorClass}. Your HP is ${char1.currentHP}/${char1.maxHP}.`;
+menu_window.textContent = `You are ${char1.name}. Your class is unknown. Your armor class is ${char1.armorClass}. Your HP is ${char1.currentHP}/${char1.maxHP}.`;
 // dialog remover
 function dialogAnimationEnd(event) {
     let dialog = event && event.target ? event.target : event;
@@ -33,19 +33,21 @@ mainMenuDialog.setAttribute('style','height:75%;width:100%;z-index:1000;overflow
 document.body.appendChild(mainMenuDialog);
 mainMenuDialog.innerHTML = 
 `
-<div style='display:flex;justify-content:center;border-bottom:5px solid silver'>
-    <h1 style='margin-bottom: 5px;'>What Makes You Live?</h1>
+<div class='mainMenuContainer'>
+    <div style='display:flex;justify-content:center;border-bottom:5px solid silver'>
+        <h1 style='margin-bottom: 5px;'>What Makes You Live?</h1>
+    </div>
+    <h1 style='text-align:center;margin-bottom:-20px;'>Main Menu</h2>   
+    <div class='mainMenu' style='display:flex;flex-direction:column;justify-content:center;align-items:center;margin-top:50px;'>
+        <button id='startGameButton' style='display:block;margin:0 auto; border: 3px solid silver; border-radius: 5px; margin-bottom:20px;width:250px;'>Start game</button>
+        <button id='settingsButton' style='display:block;margin:0 auto; border: 3px solid silver; border-radius: 5px; margin-bottom:20px;width:250px;'>Settings</button>
+        <button id='aboutButton' style='display:block;margin:0 auto; border: 3px solid silver; border-radius: 5px; margin-bottom:20px;width:250px;'>About the creator</button>
+        <button id='contactButton' style='display:block;margin:0 auto; border: 3px solid silver; border-radius: 5px; margin-bottom:0;width:250px;'>Contact me</button>
+    </div>
+    <br>
+    <p style='color:white;font-size:80%;'><i>Note: If you play on mobile, scroll to the bottom of the screen to see the action buttons.</i></p>
 </div>
-<h1 style='text-align:center;margin-bottom:-20px;'>Main Menu</h2>   
-<div style='display:flex;flex-direction:column;justify-content:center;align-items:center;margin-top:50px;'>
-    <button id='startGameButton' style='font-size:100%;display:block;margin:0 auto; border: 3px solid silver; border-radius: 5px; margin-bottom:20px;width:250px;'>Start game</button>
-    <button id='settingsButton' style='font-size:100%;display:block;margin:0 auto; border: 3px solid silver; border-radius: 5px; margin-bottom:20px;width:250px;'>Settings</button>
-    <button id='aboutButton' style='font-size:100%;display:block;margin:0 auto; border: 3px solid silver; border-radius: 5px; margin-bottom:20px;width:250px;'>About the creator</button>
-    <button id='contactButton' style='font-size:100%;display:block;margin:0 auto; border: 3px solid silver; border-radius: 5px; margin-bottom:0;width:250px;'>Contact me</button>
-</div>
-<br>
-<p style='color:white;font-size:80%;'><i>Note: If you play on mobile, scroll to the bottom of the screen to see the action buttons.</i></p>
-`
+    `
 mainMenuDialog.showModal();
 
 let blackMenu = document.createElement('div');

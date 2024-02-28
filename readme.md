@@ -3,12 +3,15 @@
 // pocket Dimension of Spirits (explanation for gambling: in the same pocket dimension as the side quests)
 // side quests
 
+// settings: change fontsize and change font (already done!)
+
 // add a fakeChoice mechanic for fast scripting? 
 // main menu - functionality
 // prod and dev builds in wp
 // make sure that it works on github pages
 
 // IDEAS
+// how to save progress???
 // - supporting characters academy: there are things in games that all supporting characters magically know how to do 
 // (hacking, opening doors, researching)
 // in this game - YOU do them. More minigames?
@@ -67,14 +70,14 @@ Proclaimed by the Fated Realm's HIGHFATE. Members of the adventurers' guild must
 ## THE ADVENTURERS / THE CHOSEN ONES
 **These Adventurers are members of the Adventurer's Guild. They jobs is to go to towns or wilderness and solve problems. They are Victorian vibes Witchers!**
 
-### Captain [] "Steady" Swift - OVERCONTROLLING / HYPERVIGILANT
-Female. Captain. Older sister of Char 2. Smokes often. Grumpy / tired of this shit.
+### Captain Petunia "Peculiar" Quirke - OVERCONTROLLING / HYPERVIGILANT
+Female with olive skin in her early 40's. Duncan. Captain. Older sister of Char 2. Smokes often. Believes herself to be caring and **self-sacrificial**, but deep down is bitter, grumpy and tired of this shit.
 
-### [] Swift - RUNNING AWAY, SEARCHING FOR HAPPINESS AS A FAR AWAY PLACE
-Male. Think himself charming but super anxious inside. Constantly moving to run away from responsibilities or chores of the mundane life. Wants to move from party to party to not have to deal with literal and metaphorical messes.
+### Snapdragon "Snap" Quirke - RUNNING AWAY, SEARCHING FOR HAPPINESS AS A FAR AWAY PLACE
+Male with long hair and olive skin in his early 30's. Male. Reyes from MEA. Think himself charming but is constantly moving to run away from responsibilities or chores of the mundane life. Wants to move from party to party to not have to feel or deal with literal and metaphorical messes.
 
-### [] Williams - TAKING EVERYTHING AS AN ORDER
-Nonbinary. Quiet and sheepish. Thinks about what she needs to do 24/7. Remembers everything anyone tells her. Loyal without question, which makes her valued, but easy to manipulate. 
+### Lysander Appleby - TAKING EVERYTHING AS AN ORDER
+Nonbinary with shoulder length red hair and scars in their mid 30's. Soldier to the bone, persevering, forgetting about themselves. Thinks about what they need to do 24/7. Remembers everything anyone tells them. Loyal without question.
 
 ## Alphabet
 A - Aruakh
@@ -88,14 +91,14 @@ H - Highfate / Houses of Spirit Animals
 I - 
 J - 
 K - 
-L - 
+L - Lysander
 M - Mortar
 N - New Dawn Edict
 O - 
-P - Phoenixes
+P - Peculiar / Phoenixes
 Q - 
 R - Realm
-S - Spirits / Skeletons
+S - Snap / Spirits / Skeletons
 T - 
 U - 
 V - 

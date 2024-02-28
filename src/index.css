@@ -17,7 +17,18 @@ html, body {
     height: 100%;
     color: white;
     font-family: 'VT';
-    font-size: 120%;
+    font-size: 110%;
+}
+
+.mainMenuContainer {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-between;
+}
+
+.mainMenu button {
+    font-size: 140%;
 }
 
 .container {
@@ -56,7 +67,8 @@ html, body {
     padding: 10px;
     background-color: var(--purple1);
     grid-column: 3 / 5;
-    grid-row: 2 / 4
+    grid-row: 2 / 4;
+    font-size: 100%;
 }
 
 .main_window p, .main_window button, .main_window input {
@@ -178,7 +190,7 @@ button:hover {
 }
 
 .log {
-    overflow: scroll;
+    overflow: auto;
     padding: 10px;
     background-color: var(--purple2);
     grid-column: 5 / 6;
@@ -280,4 +292,8 @@ dialog {
     .main_window input[type=text] {
         width:120px;
     }
+}
+
+.death {
+    background-color: rgb(0, 0, 0, 0.5);
 }
