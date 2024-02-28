@@ -25,3 +25,8 @@ let encounter1 = new storyElement('randomEncounter',
     ['1', '2'],
     {hasPlayerSeenMe: false},
     undefined)
+let consequence2 = new storyElement('consequence',
+    [{dependency: 'consequence', consequenceText: ['1', '2']},
+    {dependency: 'consequence', consequenceText: ['1', '2']}],
+    undefined,
+    undefined)

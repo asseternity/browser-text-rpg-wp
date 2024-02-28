@@ -4,25 +4,78 @@ import { icons } from './comp_assets';
 import { storyElement } from './comp_story_objects';
 // --- script ---
 // THE FOREST OF MIRRORS
+let endForestConcentrate1 = new storyElement('description',
+    [`1.`, `2.`, `3.`],
+    'FoMspiritKnow',
+    undefined)
+let endForestExploreScream1 = new storyElement('description',
+    [`1.`, `2.`, `3.`],
+    'FoMspiritKnow',
+    undefined) // this leads to concentrate route
+let endForestExploreNoScream1 = new storyElement('description',
+    [`No screaming.`, `You keep running forward.`, `3.`],
+    'FoMnoSpiritKnow',
+    undefined)
+let endForestExplore1 = new storyElement('choice',
+    [`You breathe, trying to keep your warmth.`, `Blurry vision, can't feel your legs - you might be close to death. You need help.`, `The Forest of Mirrors is enormous, it takes up a big part of the eastern side of the Fated Realm.`, `There must be somebody traversing the Forest that could help you.`, `Should you scream out for help?`],
+    [{choiceText: `Yes. It'll be hard for anyone to hear you through the blizzard, but you're desperate.`,
+    choiceModifiers: 'FoMscream',
+    choiceNextStory: endForestExploreScream1},
+    {choiceText: `Mo screaming. The only attention it'll attract are tuskwolves.`,
+    choiceModifiers: 'FoMnoScream',
+    choiceNextStory: endForestExploreNoScream1}],
+    undefined)
+let endForest5 = new storyElement('choice',
+    [` Your vision is getting blurrier.`, `You need to keep moving. What to do now?`],
+    [{choiceText: 'Keep moving, keep exploring the forest.',
+    choiceModifiers: 'FoMendExplore',
+    choiceNextStory: endForestExplore1},
+    {choiceText: 'Stop and try to concentrate on your condition.',
+    choiceModifiers: 'FoMendConcentrate',
+    choiceNextStory: endForestConcentrate1}],
+    undefined)
+let endForest4 = new storyElement('consequence',
+    [{dependency: 'FoMsawWisp', consequenceText: [`You remember: "Spirits cannot touch physical objects."`, `That creature in the woods - it must have been a Spirit.`, `It couldn't touch you.`, `Could you be... dead?`, `Your thoughts are interrupted as your body is feeling weaker.`]},
+    {dependency: 'FoMnotSeenWisp', consequenceText: [`Maybe you should have asked the campfire people for help. For food. Warmth. Anything.`, `You feel yourself getting weaker.`]},],
+    undefined,
+    endForest5)
+let endForest3 = new storyElement('consequence',
+    [{dependency: 'FoMsearchedBody', consequenceText: [`You concentrate, wincing. Trying to think back to your education. What do you know of Spirits?`, `Let's see... Spirits are the only creatures with magical abilities.`, `Spirits also... cannot touch physical objects.`]},
+    {dependency: 'FoMleftBody', consequenceText: [, `You should be dead by now, but you don't seem to feel the cold.`, `You can feel panic and frustration growing.`]},],
+    undefined,
+    endForest4)
+let endForest2 = new storyElement('consequence',
+    [{dependency: 'FoMsearchedBody', consequenceText: [`Stop. Recite the facts.`, `You woke up in the Forest of Mirrors.`, `You don't seem to feel the cold.`, `Your hand went right through that corpse.`, `Something is off here.`, `You have a theory.`]},
+    {dependency: 'FoMleftBody', consequenceText: [`Stop. Recite the facts.`, `You woke up in the Forest of Mirrors.`]}],
+    undefined,
+    endForest3)
+let endForest1 = new storyElement('endExploration',
+    [`You continue trudging through the snowy woods, looking for any sort of help.`, `You can't feel weaker with each step, but you still don't feel the cold.`, `You stop and think.`],
+    {unlocked: false},
+    endForest2)
 let wispLeave = new storyElement('description',
     [`You turn around step away from the light.`, `If it's a campfire, you can't be sure that these people won't be hostile.`, `And, with the blizzard and your blurred vision - from your injuries? - you can't even be sure that it's a campfire.`],
+    'explorationEvent',
+    undefined)
+let wispApproach5 = new storyElement('description',
+    [`That must have been... a Spirit, right? You do know of Spirits.`, `When ordinary people die, they reincarnate into animals.`, `If a person has done enough in the worship of one of the 20 Suns, they reincarnate into a Spirit.`, `Snowfall is getting worse. Time to move.`],
     'explorationEvent',
     undefined)
 let wispApproach4 = new storyElement('item',
     [`The wisp ball flies towards you again. This time you're ready and you land a strike in the middle of its glowing body.`, `With a fizzing sound, the wisp explodes into tiny specks of light.`, `You see one of the bigger specks, a fist-sized ball of light, has landed under your feet.`, `You reach into the snow and pick it up. It emits a warming aura.`, `[Click the Inventory button to equip items]`],
     allItems.wispBall,
-    undefined)
+    wispApproach5)
 let wispApproach3 = new storyElement('battle',
     [`You turn around, trying to keep it in sight.`, `It seems to be a glowing wisp of light.`, `It seems to be getting ready to swoop in towards you again.`, `It's certainly no campfire, and it doesn't seem to be friendly. You need answers, but survival comes first. You're not sure you can take many more of this "wisp's" fly-bys. You have nothing but your fists to defend yourself with.`],
     [monsters.wisp1],
     wispApproach4)
 let wispApproach2 = new storyElement('description',
     [`The blizzard, the trees and the snow don't help.`, `As you step closer, the light suddenly moves. It flies a little upwards, and then moves closer towards you.`, `The light speeds up, flying towards you, until it flies right through you, painfully burning your flesh.`],
-    undefined,
+    'explorationEvent',
     wispApproach3)
 let wispApproach1 = new storyElement('description',
-    [`You decide to walk closer to the light.`, `You need help. Answers. Warmth. Anything.`, `You step slowly, trying to see what the light is.`],
-    undefined,
+    [`You can't help but feel weaker. The cold must be getting to you.`, `You need help. You decide to walk closer to the light.`, `You step slowly, trying to see what the light is.`],
+    'explorationEvent',
     wispApproach2)
 let wisp2 = new storyElement('choice',
     [`Your vision is so blurry that you can't quite make out what the light is.`, `Perhaps, campfire? Perhaps someone is in this forest after all.`, `It could also be bandits. Poachers. Worshihppers of evil Suns, ready to take advantage of a dying traveler.`, `Approach the light source?`],
@@ -34,15 +87,15 @@ let wisp2 = new storyElement('choice',
     choiceNextStory: wispLeave}],
     undefined)
 let wisp1 = new storyElement('randomEncounter',
-    [`You continue trudging through the snow.`, `You don't seem to feel your feel. You hope it's not due to frostbite.`, `As you lift your head to look forward, placing your hand against your forehead to block off the wind, you see a light between the trees.`],
+    [`You continue trudging through the snow.`, `You don't seem to feel your feet. You hope it's not due to frostbite.`, `As you lift your head to look forward, placing your hand against your forehead to block off the wind, you see a light between the trees.`],
     {hasPlayerSeenMe: false},
     wisp2)
 let corpseLeave = new storyElement('description',
-    [`You turn around, not wishing to disturb the corpse.`, `You'll make it out of here.`, `Not this way, but you will.`],
+    [`You turn around, not wishing to disturb the corpse.`, `You'll make it out of here.`, `Not this way, but you will.`, `As you walk away from the body, you can't help but feel weaker. Probably frostbite. Right?`],
     'explorationEvent',
     ['stats', 'benevolence', 10])
 let corpseSearch2 = new storyElement('description',
-    [`Your hand moves right through the snow.`, `You try again. You can't move the snow.`, `You turn around.`, `At first, you thought that the blizzard filled in any tracks in the snow. Now that you're looking - it's not that.`, `You're not leaving any footprints in the snow at all.`, `What the hell is going on?`],
+    [`Your hand moves right through the snow.`, `You try again. You can't move the snow. Your hand moves right through the corpse too.`, `You turn around.`, `At first, you thought that the blizzard filled in any tracks in the snow. Now that you're looking - it's not that.`, `You're not leaving any footprints in the snow at all.`, `What the hell is going on?`],
     'explorationEvent',
     ['stats', 'evil', 10])
 let corpseSearch1 = new storyElement('description',
@@ -79,7 +132,8 @@ let wakeUpMove = new storyElement('exploration',
     [`Your body moves quickly, but the feeling of numbness all over is overwhelming.`, `Must be the frostbite. If you're lucky, you won't lose any fingers or toes.`, `In any case, it's time to move, or you'll lose your life as well.`, `[USE WASD or click the map to move.]`],
     [{encounterStoryElement: wisp1, tileNumber: '#tile30', icon: icons.iconTree},
     {encounterStoryElement: corpse1, tileNumber: '#tile50', icon: icons.iconTree2},
-    {encounterStoryElement: tuskwolf1, tileNumber: '#tile70', icon: icons.iconTree3}],
+    {encounterStoryElement: tuskwolf1, tileNumber: '#tile70', icon: icons.iconTree3},
+    {encounterStoryElement: endForest1, tileNumber: '#tile3', icon: icons.iconPerson}],
     undefined)
 let wakeUpLie2 = new storyElement('description',
     [`Your eyes open again. You feel noticeably weaker. Your vision seems blurry.`, `The clear evening sky has changed into a navy blue dusk.`, 'You almost let your eyes close again, when you hear the howl of a tuskwolf. Driven by pure instinct, you get to your knees, then to your feet, and start moving.', `Everyone has to go one day, but tuskwolf food isn't your way.`],

@@ -16,7 +16,7 @@ import {
     stats_button,
     dialogAnimationEnd
 } from './comp_hud';
-import { enemies, listEnemies, switchAttack, playerConsequences } from "./comp_battle_functions";
+import { enemies, listEnemies, switchAttack } from "./comp_battle_functions";
 import { grabItem, playerGold, addGold } from './comp_inventory_system';
 import {
     Character,
@@ -32,6 +32,7 @@ import { scriptObjects } from './comp_script';
 import { Race, races } from './comp_races';
 const eventEmitter = require('./comp_event_emitter');
 // game-long vars
+let newPlayerConsequences = [];
 let isPlayerExploring = false;
 // update storyElements
 function newUpdateNames(answer) {
@@ -88,8 +89,10 @@ function storyTeller(storyElement) {
                 } else {
                     consequenceShower(storyElement, 0);
                 }
-            }    
+            }
         }
+    } else {
+        tileTriggers(whichTileIsPlayerOn, currentExplorationStoryElement);
     }
 }
 //--- supplementary functions ---
@@ -113,6 +116,10 @@ function textFlipper(storyElement, loop, style) {
             if (loop == storyElement.text.length) {
                 switch (storyElement.type) {
                     case 'description':
+                        if (storyElement.modifiers !== undefined) {
+                            newPlayerConsequences.push(storyElement.modifiers);
+                            console.log(newPlayerConsequences);
+                        }
                         storyTeller(storyElement.nextStoryElement);
                         break;
                     case 'battle':
@@ -136,11 +143,10 @@ function textFlipper(storyElement, loop, style) {
                     case 'randomEncounter':
                         while (main_window.firstChild) { main_window.removeChild(main_window.firstChild) };
                         storyElement.modifiers.hasPlayerSeenMe = true;
+                        sideEventsSeen++;
                         moveOn = true;
                         let circle = document.querySelector('#circle');
-                        console.log(circle);
                         let currentTile = whichTileIsPlayerOn(circle);
-                        console.log(currentTile);
                         for (let i = 0; i < 126; i++) {
                             let loopedTile = document.querySelector(`#tile${i}`);
                             if (loopedTile.id == currentTile) {
@@ -181,7 +187,7 @@ function consequenceShower(storyElement, line) {
     let entry = document.createElement('p');
     let correctConsequence = null;
     for (let i = 0; i < storyElement.text.length; i++) {
-        if (playerConsequences.includes(storyElement.text[i].dependency)) {
+        if (newPlayerConsequences.includes(storyElement.text[i].dependency)) {
             correctConsequence = i;
         }
     }
@@ -233,11 +239,11 @@ function newDialogueMaker(storyElement, line) {
         })
     } else {
         if (relationshipMeter <= -2) {
-            playerConsequences.push(storyElement.modifiers[2]);
+            newPlayerConsequences.push(storyElement.modifiers[2]);
         } else if (relationshipMeter < 2) {
-            playerConsequences.push(storyElement.modifiers[1]);
+            newPlayerConsequences.push(storyElement.modifiers[1]);
         } else if (relationshipMeter >= 2) {
-            playerConsequences.push(storyElement.modifiers[0]);
+            newPlayerConsequences.push(storyElement.modifiers[0]);
         }
         relationshipMeter = 0;
         let continueButton = document.createElement('button');
@@ -257,22 +263,25 @@ function newChoice(storyElement) {
         choiceButton.setAttribute('class','choiceButton');
         main_window.appendChild(choiceButton);
         choiceButton.addEventListener('click', () => {
-            playerConsequences.push(thisChoice.choiceModifiers);
+            newPlayerConsequences.push(thisChoice.choiceModifiers);
             if (thisChoice.choiceModifiers == 'classWraith') {
                 Object.setPrototypeOf(char1, Janitor.prototype);
                 Janitor.call(char1, char1.name, 0, 10, 20, 100, 'Normal Attack', '', '', '', []);
                 menu_window.textContent = menu_window.textContent.replace('Your class is unknown.', 'You are a Wraith.');
-                special_button.addEventListener('click', () => { switchAttack(char1) });    
+                special_button.addEventListener('click', () => { switchAttack(char1) });
+                eventEmitter.emit('Wraith');    
             } else if (thisChoice.choiceModifiers == 'classPoltergeist') {
                 Object.setPrototypeOf(char1, Accountant.prototype);
                 Accountant.call(char1, char1.name, 0, 10, 20, 100, 'Normal Attack', '', '', '', []);
                 menu_window.textContent = menu_window.textContent.replace('Your class is unknown.', 'You are a Poltegeist.');
                 special_button.addEventListener('click', () => { switchAttack(char1) });    
+                eventEmitter.emit('Poltergeist');
             } else if (thisChoice.choiceModifiers == 'classGuardianSpirit') {
                 Object.setPrototypeOf(char1, Dancer.prototype);
                 Dancer.call(char1, char1.name, 0, 10, 20, 100, 'Normal Attack', '', '', '', []);
                 menu_window.textContent = menu_window.textContent.replace('Your class is unknown.', 'You are a Guardian Spirit.');
-                special_button.addEventListener('click', () => { switchAttack(char1) });     
+                special_button.addEventListener('click', () => { switchAttack(char1) });   
+                eventEmitter.emit('GuardianSpirit');  
             }
             if (thisChoice.choiceModifiers == 'raceRealmer') {
                 char1.race = races.Realmer;
@@ -315,7 +324,6 @@ function newBattleStarter(storyElement) {
     listEnemies();
 }
 eventEmitter.on('battle:win', () => {
-  
 // function isBattleOver(battleResult) {
     // if (battleResult == 'win') {
         if (isPlayerExploring == true) {
@@ -370,9 +378,12 @@ function newFormMaker(storyElement) {
 // --- exploration system ---
 // tracking vars
 let moveOn = true;
+let sideEventsSeen = 0;
+let currentExplorationStoryElement = '';
 // new exploration functions
 function newExploration(storyElement) {
     // clear main window
+    currentExplorationStoryElement = storyElement;
     while (main_window.firstChild) {main_window.removeChild(main_window.firstChild)};
     // make board and boardUnder
     let board = document.createElement('div');
@@ -489,26 +500,43 @@ function whichTileIsPlayerOn(circle) {
 }
 // compares the tile id from above and activates a storyElement
 function tileTriggers(playersTile, storyElement) {
-        for (let i = 0; i < storyElement.modifiers.length; i++) {
+        for (let i = 0; i < storyElement.modifiers.length - 1; i++) {
             // console.log(playersTile);
             // console.log(storyElement.modifiers[i].tileNumber);
             if (`#${playersTile}` == storyElement.modifiers[i].tileNumber && !storyElement.modifiers[i].encounterStoryElement.modifiers.hasPlayerSeenMe) {
                 storyTeller(storyElement.modifiers[i].encounterStoryElement);
             }
         }
+        if (sideEventsSeen == storyElement.modifiers.length - 1) {
+            storyElement.modifiers[storyElement.modifiers.length-1].unlocked = true;
+            drawLastIcon(storyElement);
+        }
+        if (`#${playersTile}` == storyElement.modifiers[storyElement.modifiers.length-1].tileNumber && storyElement.modifiers[storyElement.modifiers.length-1].unlocked) {
+            storyTeller(storyElement.modifiers[storyElement.modifiers.length-1].encounterStoryElement);
+            sideEventsSeen = 0;
+        }
     }    
 // draw icons on tiles
 function drawIcons(storyElement) {
-    console.log(storyElement);
     let tiles = document.querySelectorAll('[id^="tile"]');
     for (let i = 0; i < tiles.length; i++) {
-        for (let j = 0; j < storyElement.modifiers.length; j++)
-        {
+        for (let j = 0; j < storyElement.modifiers.length - 1; j++) {
             if (`#${tiles[i].id}` == storyElement.modifiers[j].tileNumber) {
                 tiles[i].style.position = 'relative';
                 storyElement.modifiers[j].icon.style.position = 'absolute';
                 tiles[i].appendChild(storyElement.modifiers[j].icon);
             }
+        }
+    }
+}
+// draw last icon
+function drawLastIcon(storyElement) {
+    let tiles = document.querySelectorAll('[id^="tile"]');
+    for (let i = 0; i < tiles.length; i++) {
+        if (`#${tiles[i].id}` == storyElement.modifiers[storyElement.modifiers.length-1].tileNumber) {
+            tiles[i].style.position = 'relative';
+            storyElement.modifiers[storyElement.modifiers.length-1].icon.style.position = 'absolute';
+            tiles[i].appendChild(storyElement.modifiers[storyElement.modifiers.length-1].icon);
         }
     }
 }
@@ -545,7 +573,7 @@ statsDialog.innerHTML = `
 document.body.appendChild(statsDialog);
 document.addEventListener('DOMContentLoaded', () => {
     stats_button.addEventListener('click', () => {
-        if (playerConsequences.includes('classWraith') || playerConsequences.includes('classPoltergeist') || playerConsequences.includes('classGuardianSpirit')) {
+        if (newPlayerConsequences.includes('classWraith') || newPlayerConsequences.includes('classPoltergeist') || newPlayerConsequences.includes('classGuardianSpirit')) {
             statsDialog.showModal();
             let closeButton2 = document.querySelector('#closeButton2');
             closeButton2.addEventListener('click', () => {
@@ -581,44 +609,28 @@ function giveStats(stat, amount) {
     statsFlagsUpdater();
 }
 function statsFlagsUpdater() {
-    let b15index = playerConsequences.findIndex(i => i == 'playerBenevolent15')
-    playerConsequences.splice(b15index, 1);
-    let b30index = playerConsequences.findIndex(i => i == 'playerBenevolent30')
-    playerConsequences.splice(b30index, 1);
-    let e15index = playerConsequences.findIndex(i => i == 'playerEvil15')
-    playerConsequences.splice(e15index, 1);
-    let e30index = playerConsequences.findIndex(i => i == 'playerEvil30')
-    playerConsequences.splice(e30index, 1);
-    let so15index = playerConsequences.findIndex(i => i == 'playerSomber15')
-    playerConsequences.splice(so15index, 1);
-    let so30index = playerConsequences.findIndex(i => i == 'playerSomber30')
-    playerConsequences.splice(so30index, 1);
-    let si15index = playerConsequences.findIndex(i => i == 'playerSilly15')
-    playerConsequences.splice(si15index, 1);
-    let si30index = playerConsequences.findIndex(i => i == 'playerSilly30')
-    playerConsequences.splice(si30index, 1);
     if (playerBenevolentBalance > 14) {
-        playerConsequences.push('playerBenevolent15');
+        newPlayerConsequences.push('playerBenevolent15');
         if (playerBenevolentBalance > 29) {
-            playerConsequences.push('playerBenevolent30');
+            newPlayerConsequences.push('playerBenevolent30');
         }
     };
     if (playerBenevolentBalance < -14) {
-        playerConsequences.push('playerEvil15');
+        newPlayerConsequences.push('playerEvil15');
         if (playerBenevolentBalance < -29) {
-            playerConsequences.push('playerEvil30');
+            newPlayerConsequences.push('playerEvil30');
         }
     };
     if (playerSillyBalance > 14) {
-        playerConsequences.push('playerSilly15');
+        newPlayerConsequences.push('playerSilly15');
         if (playerSillyBalance > 29) {
-            playerConsequences.push('playerSilly30');
+            newPlayerConsequences.push('playerSilly30');
         }
     };
     if (playerSillyBalance < -14) {
-        playerConsequences.push('playerSomber15');
+        newPlayerConsequences.push('playerSomber15');
         if (playerSillyBalance < -29) {
-            playerConsequences.push('playerSomber15');
+            newPlayerConsequences.push('playerSomber15');
         }
     };
 }
