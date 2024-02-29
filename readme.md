@@ -1,5 +1,9 @@
 # TO DO LIST.
+// button combos to insert a specific template: description, choice, etc.
+// add to the bottom right: You are a Spirit of chosenSun
+// assign chosenSun var when concept is picked for use in the script
 // get through the script to where the side quests will be usable
+
 // pocket Dimension of Spirits (explanation for gambling: in the same pocket dimension as the side quests)
 // side quests
 
@@ -11,7 +15,8 @@
 // make sure that it works on github pages
 
 // IDEAS
-// how to save progress???
+// add music?
+// how to save progress?
 // - supporting characters academy: there are things in games that all supporting characters magically know how to do 
 // (hacking, opening doors, researching)
 // in this game - YOU do them. More minigames?
@@ -71,13 +76,13 @@ Proclaimed by the Fated Realm's HIGHFATE. Members of the adventurers' guild must
 **These Adventurers are members of the Adventurer's Guild. They jobs is to go to towns or wilderness and solve problems. They are Victorian vibes Witchers!**
 
 ### Captain Petunia "Peculiar" Quirke - OVERCONTROLLING / HYPERVIGILANT
-Female with olive skin in her early 40's. Duncan. Captain. Older sister of Char 2. Smokes often. Believes herself to be caring and **self-sacrificial**, but deep down is bitter, grumpy and tired of this shit.
+Female with olive skin in her early 40's. Duncan from Dragon Age personality. Captain. Older sister of Char 2. Smokes often. Believes herself to be caring and **self-sacrificial**, but deep down is bitter, grumpy and tired of this shit.
 
 ### Snapdragon "Snap" Quirke - RUNNING AWAY, SEARCHING FOR HAPPINESS AS A FAR AWAY PLACE
-Male with long hair and olive skin in his early 30's. Male. Reyes from MEA. Think himself charming but is constantly moving to run away from responsibilities or chores of the mundane life. Wants to move from party to party to not have to feel or deal with literal and metaphorical messes.
+Male with long hair and olive skin in his early 30's. Male. Reyes from MEA personality. Think himself charming but is **constantly moving to run away from responsibilities or chores** of the mundane life. Wants to move from party to party to not have to feel or deal with literal and metaphorical messes.
 
-### Lysander Appleby - TAKING EVERYTHING AS AN ORDER
-Nonbinary with shoulder length red hair and scars in their mid 30's. Soldier to the bone, persevering, forgetting about themselves. Thinks about what they need to do 24/7. Remembers everything anyone tells them. Loyal without question.
+### Lysander MacAppleby - TAKING EVERYTHING AS AN ORDER
+Nonbinary with shoulder length red hair and scars in their mid 30's. Jane Shepard personality. Soldier to the bone, **thinks about what they need to do 24/7**. Remembers everything anyone tells them. Loyal without question.
 
 ## Alphabet
 A - Aruakh
@@ -91,14 +96,14 @@ H - Highfate / Houses of Spirit Animals
 I - 
 J - 
 K - 
-L - Lysander
+L - **Lysander**
 M - Mortar
 N - New Dawn Edict
 O - 
-P - Peculiar / Phoenixes
+P - **Peculiar** / Phoenixes
 Q - 
 R - Realm
-S - Snap / Spirits / Skeletons
+S - **Snap** / Spirits / Skeletons
 T - 
 U - 
 V - 
