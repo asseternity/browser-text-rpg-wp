@@ -27,13 +27,47 @@ import {
     char1,
     menuUpdater
 } from './comp_objects_and_methods';
-import { storyElement, storyElements } from './comp_story_objects';
-import { scriptObjects } from './comp_script';
+// import {  storyElements } from './comp_story_objects';
+import { storyElement, scriptObjects } from './comp_script';
 import { Race, races } from './comp_races';
 const eventEmitter = require('./comp_event_emitter');
 // game-long vars
 let newPlayerConsequences = [];
 let isPlayerExploring = false;
+// update concept
+function updateConcept() {
+    let allStoryElements = storyElement.getAllInstances();
+    for (let i = 0; i < allStoryElements.length; i++) {
+        switch (allStoryElements[i].type) {
+            case 'description':
+            case 'item':
+            case 'battle':
+            case 'choice':
+            case 'exploration':
+            case 'randomEncounter':
+            case 'form':
+                for (let j = 0; j < allStoryElements[i].text.length; j++) {
+                    allStoryElements[i].text[j] = allStoryElements[i].text[j].replaceAll('Justice', char1.spiritConcept.concept); 
+                }
+                break;
+            case 'dialogue':
+                for (let j = 0; j < allStoryElements[i].text.length; j++) {
+                    allStoryElements[i].text[j].npcLine = allStoryElements[i].text[j].npcLine.replaceAll('Justice', char1.spiritConcept.concept);
+                    for (let k = 0; k < allStoryElements[i].text[j].responses.length; k++) {
+                        allStoryElements[i].text[j].responses[k].dialogueChoice = allStoryElements[i].text[j].responses[k].dialogueChoice.replaceAll('Justice', char1.spiritConcept.concept);
+                    }
+                }
+                break;
+            case 'consequence':
+                for (let j = 0; j < allStoryElements[i].text.length; j++) {
+                    for (let k = 0; k < allStoryElements[i].text[j].consequenceText.length; k++) {
+                        allStoryElements[i].text[j].consequenceText[k] = allStoryElements[i].text[j].consequenceText[k].replaceAll('Justice', char1.spiritConcept.concept); 
+                    }
+                }
+                break;
+        }
+    }
+}
 // update storyElements
 function newUpdateNames(answer) {
     let allStoryElements = storyElement.getAllInstances();
@@ -47,27 +81,27 @@ function newUpdateNames(answer) {
             case 'randomEncounter':
             case 'form':
                 for (let j = 0; j < allStoryElements[i].text.length; j++) {
-                    allStoryElements[i].text[j] = allStoryElements[i].text[j].replaceAll('Dude', answer); 
+                    allStoryElements[i].text[j] = allStoryElements[i].text[j].replaceAll('Somebody', answer); 
                 }
                 break;
             case 'dialogue':
                 for (let j = 0; j < allStoryElements[i].text.length; j++) {
-                    allStoryElements[i].text[j].npcLine = allStoryElements[i].text[j].npcLine.replaceAll('Dude', answer);
+                    allStoryElements[i].text[j].npcLine = allStoryElements[i].text[j].npcLine.replaceAll('Somebody', answer);
                     for (let k = 0; k < allStoryElements[i].text[j].responses.length; k++) {
-                        allStoryElements[i].text[j].responses[k].dialogueChoice = allStoryElements[i].text[j].responses[k].dialogueChoice.replaceAll('Dude', answer);
+                        allStoryElements[i].text[j].responses[k].dialogueChoice = allStoryElements[i].text[j].responses[k].dialogueChoice.replaceAll('Somebody', answer);
                     }
                 }
                 break;
             case 'consequence':
                 for (let j = 0; j < allStoryElements[i].text.length; j++) {
                     for (let k = 0; k < allStoryElements[i].text[j].consequenceText.length; k++) {
-                        allStoryElements[i].text[j].consequenceText[k] = allStoryElements[i].text[j].consequenceText[k].replaceAll('Dude', answer); 
+                        allStoryElements[i].text[j].consequenceText[k] = allStoryElements[i].text[j].consequenceText[k].replaceAll('Somebody', answer); 
                     }
                 }
                 break;
         }
     }
-    menu_window.textContent = menu_window.textContent.replace('a person', answer);
+    menu_window.textContent = menu_window.textContent.replace('Somebody', answer);
 }
 // the function is ALWAYS static
 // function story(type, text, modifiers)
@@ -308,6 +342,36 @@ function newChoice(storyElement) {
                 char1.armorClass += char1.race.raceArmorBonus;
                 menuUpdater();
                 stats_race.textContent = 'In life, you were a Deadlander.'
+            }
+            if (thisChoice.choiceModifiers == 'compassionSpirit') {
+                char1.spiritConcept.concept = 'Compassion';
+                char1.spiritConcept.description = ' of Compassion';
+                menuUpdater();
+                updateConcept();
+            }
+            if (thisChoice.choiceModifiers == 'justiceSpirit') {
+                char1.spiritConcept.concept = 'Justice';
+                char1.spiritConcept.description = ' of Justice';
+                menuUpdater();
+                updateConcept();
+            }
+            if (thisChoice.choiceModifiers == 'freedomSpirit') {
+                char1.spiritConcept.concept = 'Freedom';
+                char1.spiritConcept.description = ' of Freedom';
+                menuUpdater();
+                updateConcept();
+            }
+            if (thisChoice.choiceModifiers == 'masterySpirit') {
+                char1.spiritConcept.concept = 'Mastery';
+                char1.spiritConcept.description = ' of Mastery';
+                menuUpdater();
+                updateConcept();
+            }
+            if (thisChoice.choiceModifiers == 'wisdomSpirit') {
+                char1.spiritConcept.concept = 'Wisdom';
+                char1.spiritConcept.description = ' of Wisdom';
+                menuUpdater();
+                updateConcept();
             }
             storyTeller(thisChoice.choiceNextStory);
         });
@@ -637,5 +701,5 @@ function statsFlagsUpdater() {
 // TESTER. start game
 // storyTeller(storyElements.testNaming);
 // addGold(5000);
-storyTeller(scriptObjects.wakeUp1);
+storyTeller(scriptObjects.endForestConcentrate3a);
 // startDiceGame('Dave', exampleLines);

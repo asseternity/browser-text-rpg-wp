@@ -1,7 +1,4 @@
 # TO DO LIST.
-// button combos to insert a specific template: description, choice, etc.
-// add to the bottom right: You are a Spirit of chosenSun
-// assign chosenSun var when concept is picked for use in the script
 // get through the script to where the side quests will be usable
 
 // pocket Dimension of Spirits (explanation for gambling: in the same pocket dimension as the side quests)
@@ -11,12 +8,10 @@
 
 // add a fakeChoice mechanic for fast scripting? 
 // main menu - functionality
-// prod and dev builds in wp
-// make sure that it works on github pages
 
 // IDEAS
 // add music?
-// how to save progress?
+// how to save progress? - from TOP: We haven’t learned any techniques for actually storing our data anywhere, so when the user refreshes the page, all of their todos will disappear! You should add some persistence to this todo app using the Web Storage API.
 // - supporting characters academy: there are things in games that all supporting characters magically know how to do 
 // (hacking, opening doors, researching)
 // in this game - YOU do them. More minigames?

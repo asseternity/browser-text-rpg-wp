@@ -1,24 +1,11 @@
 // import
-import './index.css';
-import { icons } from './comp_assets';
-import { monsters } from './comp_objects_and_methods';
-import { allItems, playerGold, addGold } from './comp_inventory_system';
-// class storyElement { type(dialogue, choice, battle, description, item); text = []; 
-// modifiers(for battle: array of enemies, for choice/dialogue: choices, for item: item name);
+// import './index.css';
+// import { icons } from './comp_assets';
+// import { monsters } from './comp_objects_and_methods';
+// import { allItems, playerGold, addGold } from './comp_inventory_system';
+// // class storyElement { type(dialogue, choice, battle, description, item); text = []; 
+// // modifiers(for battle: array of enemies, for choice/dialogue: choices, for item: item name);
 // nextStory }
-class storyElement {
-    constructor(type, text, modifiers, nextStoryElement) {
-        this.type = type;
-        this.text = text;
-        this.modifiers = modifiers;
-        this.nextStoryElement = nextStoryElement;
-        storyElement.instances.push(this);
-    }
-    static instances = [];
-    static getAllInstances() {
-        return storyElement.instances;
-    }
-}
 // objects of this class will be ALL that I have to edit
 let wisp2 = new storyElement('description',
     [`1`, `2`],
@@ -215,4 +202,4 @@ let testNaming = new storyElement(
 // object for exporting
 let storyElements = { testNaming, testClass, testDescription, testBattle, testItem, testChoice, testChoiceOutcome1, testChoiceOutcome2, testDescription, testAfterDialogue, testExploration, randomEvent1, randomEvent1a, randomEvent2, randomEvent2a, randomEvent2b }
 // export
-export { storyElement, storyElements }
+// export { storyElement, storyElements }
