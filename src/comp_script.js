@@ -1,15 +1,137 @@
 import { monsters } from './comp_objects_and_methods';
 import { allItems, playerGold, addGold } from './comp_inventory_system';
 import { icons } from './comp_assets';
-import { storyElement } from './comp_story_objects';
-// player's choices!
-let chosenSun = '';
+// import { storyElement } from './comp_story_objects';
+class storyElement {
+    constructor(type, text, modifiers, nextStoryElement) {
+        this.type = type;
+        this.text = text;
+        this.modifiers = modifiers;
+        this.nextStoryElement = nextStoryElement;
+        storyElement.instances.push(this);
+    }
+    static instances = [];
+    static getAllInstances() {
+        return storyElement.instances;
+    }
+}
 // --- script ---
+// CHOOSE YOUR CHOSEN! CHOOSE A GHOSTLY WAY TO COMMUNICATE!
+
+
+
 // FIND THE CAMP (DON'T KNOW)
-let approachCampDontKnow1 = new storyElement('description',
-    [`You run through the Forest of Mirrors in the direction of where you've seen the smoke.`, `You run for what feels like an hour.`, ``], // see people, yell at them, realize that you're dead. then merge with descriptions
+let dontKnowRealize7 = new storyElement('description',
+    [`Then you remember that Spirits are the only beings in the world who have magical abilities. No human or animal possesses them.`, `To promote their concepts, Spirits have the abilities to affect the material world in ghostly ways. The more powerful the Spirit, the more substantial the effects.`, `You can't touch or talk to these people, but you have to start somewhere. Start promoting Justice, or you'll disappear.`, `First of all, who are these people?`],
     undefined,
+    approachCampKnow4)
+let dontKnowRealize6 = new storyElement('description',
+    [`Well, there are people right here.`, `To keep going, you tell yourself - "I'm not dead".`, `"I died, but I'm not dead."`, `Whoever you were in life, you did enough for the Phoenix of Justice to make you a Spirit of Justice.`, `You're not dead. You're able to think and to see.`, `You exist. In a different form now. And you can still save yourself, save your new form.`, `You just have to do your job and promote Justice.`, `You're not sure how you're supposed to do it, considering that these people can't hear you.`],
+    undefined,
+    dontKnowRealize7)
+let dontKnowRealize5 = new storyElement('description',
+    [`Right. So you must be a Spirit of a Phoenix of Justice. Of a Sun. Of the God of Justice.`, `It's pretty much common knowledge that Spirits exist to further promote the concept, or portfolio, of their Phoenix.`, `If they fail to promote their concept, the Spirit disappears. Dies, forever`, `Oh, Gods, is that why you've been feeling weaker and weaker!?`, `You rise to your 'feet', in panic again. Without promoting the idea of Justice to somebody, you'll disappear. And soon, your body feels it.`],
+    undefined,
+    dontKnowRealize6)
+let dontKnowRealize4 = new storyElement('choice',
+    [`"My Phoenix". That's right.`,`You're a Spirit, an Envoy of a Phoenix.`, `It means that in life, you must have worshipped one of the 20 Suns, or Phoenixes, how they're also called. Done enough, in fact, to have been made a Spirit of that Sun.`, `Why is it so hard to recall the details of your life?`, `You concentrate again, sitting there in the snow.`, `Snowflakes fall right through you. How did you not notice that? Perhaps from the panic, and from your rabid search for help.`, `'Which Sun did I worship in life?' You think.`],
+    [{choiceText: `The Phoenix of Compassion.`,
+    choiceModifiers: 'compassionSpirit',
+    choiceNextStory: dontKnowRealize5},
+    {choiceText: `The Phoenix of Justice.`,
+    choiceModifiers: 'justiceSpirit',
+    choiceNextStory: dontKnowRealize5},
+    {choiceText: `The Phoenix of Freedom.`,
+    choiceModifiers: 'freedomSpirit',
+    choiceNextStory: dontKnowRealize5},
+    {choiceText: `The Phoenix of Mastery.`,
+    choiceModifiers: 'masterySpirit',
+    choiceNextStory: dontKnowRealize5},
+    {choiceText: `The Phoenix of Wisdom.`,
+    choiceModifiers: 'wisdomSpirit',
+    choiceNextStory: dontKnowRealize5}],
+    undefined) 
+let dontKnowRealize3 = new storyElement('choice',
+    [`You don't know enough about them. You wonder what kind of Spirit you are.`, `You close your non-existent eyes. The answer is within you, you just have to feel it.`],
+    [{choiceText: 'I am a Wraith, a spirit that brings punishment to those who wrong my Phoenix.',
+    choiceModifiers: 'classWraith',
+    choiceNextStory: dontKnowRealize4},
+    {choiceText: 'I am a Poltergeist. Watcher, seer, subtle mastermind in the service of my Phoenix.',
+    choiceModifiers: 'classPoltergeist',
+    choiceNextStory: dontKnowRealize4},
+    {choiceText: 'I am a Guardian Spirit, I exist to guide and protect those who follow my Phoenix.',
+    choiceModifiers: 'classGuardianSpirit',
+    choiceNextStory: dontKnowRealize4}],
     undefined)
+let dontKnowRealize2 = new storyElement('description',
+    [`You must be a Spirit.`, `People who did a lot in the service of a Phoenix reincarnate into Spirits when they die.`, `There are different kinds of Spirits, you're pretty sure.`],
+    undefined,
+    dontKnowRealize3)
+let dontKnowRealize1 = new storyElement('description',
+    [`You sit there for a moment. You stare at the three, then you stare at their fire, mind completely blank.`, `You're dead.`, `You're conscious, however. You have to be a Spirit, right?`, `You concentrate - what do you know of Spirits?`, `When people die, they reincarnate into animals. When animals die, they reincarnate into people.`, `However, if the dying person had done enough in the worship of one of the 20 Suns, they reincarnate into a Spirit.`],
+    undefined,
+    dontKnowRealize2)
+let dontKnowWatch5 = new storyElement('description',
+    [`A little while later, you are sitting not far from the three people's camp, just behind their backs.`, `Close enough to see the fire, yet you still don't feel it's warmth.`, `The embrace of death is too cold.`, `You tried calling out to them, or touching them. They can't see or hear you.`, `By now, your reality is irrefutable.`, `You didn't wake up in the Forest of Mirrors.`, `You died here.`],
+    undefined,
+    dontKnowRealize1)
+let dontKnowWatch4 = new storyElement('description',
+    [`Your mind races, panicking. There are people right here! People who might help! You made it, you saved yourself! So what the hell is wrong?`, `Your mind slowly accepts what it has been trying to ignore for all this time.`, `You pass through solid objects.`, `You don't feel the cold.`, `You don't remember anything about your life.`],
+    undefined,
+    dontKnowWatch5)
+let dontKnowWatch3 = new storyElement('description',
+    [`You lean on the tree and squint, trying to make anything out, when something unexpected happens.`, `As you go to lean on the tree, your hand passes right through it, disappearing into the bark.`, `You instinctively leap back. You approach the tree again, trying to touch it once more.`, `The result is the same. Your hand passes right through the tree.`, `What the hell is going on?`],
+    undefined,
+    dontKnowWatch4)
+let dontKnowWatch2 = new storyElement('description',
+    [`You can see muskets and scimitars lying next to the three huddled figures.`, `They are armed. Mercenaries? Soldiers? Robbers indeed?`, `Your vision is really blurry now. You're not sure why.`, `The blizzard doesn't help either. And although you're hiding behind a tree only a few dozen meters away from the three figures, you still can't make out much more than that.`],
+    undefined,
+    dontKnowWatch3)
+let dontKnowWatch1 = new storyElement('description',
+    [`You slow down. They could be robbers on the run from one of the Fated Realm's cities, or cultists of one of evil Suns.`, `You stop approaching them and dash behind a nearby tree.`, `You feel weaker with every passing minute. Nevertheless, you decide to watch them for a little while.`, `To make sure they won't harm you in your desperate state.`],
+    undefined,
+    dontKnowWatch2)
+let dontKnowRun6 = new storyElement('description',
+    [`A little while later, you are sitting not far from the three people's camp, just behind their backs.`, `Close enough to see the fire, yet you still don't feel it's warmth.`, `The embrace of death is too cold.`, `You tried touching the trees, or even the fire. Nothing. You pass right through.`, `By now, your reality is irrefutable.`, `You didn't wake up in the Forest of Mirrors.`, `You died here.`],
+    undefined,
+    dontKnowRealize1)
+let dontKnowRun5 = new storyElement('description',
+    [`You slowly walk up to one of the people, and try to tap on their shoulder.`, `You reach out towards their coat with your hand.`, `When you try to tap their shoulder, your hand passes right through their body.`, `You retract your hand and step back, horrified.`, `You try again, and the result is the same. Your hand passes right through them.`],
+    undefined,
+    dontKnowRun6)
+let dontKnowRun4 = new storyElement('description',
+    [`Your mind races, panicking. There are people right here! People who can help! You made it, you saved yourself! So what the hell is wrong?`, `Your mind slowly accepts what it has been trying to ignore for all this time.`, `No vibration when you talk.`, `You don't feel the cold.`, `You don't remember anything about your life.`],
+    undefined,
+    dontKnowRun5)
+let dontKnowRun3 = new storyElement('description',
+    [`You can't even hear yourself when you yell for them. So perhaps the blizzard is drowning out your voice?`, `Or maybe they're also injured and in need of help?`, `"Hello?" you scream again. This time, you notice it.`, `You don't even hear an internal vibration when you scream.`],
+    undefined,
+    dontKnowRun4)
+let dontKnowRun2 = new storyElement('description',
+    [`You run right up to the three figures huddled around the campfire.`, `You stop within 20 meters of them.`, `"I need help!", you yell out.`, `They don't react.`, `You walk closer to them. "Good people! Please help me! I'm lost and I'm freezing!" you continue.`, `No reaction.`],
+    undefined,
+    dontKnowRun3)
+let dontKnowRun1 = new storyElement('description',
+    [`You need the help. You're desperate and you're willing to take a chance on them.`, `Also, would it make sense for bandits to be camping in the middle of the impassable Forest of Mirrors?`, `You'd expect highway robbers to be camped around the main roads of the Fated Realm.`],
+    undefined,
+    dontKnowRun2)
+let approachCampDontKnow3 = new storyElement('description',
+    [`You don't even feel fatigue as you run. Probably the adrenaline. Survival instinct.`, `As you get closer to their camp, you see three figures, huddled around the fire.`, `You stop when you get within earshot of them.`, `How do you want to approach this?`],
+    {choiceText: `Watch them from a distance. You might be freezing to death and desperate for help, but they might be bandits.`,
+    choiceModifiers: null,
+    choiceNextStory: dontKnowWatch1},
+    {choiceText: `Run towards them, screaming for help. You're dying and you need warmth, food, anything they can spare.`,
+    choiceModifiers: null,
+    choiceNextStory: dontKnowRun1},
+    undefined)
+let approachCampDontKnow2 = new storyElement('description',
+    [`No longer being on top of a hill, and with the blizzard roaring, you lose sight of the smoke.`, `You don't stop running, you can only hope that you've kept the right direction.`, `Eventually, between the trees, you see a flickering red light.`, `Someone's campfire is a few hundred meters away from you.`, `You're saved!`],
+    undefined,
+    approachCampDontKnow3)
+let approachCampDontKnow1 = new storyElement('description',
+    [`You run down the hill.`, `You run through the Forest of Mirrors in the direction of where you've seen the smoke.`, `You run for what feels like an hour.`],
+    undefined,
+    approachCampDontKnow2)
 // FIND THE CAMP (KNOW THAT YOU'RE A SPIRIT)
 let lysanderDescription = new storyElement('description',
     [`The last person around the campfire is a figure with shoulder-length red hair.`, `They look like the youngest of the trio, perhaps in their late 20's.`, `Despite that, they carry themselves with the poise of a seasoned warrior. They appear incredibly vigilant, as if awaiting a command.`],
@@ -40,12 +162,16 @@ let approachCampKnow1 = new storyElement('description',
     undefined,
     approachCampKnow2)
 // THE FOREST OF MIRRORS
-let endForestConcentrate4 = new storyElement('description',
-    [`Right. So you must be a Spirit of a Phoenix. Of a Sun. Of a God.`, `It's pretty much common knowledge that Spirits exist to further promote the concept, or portfolio, of their Phoenix.`, `If they fail to promote their concept, the Spirit disappears. Dies, forever`, `Oh, Gods, is that why you've been feeling weaker and weaker!?`, `You rise to your 'feet', in panic again. You have to find someone to promote your concept to. Without people to promote your concept to, you'll disappear. And soon, your body feels it.`, `You remember stories that Spirits can sense life. You close your eyes and try to let your feelings guide you to the nearest peopel.`],
+let endForestConcentrate4b = new storyElement('description',
+    [`To keep going, you tell yourself - "I'm not dead".`, `"I died, but I'm not dead."`, `Whoever you were in life, you did enough for the Phoenix of Justice to make you a Spirit of Justice.`, `You're not dead. You're able to think and to see.`, `You exist. In a different form now. And you can still save yourself, save your new form.`, `You just have to do your job and promote Justice.`, `You remember stories that Spirits can sense life. You close your eyes and try to let your feelings guide you to the nearest people.`],
     undefined,
     approachCampKnow1)
-let endForestConcentrate3 = new storyElement('choice',
-    [`You must be a Spirit.`, `This means, in life, you must have worshipped one of the 20 Suns, or Phoenixes, how they're also called. Done enough, in fact, to have been made a Spirit of that Sun.`, `Why is it so hard to recall the details of your life?`, `You concentrate again, sitting there in the snow.`, `Snowflakes fall right through you. How did you not notice that? Perhaps from the panic, and form your rabid search for help.`, `'Which Sun did I worship in life? You think.'`],
+let endForestConcentrate4 = new storyElement('description',
+    [`Right. So you must be a Spirit of a Phoenix of Justice. Of a Sun. Of the God of Justice.`, `It's pretty much common knowledge that Spirits exist to further promote the concept, or portfolio, of their Phoenix.`, `If they fail to promote their concept, the Spirit disappears. Dies, forever`, `Oh, Gods, is that why you've been feeling weaker and weaker!?`, `You rise to your 'feet', in panic again. You have to find someone to promote your concept, the idea of Justice, to. Without people to promote Justice to, you'll disappear. And soon, your body feels it.`],
+    undefined,
+    endForestConcentrate4b)
+let endForestConcentrate3c = new storyElement('choice',
+    [`"My Phoenix". That's right.`,`You're a Spirit, an Envoy of a Phoenix.`, `It means that in life, you must have worshipped one of the 20 Suns, or Phoenixes, how they're also called. Done enough, in fact, to have been made a Spirit of that Sun.`, `Why is it so hard to recall the details of your life?`, `You concentrate again, sitting there in the snow.`, `Snowflakes fall right through you. How did you not notice that? Perhaps from the panic, and from your rabid search for help.`, `'Which Sun did I worship in life? You think.'`],
     [{choiceText: `The Phoenix of Compassion.`,
     choiceModifiers: 'compassionSpirit',
     choiceNextStory: endForestConcentrate4},
@@ -62,14 +188,38 @@ let endForestConcentrate3 = new storyElement('choice',
     choiceModifiers: 'wisdomSpirit',
     choiceNextStory: endForestConcentrate4}],
     undefined) 
-let endForestConcentrate2 = new storyElement('description',
-    [`You sit there for a moment, mind completely blank.`, `You're dead.`, `You're conscious, however. You have to be a Spirit, right?`, `You concentrate - what do you know of Spirits?`, `When people die, they reincarnate into animals. When animals die, they reincarnate into people`, `However, if the dying person had done enough in the worship of one of the 20 Suns, they reincarnate into a Spirit.`],
+let endForestConcentrate3b = new storyElement('choice',
+    [`You don't know enough about them. You wonder what kind of Spirit you are.`, `You close your non-existent eyes. The answer is within you, you just have to feel it.`],
+    [{choiceText: 'I am a Wraith, a spirit that brings punishment to those who wrong my Phoenix.',
+    choiceModifiers: 'classWraith',
+    choiceNextStory: endForestConcentrate3c},
+    {choiceText: 'I am a Poltergeist. Watcher, seer, subtle mastermind in the service of my Phoenix.',
+    choiceModifiers: 'classPoltergeist',
+    choiceNextStory: endForestConcentrate3c},
+    {choiceText: 'I am a Guardian Spirit, I exist to guide and protect those who follow my Phoenix.',
+    choiceModifiers: 'classGuardianSpirit',
+    choiceNextStory: endForestConcentrate3c}],
+    undefined)
+let endForestConcentrate3a = new storyElement('description',
+    [`You must be a Spirit.`, `People who did a lot in the service of a Phoenix reincarnate into Spirits when they die.`, `There are different kinds of Spirits, you're pretty sure.`],
     undefined,
-    endForestConcentrate3)
+    endForestConcentrate3b)
+let endForestConcentrate2 = new storyElement('description',
+    [`You sit there for a moment, mind completely blank.`, `You're dead.`, `You're conscious, however. You have to be a Spirit, right?`, `You concentrate - what do you know of Spirits?`, `When people die, they reincarnate into animals. When animals die, they reincarnate into people.`, `However, if the dying person had done enough in the worship of one of the 20 Suns, they reincarnate into a Spirit.`],
+    undefined,
+    endForestConcentrate3a)
 let endForestConcentrate1 = new storyElement('description',
-    [`You fall to the snowy ground of the forest, sitting with your legs outstretched in front of you.`, `Your mind races. Your body can't feel the cold.`, `You're really dead.`],
+    [`You fall to the snowy ground of the forest, sitting with your legs outstretched in front of you.`, `Your mind races. Your body still can't feel the cold.`, `You're really dead.`],
     'FoMspiritKnow',
     endForestConcentrate2)
+let endForestConcentrate1preB = new storyElement('description',
+    [`You bend over and slowly reach with your hand towards the snow.`, `Your hand passes right through the snow.`, `You gulp, panic and realization starting to settle in.`, `Your hand passes right through the snow. You cannot move it.`, `You didn't wake up here in the Forest of Mirrors.`, `You died here.`],
+    undefined,
+    endForestConcentrate1)
+let endForestConcentrate1pre = new storyElement('description',
+    [`You try to remember your life, but nothing comes to you.`, `You focus on your condition. You can't feel the cold.`, `You look around through the blizzard. You notice something unusual.`, `You don't seem to leave footprints in the snow.`, `The blizzard can't fill in the indentations in the snow this fast, can it?`],
+    undefined,
+    endForestConcentrate1preB)
 let endForestExploreScream3 = new storyElement('description',
     [`You try to scream, again and again. No sound comes out.`, `You stomp in the snow, but it doesn't move.`, `Finally, you approach a tree and reach out to touch its bark.`, `You gulp, panic and realization starting to settle in, as you slowly reach with your hand to the tree.`, `Your hand passes right through the tree, disappearing into the bark.`, `You didn't wake up here in the Forest of Mirrors. You died here, and now you're a Spirit.`],
     undefined,
@@ -83,7 +233,7 @@ let endForestExploreScream1 = new storyElement('description',
     'FoMspiritKnow',
     endForestExploreScream2)
 let endForestExploreNoScream3 = new storyElement('description',
-    [`You look around from the top of the hill.`, `In the distance, you spot a faint glimpse of smoke. Now this is definitely fire of some kind.`, `And hope for you.`],
+    [`You look around from the top of the hill.`, `In the distance, you spot a faint glimpse of smoke.`, `Now this is definitely fire of some kind.`, `And hope for you.`, `You rush down the hill towards the fire.`],
     undefined,
     approachCampDontKnow1)
 let endForestExploreNoScream2 = new storyElement('description',
@@ -110,7 +260,7 @@ let endForest5 = new storyElement('choice',
     choiceNextStory: endForestExplore1},
     {choiceText: 'Stop and try to concentrate on your condition.',
     choiceModifiers: 'FoMendConcentrate',
-    choiceNextStory: endForestConcentrate1}],
+    choiceNextStory: endForestConcentrate1pre}],
     undefined)
 let endForest4 = new storyElement('consequence',
     [{dependency: 'FoMsawWisp', consequenceText: [`You remember: "Spirits cannot touch physical objects."`, `That creature in the woods - it must have been a Spirit.`, `It could touch you.`, `Could you be... dead?`, `Your thoughts are interrupted as your body is feeling weaker.`]},
@@ -239,5 +389,5 @@ let wakeUp1 = new storyElement('choice',
     choiceNextStory: wakeUpLie1}],
     undefined)
 // export
-let scriptObjects = { wakeUp1 };
-export { scriptObjects };
+let scriptObjects = { endForestConcentrate3a };
+export { storyElement, scriptObjects };

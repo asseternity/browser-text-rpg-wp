@@ -2,7 +2,6 @@ const path = require('path');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    mode: 'development',
     entry: {
         index: path.resolve(__dirname, 'src/comp_story_functions.js'),
     },
@@ -13,10 +12,6 @@ module.exports = {
             title: `You Do God's Work - Text RPG`,
         })
     ],
-    devtool: 'inline-source-map',
-    devServer: {
-        static: path.resolve(__dirname, 'src'),
-    },
     watchOptions: {
         ignored: /node_modules/,
         aggregateTimeout: 300,
