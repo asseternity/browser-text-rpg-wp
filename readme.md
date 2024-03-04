@@ -77,7 +77,7 @@ Female with olive skin in her early 40's. Duncan from Dragon Age personality. Ca
 Male with long hair and olive skin in his early 30's. Male. Reyes from MEA personality. Think himself charming but is **constantly moving to run away from responsibilities or chores** of the mundane life. Wants to move from party to party to not have to feel or deal with literal and metaphorical messes.
 
 ### Lysander MacAppleby - TAKING EVERYTHING AS AN ORDER
-Nonbinary with shoulder length red hair and scars in their mid 30's. Jane Shepard personality. Soldier to the bone, **thinks about what they need to do 24/7**. Remembers everything anyone tells them. Loyal without question.
+Nonbinary with shoulder length red hair and scars in their mid 30's. Jane Shepard personality. Soldier to the bone, **thinks about what they need to do 24/7**. Remembers everything anyone tells them. Loyal without question. Is really into retaining respect of their career-oriented peers in the Fated Realm, **in a capitalist way**. 
 
 ## Alphabet
 A - Aruakh

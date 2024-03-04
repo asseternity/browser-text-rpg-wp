@@ -25,7 +25,9 @@ import {
     Accountant,
     Dancer,
     char1,
-    menuUpdater
+    menuUpdater,
+    NPCMaker,
+    NPCRole
 } from './comp_objects_and_methods';
 // import {  storyElements } from './comp_story_objects';
 import { storyElement, scriptObjects } from './comp_script';
@@ -34,6 +36,78 @@ const eventEmitter = require('./comp_event_emitter');
 // game-long vars
 let newPlayerConsequences = [];
 let isPlayerExploring = false;
+let Chosen = {};
+// update chosen
+function updateChosen() {
+    let allStoryElements = storyElement.getAllInstances();
+    for (let i = 0; i < allStoryElements.length; i++) {
+        switch (allStoryElements[i].type) {
+            case 'description':
+            case 'item':
+            case 'battle':
+            case 'exploration':
+            case 'randomEncounter':
+            case 'form':
+                for (let j = 0; j < allStoryElements[i].text.length; j++) {
+                    allStoryElements[i].text[j] = allStoryElements[i].text[j].replaceAll('ChosenName', Chosen.name); 
+                    allStoryElements[i].text[j] = allStoryElements[i].text[j].replaceAll('ChosenSurname', Chosen.surname); 
+                    allStoryElements[i].text[j] = allStoryElements[i].text[j].replaceAll('xe', Chosen.he); 
+                    allStoryElements[i].text[j] = allStoryElements[i].text[j].replaceAll('xis', Chosen.his); 
+                    allStoryElements[i].text[j] = allStoryElements[i].text[j].replaceAll('xim', Chosen.him); 
+                    allStoryElements[i].text[j] = allStoryElements[i].text[j].replaceAll('ximself', Chosen.himself); 
+                }
+                break;
+            case 'choice':
+                for (let j = 0; j < allStoryElements[i].text.length; j++) {
+                    allStoryElements[i].text[j] = allStoryElements[i].text[j].replaceAll('ChosenName', Chosen.name); 
+                    allStoryElements[i].text[j] = allStoryElements[i].text[j].replaceAll('ChosenSurname', Chosen.surname); 
+                    allStoryElements[i].text[j] = allStoryElements[i].text[j].replaceAll('xe', Chosen.he); 
+                    allStoryElements[i].text[j] = allStoryElements[i].text[j].replaceAll('xis', Chosen.his); 
+                    allStoryElements[i].text[j] = allStoryElements[i].text[j].replaceAll('xim', Chosen.him); 
+                    allStoryElements[i].text[j] = allStoryElements[i].text[j].replaceAll('ximself', Chosen.himself); 
+                }
+                for (let k = 0; k < allStoryElements[i].modifiers.length; k++) {
+                    allStoryElements[i].modifiers[k].choiceText = allStoryElements[i].modifiers[k].choiceText.replaceAll('ChosenName', Chosen.name);
+                    allStoryElements[i].modifiers[k].choiceText = allStoryElements[i].modifiers[k].choiceText.replaceAll('ChosenSurname', Chosen.surname);
+                    allStoryElements[i].modifiers[k].choiceText = allStoryElements[i].modifiers[k].choiceText.replaceAll('xe', Chosen.he);
+                    allStoryElements[i].modifiers[k].choiceText = allStoryElements[i].modifiers[k].choiceText.replaceAll('xis', Chosen.his);
+                    allStoryElements[i].modifiers[k].choiceText = allStoryElements[i].modifiers[k].choiceText.replaceAll('xim', Chosen.him);
+                    allStoryElements[i].modifiers[k].choiceText = allStoryElements[i].modifiers[k].choiceText.replaceAll('ximself', Chosen.himself);
+                }
+                break;
+            case 'dialogue':
+                for (let j = 0; j < allStoryElements[i].text.length; j++) {
+                    allStoryElements[i].text[j].npcLine = allStoryElements[i].text[j].npcLine.replaceAll('ChosenName', Chosen.name);
+                    allStoryElements[i].text[j].npcLine = allStoryElements[i].text[j].npcLine.replaceAll('ChosenSurname', Chosen.surname); 
+                    allStoryElements[i].text[j].npcLine = allStoryElements[i].text[j].npcLine.replaceAll('xe', Chosen.he); 
+                    allStoryElements[i].text[j].npcLine = allStoryElements[i].text[j].npcLine.replaceAll('xis', Chosen.his);
+                    allStoryElements[i].text[j].npcLine = allStoryElements[i].text[j].npcLine.replaceAll('xim', Chosen.him);
+                    allStoryElements[i].text[j].npcLine = allStoryElements[i].text[j].npcLine.replaceAll('ximself', Chosen.himself);
+                    for (let k = 0; k < allStoryElements[i].text[j].responses.length; k++) {
+                        allStoryElements[i].text[j].responses[k].dialogueChoice = allStoryElements[i].text[j].responses[k].dialogueChoice.replaceAll('ChosenName', Chosen.name);
+                        allStoryElements[i].text[j].responses[k].dialogueChoice = allStoryElements[i].text[j].responses[k].dialogueChoice.replaceAll('ChosenSurname', Chosen.surname); 
+                        allStoryElements[i].text[j].responses[k].dialogueChoice = allStoryElements[i].text[j].responses[k].dialogueChoice.replaceAll('xe', Chosen.he); 
+                        allStoryElements[i].text[j].responses[k].dialogueChoice = allStoryElements[i].text[j].responses[k].dialogueChoice.replaceAll('xis', Chosen.his);
+                        allStoryElements[i].text[j].responses[k].dialogueChoice = allStoryElements[i].text[j].responses[k].dialogueChoice.replaceAll('xim', Chosen.him);
+                        allStoryElements[i].text[j].responses[k].dialogueChoice = allStoryElements[i].text[j].responses[k].dialogueChoice.replaceAll('ximself', Chosen.himself);
+                    }
+                }
+                break;
+            case 'consequence':
+                for (let j = 0; j < allStoryElements[i].text.length; j++) {
+                    for (let k = 0; k < allStoryElements[i].text[j].consequenceText.length; k++) {
+                        allStoryElements[i].text[j].consequenceText[k] = allStoryElements[i].text[j].consequenceText[k].replaceAll('ChosenName', Chosen.name); 
+                        allStoryElements[i].text[j].consequenceText[k] = allStoryElements[i].text[j].consequenceText[k].replaceAll('ChosenSurname', Chosen.surname);
+                        allStoryElements[i].text[j].consequenceText[k] = allStoryElements[i].text[j].consequenceText[k].replaceAll('xe', Chosen.he);
+                        allStoryElements[i].text[j].consequenceText[k] = allStoryElements[i].text[j].consequenceText[k].replaceAll('xis', Chosen.his);
+                        allStoryElements[i].text[j].consequenceText[k] = allStoryElements[i].text[j].consequenceText[k].replaceAll('xim', Chosen.him);
+                        allStoryElements[i].text[j].consequenceText[k] = allStoryElements[i].text[j].consequenceText[k].replaceAll('ximself', Chosen.himself);
+                    }
+                }
+                break;
+        }
+    }
+}
 // update concept
 function updateConcept() {
     let allStoryElements = storyElement.getAllInstances();
@@ -152,7 +226,6 @@ function textFlipper(storyElement, loop, style) {
                     case 'description':
                         if (storyElement.modifiers !== undefined) {
                             newPlayerConsequences.push(storyElement.modifiers);
-                            console.log(newPlayerConsequences);
                         }
                         storyTeller(storyElement.nextStoryElement);
                         break;
@@ -372,6 +445,18 @@ function newChoice(storyElement) {
                 char1.spiritConcept.description = ' of Wisdom';
                 menuUpdater();
                 updateConcept();
+            }
+            if (thisChoice.choiceModifiers == 'chosenPeculiar') {
+                Chosen = NPCMaker('Peculiar', 'Quirke', 'she', 'her', 'her', 'herself');
+                updateChosen();
+            }
+            if (thisChoice.choiceModifiers == 'chosenSnapdragon') {
+                Chosen = NPCMaker('Snapdragon', 'Quirke', 'he', 'his', 'him', 'himself');
+                updateChosen();
+            }
+            if (thisChoice.choiceModifiers == 'chosenLysander') {
+                Chosen = NPCMaker('Lysander', 'MacAppleby', 'they', 'their', 'them', 'themselves');
+                updateChosen();
             }
             storyTeller(thisChoice.choiceNextStory);
         });
@@ -701,5 +786,5 @@ function statsFlagsUpdater() {
 // TESTER. start game
 // storyTeller(storyElements.testNaming);
 // addGold(5000);
-storyTeller(scriptObjects.endForestConcentrate3a);
+storyTeller(scriptObjects.spiritAppear2);
 // startDiceGame('Dave', exampleLines);

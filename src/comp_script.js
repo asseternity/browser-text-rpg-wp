@@ -16,10 +16,160 @@ class storyElement {
     }
 }
 // --- script ---
+// from them learn about the New Dawn Edict
+
 // CHOOSE YOUR CHOSEN! CHOOSE A GHOSTLY WAY TO COMMUNICATE!
-
-
-
+// if watch them for a while, the selection of methods of appearance is smaller
+// methods: write messages in their book, appear in their dreams
+let methodOfContact2 = new storyElement('choice', 
+    [`You have a few ideas on how to make contact with ChosenName...`],
+    [{choiceText: `You wait for ChosenName to start reading, and change the words in xis book.`, // wait until the adventurer's reading and change the words in the book
+    choiceModifiers: null,
+    choiceNextStory: undefined},
+    {choiceText: `You wait for ChosenName to fall asleep, and alter xis dreams.`, // appear or alter the adventurer's dream
+    choiceModifiers: null,
+    choiceNextStory: undefined},
+    {choiceText: `You wait till ChosenName's alone on watch, and draw the symbol of Justice on a nearby tree.`, // Symbols or Runes: Using natural materials around the camp, the spirit could arrange symbols or runes that convey a message
+    choiceModifiers: null,
+    choiceNextStory: undefined},
+    {choiceText: `You wait till the others are asleep, and change the shape of ChosenName's shadow caused by the campfire.`, // Animated Shadows: The spirit could animate shadows cast by objects in the environment, causing them to move in ways that convey messages or images relevant to the adventurers' journey. For example, a shadow might mimic the shape of a key to indicate that they are unlocking a great mystery or power
+    choiceModifiers: null,
+    choiceNextStory: undefined},
+    {choiceText: `You search for an animal, and give it a command to approach the camp when the others are asleep.`, // Guiding Animals: The spirit could influence the behavior of animals in the area, causing them to act in ways that lead the adventurers in the right direction or warn them of impending danger
+    choiceModifiers: null,
+    choiceNextStory: undefined},
+    {choiceText: `You wait for ChosenName to get a drink or polish xis armor, then alter the reflection.`, // Visions in Reflective Surfaces: The spirit could communicate through visions that appear in reflective surfaces such as still water, mirrors, or polished metal. These visions could offer glimpses of the adventurers' future or provide cryptic clues about their destiny as the Chosen one
+    choiceModifiers: null,
+    choiceNextStory: undefined}],
+    undefined)
+let methodOfContact1b = new storyElement('description',
+    [`After a little bit of thinking and testing, far from the camp, you determine that all you can do for now as a Spirit, is to manipulate inanimate objects.`, `Theoretically, you also feel that you might be able to give little commands to non-human animals, and, if you concentrate hard, fill dreams of slumbering folks with images.`],
+    undefined,
+    methodOfContact2)
+let methodOfContact1 = new storyElement('description',
+    [`Now, how to make contact?`, `Humans can't see, hear or touch Spirits directly.`, `Spirits are told to have magical abilities.`, `The only beings in the world to have them, actually.`, `Those would be handy right about now.`, `You try to feel what you can do.`],
+    undefined,
+    methodOfContact1b)
+let chosePeculiar = new storyElement('description',
+    [`Captain Peculiar is the obvious choice.`, `In reality, you know nothing about these people's pasts, yet you're supposed to pick which one's most suitable to be the Chosen of Justice.`, `Who's more likely to BELIEVE they're Chosen, rather.`, `Peculiar's in charge, which means she's probably accomplished the most. Right?`],
+    undefined,
+    methodOfContact1)
+let choseSnapdragon = new storyElement('description',
+    [`1`, `2`],
+    undefined,
+    methodOfContact1)
+let choseLysander = new storyElement('description',
+    [`1`, `2`],
+    undefined,
+    methodOfContact1)
+// what are the stories of people talking to Spirits? mostly spirits acting like messengers of the Suns, choosing humans as their champions
+// I need to promote Justice, hence they need to see me as an authority
+// I'll tell them that they are the chosen one, for them to see me as an authority
+let spiritAppear3 = new storyElement('choice',
+    [`Question is: who to appear to?`, `Who portrays the idea of Justice the most? Or, who would BELIEVE that they are the Chosen of Justice?`, `Who do you make the Chosen one?`],
+    [{choiceText: `Captain Peculiar, the serious commander who seems to be in tune with others; needs.`,
+    choiceModifiers: 'chosenPeculiar',
+    choiceNextStory: chosePeculiar},
+    {choiceText: `Snapdragon, his easy and mischievous smile tells you that he's too egotistical to not believe that he's the Chosen one.`,
+    choiceModifiers: 'chosenSnapdragon',
+    choiceNextStory: choseSnapdragon},
+    {choiceText: `Lysander. A true, restless warrior with impeccable care for their gear and vigilance in their eyes.`,
+    choiceModifiers: 'chosenLysander',
+    choiceNextStory: choseLysander}],
+    undefined) 
+let spiritAppear2b = new storyElement('description',
+    [`You now know what you have to do.`, `You have to make your first contact seem as legitimate as possible.`, `Make contact with one of them, and make them believe they are the Chosen one. Chosen of the Phoenix of Justice.`, `Even though you really have no idea what you're doing.`],
+    undefined,
+    spiritAppear3)
+let spiritAppear2 = new storyElement('description',
+    [`A 'Chosen warrior'.`, `That's what you need to do if you want to seem legitimate to them.`, `That's right!`, `The trio would have heard tales of Spirits too.`, `So if you pick one of them, whoever seems to most fit the idea of Justice, and slowly become their guide, their divine messenger...`, `...This person will believe that they're the Chosen of Justice.`],
+    undefined,
+    spiritAppear2b)
+let spiritAppear1 = new storyElement('description',
+    [`This is a question, actually.`, `Should you make contact with one of them, or with all of them at once?`, `Literally every tale about Spirits portrayed them as guides, divine messengers of the Phoenixes. The Gods.`, `The Spirits of myths appear to Chosen warriors, those who showed dedication to the Spirit's concept.`, `The Spirit will first show signs to the Chosen warrior, signs that the warrior is on the right path.`],
+    undefined,
+    spiritAppear2)
+// watching them
+let spiritWatch8 = new storyElement('description',
+    [`All this information will surely be useful if you want your first ghostly contact with the three to be successful.`, `You're likely to have one shot at this.`, `You need to make contact with them, or one of them.`],
+    undefined,
+    spiritAppear1)
+let spiritWatch7 = new storyElement('description',
+    [`You feel yourself growing weaker. You're about to diseappear from not serving the Phoenix of Justice.`, `You did learn a bunch about the three, however.`, `Their names: Captain Peculiar, Snapdragon and Lysander.`, `Their allegiance: the Adventurer's Guild, and what they're doing here: answering the New Dawn Edict.`, `The location fits - the Forest of Mirrors, where you currently are, is to the east of the Fated Realm's main cities. Between the Fated Realm and the Dead Lands.`],
+    undefined,
+    spiritWatch8)
+let spiritWatch6 = new storyElement('description',
+    [ `Adventurer's Guild members usually travel alone. They're taught to be self-sufficient, and to pick contracts suitable for their skill levels.`, `Yet there are three of them here, and that fits of this 'New Dawn Edict' from Captain Peculiar's document.`, 'The New Dawn Edict.', `According to the document you saw in Peculiar's satchel, an open mission from the Highfate herself, for Adventurers to venture into the Dead Lands.`],
+    undefined,
+    spiritWatch7)
+let spiritWatch5 = new storyElement('description',
+    [`You know of the Adventurer's Guild.`, `You don't remember your previous life, when you've been, you assume, a human.`, `However, you notice that you do retain memories of the Fated Realm, its culture, like nicknames and organizations.`],
+    undefined,
+    spiritWatch6)
+let spiritWatch4 = new storyElement('description',
+    [`Yes, it looks like the three belong to the Adventurer's Guild.`, `The Fated Realm's Adventurer's Guild is a loose union of skilled fighters.`, `They travel the Fated Realm, usually alone, taking on contracts from people to assist with wild creatures, bandits, or stray undead that might have wandered into the Realm's eastern regions from the Dead Lands.`],
+    undefined,
+    spiritWatch5)
+let spiritWatch3 = new storyElement('description',
+    [`The last person, androgynous-looking, with shoulder length red hair, is Lysander.`, `They wear the heaviest armor and seem to be the weapons specialist of the three.`, `Lysander's armor is perfectly maintained, even in this weather. So well, in fact, that they are even wearing their official Adventurer's League badge - giving you a chance to read their full name - Lysander MacAppleby, of the Adventurer's Guild.`],
+    undefined,
+    spiritWatch4)
+let spiritWatch2 = new storyElement('description',
+    [`"Peculiar" is probably a nickname. Nicknames are common in the Fated Realm.`, `The long-haired man is Peculiar's younger brother, Snapdragon, or Snap.`, `He seems to be the most uncomfortable here in the frozen wilderness.`, `Perhaps that's judgmental, but you assume that he's happier and more resourceful in a bustling city.`],
+    undefined,
+    spiritWatch3)
+let spiritWatch1 = new storyElement('description',
+    [`You decide to be methodical in how you approach them.`, `After all, if you botch your one chance to make contact, there might not be any other people around to preach Justice to, and you will disappear.`, `You can't take that chance, so you watch the trio for another hour or so.`, `You learn that the one you assumed to be in charge is Captain Peculiar. A serious woman with olive skin and dark hair who's always paying attention to her two companions.`],
+    undefined,
+    spiritWatch2)
+// choice: watch them for a while to make a better selection but become weaker, or choose now
+let campVibes6 = new storyElement('choice',
+    [`You feel your vision getting even blurrier. Floating is harder and harder with each passing minute.`, `You need to make contact, to promote the idea of Justice to them, or to one of them, or you'll disappear.`, `You're not sure what happens to Spirits if they disappear without performing their function.`, `You have to make a decision. Do you try to use your abilities to make contact with one of them? Or do you wait, and keep watching?`],
+    [{choiceText: `I will wait, and keep watching. I need to gather more information about the three before I can effectively communicate.`,
+    choiceModifiers: null,
+    choiceNextStory: spiritWatch1},
+    {choiceText: `I need to make contact. I can feel that I am disappearing and I'll only get weaker with each wasted minute.`,
+    choiceModifiers: null,
+    choiceNextStory: spiritAppear1}],
+    undefined) 
+// VIBES OF THE CAMP
+let campVibes5 = new storyElement('description',
+    [`"Reading the edict again, sister?" a voice says as the second man, the one with the long hair and the easy smile, scoots over closer to the commander.`, `"Do you need anything, Snap?" the woman responds, ignoring his comment. There's a hint of concern in her voice.`, `"Nah, I'm fine. As fine as I can be," Snap chuckles and the short exchange is over."`],
+    undefined,
+    campVibes6)
+let campVibes4 = new storyElement('description',
+    [`The commander puts back the document, but you did manage to read a little.`, `The document described something called the New Dawn Edict.`, `An open call, a mission, from the Highfate for any adventurer to answer.`, `Before the commander put away the document, you managed to see that the mission of the New Dawn Edict involves traveling to the Dead Lands - land of undead and nomadic necromancers beyond the eastern border of the Fated Realm.`],
+    undefined,
+    campVibes5)
+let campVibes3 = new storyElement('description',
+    [`Luckily for you, the commander decides to retrieve the piece of paper, and starts to read it.`, `You quickly float over behind her shoulder, reading the paper to try to find out more about the three.`, `Floating closer to the commander, you get a better look at her face.`, `She's in her early 40's. Olive skin, dark hair, solemn, exhausted, in-charge expression. Cigarette butts in a small garbage sack near her.`],
+    undefined,
+    campVibes4)
+let campVibes2 = new storyElement('description',
+    [`The trio keep sitting near the fire.`, `You notice that the first woman, the commander, has a piece of paper sticking out of her rucksack.`, `The piece of paper bears the seal of the Highfate, the leader and protector of the Fated Realms.`, `Whoever, these three are, they're not only armed, but on official business, it seems.`],
+    undefined,
+    campVibes3)
+let campVibes1 = new storyElement('description',
+    [`You linger near their camp, watching the trio from different angles.`, `The reality of your new condition is slowly setting in. Like before, the trio don't hear you, don't see you, and can't touch you.`, `You push these thoughts away. You're alive. In a new form. With a new mission of Justice.`, `But alive. And to stay alive, you need these people. You need them to embrace Justice.`, `The mood in the camp is solemn, but determined. Perhaps this is to be expected, considering the surroundings and the weather.`, `The Forest of Mirrors is an unforgiving place indeed.`],
+    undefined,
+    campVibes2)
+// DESCRIPTIONS OF THE THREE
+let lysanderDescription = new storyElement('description',
+    [`The last person around the campfire is a figure with shoulder-length red hair.`, `They look like the youngest of the trio, perhaps in their late 20's.`, `Despite that, they carry themselves with the poise of a seasoned warrior. They appear incredibly vigilant, as if awaiting a command.`],
+    undefined,
+    campVibes1)
+let snapDescription = new storyElement('description',
+    [`To her right is a man with long hair framing his face. He seems to be in his early 30's.`, `His demeanor is charming, his smile easy, inviting with a hint of mischief.`, `There's a sense of restlessness about him, as if he's constantly seeking something just out of reach.`],
+    undefined,
+    lysanderDescription)
+let peculiarDescription = new storyElement('description',
+    [`Despite the biting cold of the blizzard, she sits with a sense of control, her posture rigid.`, `She seems to be in her early 40's. Her face bears the marks of hardship, with lines etched deeply around her eyes and mouth.`, `Two scimitars and a musket are resting next to her. Judging by her outfit, she seems to be the one in charge.`, `Despite her outward appearance of stoicism, you sense a deep-seated fatigue, as if she's tired of always being the one in charge.`],
+    undefined,
+    snapDescription)
+let approachCampKnow4 = new storyElement('description',
+    [`The three people are armed - you see muskets and swords next to them. They look like soldiers, mercenaries, or guards of some sort.`, `It's kind of calming - to finally see some humans.`, `Despite the fact that it's too late for you.`, `No, stop it. It's not too late. You've died, but you're not dead. You're a Spirit. And you can survive.`, `The first woman huddles by the campfire, the olive skin of her face glowing softly in the firelight.`],
+    undefined,
+    peculiarDescription)
 // FIND THE CAMP (DON'T KNOW)
 let dontKnowRealize7 = new storyElement('description',
     [`Then you remember that Spirits are the only beings in the world who have magical abilities. No human or animal possesses them.`, `To promote their concepts, Spirits have the abilities to affect the material world in ghostly ways. The more powerful the Spirit, the more substantial the effects.`, `You can't touch or talk to these people, but you have to start somewhere. Start promoting Justice, or you'll disappear.`, `First of all, who are these people?`],
@@ -133,22 +283,6 @@ let approachCampDontKnow1 = new storyElement('description',
     undefined,
     approachCampDontKnow2)
 // FIND THE CAMP (KNOW THAT YOU'RE A SPIRIT)
-let lysanderDescription = new storyElement('description',
-    [`The last person around the campfire is a figure with shoulder-length red hair.`, `They look like the youngest of the trio, perhaps in their late 20's.`, `Despite that, they carry themselves with the poise of a seasoned warrior. They appear incredibly vigilant, as if awaiting a command.`],
-    undefined,
-    undefined)
-let snapDescription = new storyElement('description',
-    [`To her right is a man with long hair framing his face. He seems to be in his early 30's.`, `His demeanor is charming, his smile easy, inviting with a hint of mischief.`, `There's a sense of restlessness about him, as if he's constantly seeking something just out of reach.`],
-    undefined,
-    lysanderDescription)
-let peculiarDescription = new storyElement('description',
-    [`Despite the biting cold of the blizzard, she sits with a sense of control, her posture rigid.`, `She seems to be in her early 40's. Her face bears the marks of hardship, with lines etched deeply around her eyes and mouth.`, `Two scimitars and a musket are resting next to her. Judging by her outfit, she seems to be the one in charge.`, `Despite her outward appearance of stoicism, you sense a deep-seated fatigue, as if she's tired of always being the one in charge.`],
-    undefined,
-    snapDescription)
-let approachCampKnow4 = new storyElement('description',
-    [`The three people are armed - you see muskets and swords next to them. They look like soldiers, mercenaries, or guards of some sort.`, `It's kind of calming - to finally see some humans.`, `Despite the fact that it's too late for you.`, `No, stop it. It's not too late. You've died, but you're not dead. You're a Spirit. And you can survive.`, `The first woman huddles by the campfire, the olive skin of her face glowing softly in the firelight.`],
-    undefined,
-    peculiarDescription)
 let approachCampKnow3 = new storyElement('description',
     [`Knowing that they cannot see you, you float closer to them and take a closer look.`, `The first person is a woman dressed in a long, thick, dark red coat. You no longer care about the cold, but it's an understandable choice for her. Could the weather have killed you? You shake away these thoughts. It's pointless to speculate for now.`],
     undefined,
@@ -389,5 +523,5 @@ let wakeUp1 = new storyElement('choice',
     choiceNextStory: wakeUpLie1}],
     undefined)
 // export
-let scriptObjects = { endForestConcentrate3a };
+let scriptObjects = { spiritAppear2 };
 export { storyElement, scriptObjects };
