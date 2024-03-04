@@ -215,6 +215,20 @@ function menuUpdater() {
         menu_window.textContent = `You are ${char1.name}. Your class is unknown. Your armor class is ${char1.armorClass}. Your HP is ${char1.currentHP}/${char1.maxHP}.`;
     }
 }
+// object for important roles in the plot
+class NPCRole {
+    constructor(name, surname, he, his, him, himself) {
+        this.name = name;
+        this.surname = surname;
+        this.he = he;
+        this.his = his;
+        this.him = him;
+        this.himself = himself;
+    }
+}
+function NPCMaker(name, surname, he, his, him, himself) {
+    return new NPCRole(name, surname, he, his, him, himself)
+}
 // export
 export {
     Character,
@@ -231,5 +245,7 @@ export {
     imp1,
     imp2,
     menuUpdater,
-    monsters
+    monsters,
+    NPCRole,
+    NPCMaker
 }
