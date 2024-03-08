@@ -25,8 +25,9 @@ let encounter1 = new storyElement('randomEncounter',
     ['1', '2'],
     {hasPlayerSeenMe: false},
     undefined)
-let consequence2 = new storyElement('consequence',
-    [{dependency: 'consequence', consequenceText: ['1', '2']},
-    {dependency: 'consequence', consequenceText: ['1', '2']}],
+let separator1 = new storyElement('separator',
+    [{dependency: 'choice1', nextStoryElement: element1},
+    {dependency: 'choice2', nextStoryElement: element2},
+    {dependency: 'choice3', nextStoryElement: element3}],
     undefined,
     undefined)

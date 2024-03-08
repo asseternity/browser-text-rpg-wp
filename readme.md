@@ -1,20 +1,11 @@
-# TO DO LIST.
-// get through the script to where the side quests will be usable
+# WHAT MAKES YOU LIVE?
 
-// pocket Dimension of Spirits (explanation for gambling: in the same pocket dimension as the side quests)
-// side quests
+This is a browser text RPG project with choices and consequences, dialogues, reputation system, turn based combat and exploration. 
 
-// settings: change fontsize and change font (already done!)
+The game is set in a Victorian era fantasy setting called the Fated Realm. 
 
-// add a fakeChoice mechanic for fast scripting? 
-// main menu - functionality
-
-// IDEAS
-// add music?
-// how to save progress? - from TOP: We haven’t learned any techniques for actually storing our data anywhere, so when the user refreshes the page, all of their todos will disappear! You should add some persistence to this todo app using the Web Storage API.
-// - supporting characters academy: there are things in games that all supporting characters magically know how to do 
-// (hacking, opening doors, researching)
-// in this game - YOU do them. More minigames?
+Currently Prologue and Act 1 are available as proof of concept. Try them out and tell me what you think: 
+https://asseternity.github.io/browser-text-rpg-wp/
 
 # LORE.
 ## THE WORLD 
@@ -106,3 +97,21 @@ W - Wisps
 X - 
 Y - 
 Z - 
+
+# TO DO LIST.
+--- for prototype ---
+// add music?
+// settings: change fontsize and change font (already done in guide!)
+// main menu - functionality
+// write a prologue with gambling with a real consequence if you win or lose + a story consequence (newPlayerConsequences)
+
+--- for entire game ---
+// how to save progress? - from TOP: We haven’t learned any techniques for actually storing our data anywhere, so when the user refreshes the page, all of their todos will disappear! You should add some persistence to this todo app using the Web Storage API.
+// add a fakeChoice mechanic for fast scripting? 
+// get through the script to where the side quests will be usable
+// pocket Dimension of Spirits (explanation for gambling: in the same pocket dimension as the side quests)
+// side quests
+// - supporting characters academy: there are things in games that all supporting characters magically know how to do 
+// (hacking, opening doors, researching)
+// in this game - YOU do them. More minigames?
+

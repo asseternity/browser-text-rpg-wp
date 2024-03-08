@@ -1,4 +1,5 @@
 // import: storyElement, storyElements, hud, grabItem, char1, classes, listEnemies, moveOn, enemies array, enemy objects
+import separator from './comp_separator';
 import {
     playerHand, opponentHand, currentBid, accusation, exampleLines, die1, die2, die3, die4, die5, die6, startDiceGame, falseCubes, roll6d4Player, roll6d4Opponent, roll1d4, rollPhase, bidPhase, fiftyFifty, oneThird, opponentResponse, opponentBid, callOut, gameEnd
 } from './comp_dice_game';
@@ -33,6 +34,18 @@ import {
 import { storyElement, scriptObjects } from './comp_script';
 import { Race, races } from './comp_races';
 const eventEmitter = require('./comp_event_emitter');
+import song from './comp_assets';
+// song playing
+let audio = document.createElement('audio');
+audio.setAttribute('id', 'audio');
+audio.setAttribute('control', 'control');
+audio.setAttribute('loop', 'loop');
+let source = document.createElement('source');
+source.setAttribute('src', `${song}`);
+source.setAttribute('type' `audio/mpeg`);
+audio.appendChild(source);
+document.body.appendChild(audio);
+audio.play();
 // game-long vars
 let newPlayerConsequences = [];
 let isPlayerExploring = false;
@@ -182,22 +195,26 @@ function newUpdateNames(answer) {
 function storyTeller(storyElement) {
     while (main_window.firstChild) {main_window.removeChild(main_window.firstChild)};
     if (storyElement !== undefined) {
-        if (storyElement[0] == 'stats' || storyElement[0] == 'gold') {
-            if (storyElement[0] == 'stats') {
-                giveStats(storyElement[1], storyElement[2]);
-            } else {
-                addGold(storyElement[1]);
-            }
+        if (storyElement.type == 'separator') {
+            separator(storyElement, newPlayerConsequences, storyTeller);
         } else {
-            if (storyElement !== undefined) {
-                if (storyElement.type !== 'dialogue' && storyElement.type !== 'consequence') {
-                    textFlipper(storyElement, 0);
-                } else if (storyElement.type == 'dialogue') {
-                    newDialogueMaker(storyElement, 0);
+            if (storyElement[0] == 'stats' || storyElement[0] == 'gold') {
+                if (storyElement[0] == 'stats') {
+                    giveStats(storyElement[1], storyElement[2]);
                 } else {
-                    consequenceShower(storyElement, 0);
+                    addGold(storyElement[1]);
                 }
-            }
+            } else {
+                if (storyElement !== undefined) {
+                    if (storyElement.type !== 'dialogue' && storyElement.type !== 'consequence') {
+                        textFlipper(storyElement, 0);
+                    } else if (storyElement.type == 'dialogue') {
+                        newDialogueMaker(storyElement, 0);
+                    } else {
+                        consequenceShower(storyElement, 0);
+                    }
+                }
+            }    
         }
     } else {
         tileTriggers(whichTileIsPlayerOn, currentExplorationStoryElement);
@@ -219,10 +236,13 @@ function textFlipper(storyElement, loop, style) {
         continueButton.focus();
         continueButton.addEventListener('click', () => {
             loop++;
-            textFlipper(storyElement, loop);
             main_window.removeChild(continueButton);
             if (loop == storyElement.text.length) {
                 switch (storyElement.type) {
+                    case 'falsecubes':
+                        console.log('falsecubes called in textFlipper')
+                        storyFalsecubes(storyElement);
+                        break;
                     case 'description':
                         if (storyElement.modifiers !== undefined) {
                             newPlayerConsequences.push(storyElement.modifiers);
@@ -286,6 +306,7 @@ function textFlipper(storyElement, loop, style) {
                     }
                 }
             }
+            textFlipper(storyElement, loop);
         })
     }
 }
@@ -783,8 +804,21 @@ function statsFlagsUpdater() {
         }
     };
 }
-// TESTER. start game
-// storyTeller(storyElements.testNaming);
-// addGold(5000);
-storyTeller(scriptObjects.spiritAppear2);
-// startDiceGame('Dave', exampleLines);
+// Falsecubes
+function storyFalsecubes(storyElement) {
+    console.log('falsecubes function called');
+    startDiceGame(storyElement.modifiers.opponentName, storyElement.modifiers.opponentLines, storyFalsecubesEnd, storyElement);
+}
+function storyFalsecubesEnd(result, prize) {
+    if (result == 'win') {
+        newPlayerConsequences.push(prize.modifiers.consequences.win);
+        console.log(newPlayerConsequences);
+        storyTeller(prize.nextStoryElement.win);
+    } else {
+        newPlayerConsequences.push(prize.modifiers.consequences.lose);
+        console.log(newPlayerConsequences);
+        storyTeller(prize.nextStoryElement.lose);
+    }
+}
+// Start game
+storyTeller(scriptObjects.prologue1);
