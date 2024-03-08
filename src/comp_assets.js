@@ -1,5 +1,4 @@
 // importing
-import song from './blacklake.mp3';
 import './index.css';
 import treeImg from './tree.png'
 import personImg from './person.png';
@@ -11,4 +10,4 @@ let iconPerson = document.createElement('img'); iconPerson.setAttribute('style',
 // array of images
 let icons = { iconTree, iconTree2, iconTree3, iconPerson }
 // export images
-export {icons, song}
+export {icons}
