@@ -19,7 +19,7 @@ let exampleLines = {
     winLine: `Gotcha, kid`,
     loseLine: `Darn. You got lucky, pal`
 }
-function startDiceGame(opponentName, lines) {
+function startDiceGame(opponentName, lines, callbackEnd, prize) {
     // clear main window
     while (main_window.firstChild) { main_window.removeChild(main_window.firstChild) };
     // instructions
@@ -32,12 +32,12 @@ function startDiceGame(opponentName, lines) {
     startDiceGameButton.textContent = `Let's play Falsecubes!`
     main_window.appendChild(startDiceGameButton);
     startDiceGameButton.addEventListener('click', () => {
-        falseCubes(opponentName, lines);
+        falseCubes(opponentName, lines, callbackEnd, prize);
         main_window.removeChild(startDiceGameButton);
     });
 }
 // function that starts the game
-function falseCubes(opponentName, lines) {
+function falseCubes(opponentName, lines, callbackEnd, prize) {
     // openLine from the opponent
     let openLineEntry = document.createElement('p');
     openLineEntry.textContent = `${opponentName}: ${lines.openLine}`;
@@ -48,7 +48,7 @@ function falseCubes(opponentName, lines) {
     main_window.appendChild(rollDiceButton);
     rollDiceButton.addEventListener('click', () => {
         main_window.removeChild(rollDiceButton);
-        rollPhase(opponentName, lines)
+        rollPhase(opponentName, lines, callbackEnd, prize)
     });
 }
 // rolling 6d4
@@ -74,7 +74,7 @@ function roll1d4() {
     return Math.floor((Math.random() * 4) + 1);
 }
 // rolling phase
-function rollPhase(opponentName, lines) {
+function rollPhase(opponentName, lines, callbackEnd, prize) {
     // playerHand and opponentHand arrays get assigned six integers
     roll6d4Player();
     opponentHand = roll6d4Opponent();
@@ -162,11 +162,11 @@ function rollPhase(opponentName, lines) {
                 j++;
             }
         }
-        bidPhase(opponentName, lines);
+        bidPhase(opponentName, lines, callbackEnd, prize);
     });
 }
 // bidding phase
-function bidPhase(opponentName, lines) {
+function bidPhase(opponentName, lines, callbackEnd, prize) {
 // writes a message. you rerolled dice. after re-rolls, your new hand is:
     let reRollMessage = document.createElement('p');
     if (currentBid.numberOfDice == 0) {
@@ -176,7 +176,7 @@ function bidPhase(opponentName, lines) {
         reRollMessage2.textContent = `Your new hand is: ${playerHand[0].result}, ${playerHand[1].result}, ${playerHand[2].result}, ${playerHand[3].result}, ${playerHand[4].result}, ${playerHand[5].result}. Time for the first bluffing phase.`;
         main_window.appendChild(reRollMessage);
         main_window.appendChild(reRollMessage2);
-        playerBluffs(opponentName, lines);
+        playerBluffs(opponentName, lines, callbackEnd, prize);
     } else {
         reRollMessage.textContent = `Your hand is: ${playerHand[0].result}, ${playerHand[1].result}, ${playerHand[2].result}, ${playerHand[3].result}, ${playerHand[4].result}, ${playerHand[5].result}. Do you want to bluff, or accuse the opponent?`;
         main_window.appendChild(reRollMessage);
@@ -192,7 +192,7 @@ function bidPhase(opponentName, lines) {
         whatToDoButtons.appendChild(accuseButton);
         bluffButton.addEventListener('click', () => {
             main_window.removeChild(whatToDoButtons);
-            playerBluffs(opponentName, lines);
+            playerBluffs(opponentName, lines, callbackEnd, prize);
         });
         accuseButton.addEventListener('click', () => {
             main_window.removeChild(whatToDoButtons);
@@ -200,11 +200,11 @@ function bidPhase(opponentName, lines) {
             accusation.numberOfDice = currentBid.numberOfDice;
             accusation.dots = currentBid.dots;
             let gameResult = callOut();
-            gameEnd(gameResult, opponentName, lines);    
+            gameEnd(gameResult, opponentName, lines, callbackEnd, prize);    
         });
     }
 }
-function playerBluffs(opponentName, lines) {
+function playerBluffs(opponentName, lines, callbackEnd, prize) {
     // creates a dropdown form to bluff: "I have [1/2/3/4] of [1/2/3/4]"
     let bluffForm = document.createElement('form');
     main_window.appendChild(bluffForm);
@@ -280,7 +280,7 @@ function playerBluffs(opponentName, lines) {
                 let bidMessage = document.createElement('p');
                 bidMessage.textContent = `You bid: "I have ${currentBid.numberOfDice} of ${currentBid.dots} dots".`;
                 main_window.appendChild(bidMessage);
-                opponentResponse(opponentName, lines);    
+                opponentResponse(opponentName, lines, callbackEnd, prize);    
             }
         } else {
             event.preventDefault();
@@ -289,7 +289,7 @@ function playerBluffs(opponentName, lines) {
             let bidMessage = document.createElement('p');
             bidMessage.textContent = `You bid: "I have ${currentBid.numberOfDice} of ${currentBid.dots} dots".`;
             main_window.appendChild(bidMessage);
-            opponentResponse(opponentName, lines);
+            opponentResponse(opponentName, lines, callbackEnd, prize);
         }
     });
 }
@@ -301,7 +301,7 @@ function oneThird() {
     return Math.floor((Math.random() * 3) + 1);
 }
 // opponent response
-function opponentResponse(opponentName, lines) {
+function opponentResponse(opponentName, lines, callbackEnd, prize) {
     // set currentBid
     // if currentBid.numberOfdice > 2, opponent calls bluff
     // fill the accusation object with 'opponent', and 'currentBid'
@@ -316,7 +316,7 @@ function opponentResponse(opponentName, lines) {
         accuseContinueButton.addEventListener('click', () => {
             main_window.removeChild(accuseContinueButton);
             let gameResult = callOut();
-            gameEnd(gameResult, opponentName, lines);    
+            gameEnd(gameResult, opponentName, lines, callbackEnd, prize);    
         });
     // if currentBid.numberOfdice =2
     } else if (currentBid.numberOfDice == 2) {
@@ -332,17 +332,17 @@ function opponentResponse(opponentName, lines) {
             accuseContinueButton.addEventListener('click', () => {
                 main_window.removeChild(accuseContinueButton);
                 let gameResult = callOut();
-                gameEnd(gameResult, opponentName, lines);    
+                gameEnd(gameResult, opponentName, lines, callbackEnd, prize);    
             });
         // if that doesn't trigger, the opponent bids    
         } else {
-            opponentBid(opponentName, lines);
+            opponentBid(opponentName, lines, callbackEnd, prize);
         }
     } else {
-        opponentBid(opponentName, lines);
+        opponentBid(opponentName, lines, callbackEnd, prize);
     }
 }
-function opponentBid(opponentName, lines) {
+function opponentBid(opponentName, lines, callbackEnd, prize) {
     // opponent looks at opponentHand, identifying if there are any repeats
     let allOpponent1s = opponentHand.filter(i => i == 1);
     let allOpponent2s = opponentHand.filter(i => i == 2);
@@ -413,7 +413,7 @@ function opponentBid(opponentName, lines) {
     bluffLine2Entry.textContent = `"I rolled ${currentBid.numberOfDice} dice with ${currentBid.dots} dots."`;    
     main_window.appendChild(bluffLine2Entry);
     // re-bid, but can only do higher now!
-    bidPhase(opponentName, lines);
+    bidPhase(opponentName, lines, callbackEnd, prize);
     // thoughts on re-bidding: reuse the same function flow
     // introduce a limit on what the player can bid
     // but the limits don't work if currentBid is empty
@@ -452,7 +452,7 @@ function callOut() {
     // returns a winner
 }
 // ending the game
-function gameEnd(result, opponentName, lines) {
+function gameEnd(result, opponentName, lines, callbackEnd, prize) {
     // a message, who is being accused and what are they being accused of
     let gameEndEntry = document.createElement('p');
     if (accusation.accuser == 'Player') {
@@ -466,23 +466,26 @@ function gameEnd(result, opponentName, lines) {
     main_window.appendChild(continueButton);
     continueButton.addEventListener('click', () => {
         main_window.removeChild(continueButton);
-        gameEnd2(result, opponentName, lines);
+        gameEnd2(result, opponentName, lines, callbackEnd, prize);
     })
 }
-function gameEnd2(result, opponentName, lines) {
+function gameEnd2(result, opponentName, lines, callbackEnd, prize) {
     let opponentEndLineEntry = document.createElement('p');
     if (result == 'playerWins') {
         let gameResultEntry = document.createElement('p');
         gameResultEntry.textContent = 'And.... You win!';
         main_window.appendChild(gameResultEntry);
         opponentEndLineEntry.textContent = `${opponentName}: "${lines.loseLine}."`
+        main_window.appendChild(opponentEndLineEntry);
+        callbackEnd('win', prize);
     } else {
         let gameResultEntry = document.createElement('p');
         gameResultEntry.textContent = `And.... ${opponentName} wins!`;
         main_window.appendChild(gameResultEntry);
         opponentEndLineEntry.textContent = `${opponentName}: "${lines.winLine}."`
+        main_window.appendChild(opponentEndLineEntry);
+        callbackEnd('lose', prize);
     }
-    main_window.appendChild(opponentEndLineEntry);
     // saying the 'winLine' or 'loseLine'  
     // keep track of gold!
     // show gold in the inventory

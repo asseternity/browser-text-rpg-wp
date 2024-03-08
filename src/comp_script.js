@@ -18,29 +18,54 @@ class storyElement {
 // --- script ---
 // from them learn about the New Dawn Edict
 
+// --- FIRST APPEARANCE OF THE DIVINE MESSENGER ---
+let firstAppearance_book1 = new storyElement('description',
+    [`[This is the end of the prototype!]`, `[Thank you for playing and let me know what you think!]`],
+    undefined,
+    undefined)
+let firstAppearance_dreams1 = new storyElement('description',
+    [`[This is the end of the prototype!]`, `[Thank you for playing and let me know what you think!]`],
+    undefined,
+    undefined)
+let firstAppearance_tree1 = new storyElement('description',
+    [`[This is the end of the prototype!]`, `[Thank you for playing and let me know what you think!]`],
+    undefined,
+    undefined)
+let firstAppearance_shadow1 = new storyElement('description',
+    [`[This is the end of the prototype!]`, `[Thank you for playing and let me know what you think!]`],
+    undefined,
+    undefined)
+let firstAppearance_animal1 = new storyElement('description',
+    [`[This is the end of the prototype!]`, `[Thank you for playing and let me know what you think!]`],
+    undefined,
+    undefined)
+let firstAppearance_reflection1 = new storyElement('description',
+    [`[This is the end of the prototype!]`, `[Thank you for playing and let me know what you think!]`],
+    undefined,
+    undefined)
 // CHOOSE YOUR CHOSEN! CHOOSE A GHOSTLY WAY TO COMMUNICATE!
 // if watch them for a while, the selection of methods of appearance is smaller
 // methods: write messages in their book, appear in their dreams
 let methodOfContact2 = new storyElement('choice', 
     [`You have a few ideas on how to make contact with ChosenName...`],
     [{choiceText: `You wait for ChosenName to start reading, and change the words in xis book.`, // wait until the adventurer's reading and change the words in the book
-    choiceModifiers: null,
-    choiceNextStory: undefined},
+    choiceModifiers: 'firstAppearance_book',
+    choiceNextStory: firstAppearance_book1},
     {choiceText: `You wait for ChosenName to fall asleep, and alter xis dreams.`, // appear or alter the adventurer's dream
-    choiceModifiers: null,
-    choiceNextStory: undefined},
+    choiceModifiers: 'firstAppearance_dreams',
+    choiceNextStory: firstAppearance_dreams1},
     {choiceText: `You wait till ChosenName's alone on watch, and draw the symbol of Justice on a nearby tree.`, // Symbols or Runes: Using natural materials around the camp, the spirit could arrange symbols or runes that convey a message
-    choiceModifiers: null,
-    choiceNextStory: undefined},
+    choiceModifiers: 'firstAppearance_tree',
+    choiceNextStory: firstAppearance_tree1},
     {choiceText: `You wait till the others are asleep, and change the shape of ChosenName's shadow caused by the campfire.`, // Animated Shadows: The spirit could animate shadows cast by objects in the environment, causing them to move in ways that convey messages or images relevant to the adventurers' journey. For example, a shadow might mimic the shape of a key to indicate that they are unlocking a great mystery or power
-    choiceModifiers: null,
-    choiceNextStory: undefined},
+    choiceModifiers: 'firstAppearance_shadow',
+    choiceNextStory: firstAppearance_shadow1},
     {choiceText: `You search for an animal, and give it a command to approach the camp when the others are asleep.`, // Guiding Animals: The spirit could influence the behavior of animals in the area, causing them to act in ways that lead the adventurers in the right direction or warn them of impending danger
-    choiceModifiers: null,
-    choiceNextStory: undefined},
+    choiceModifiers: 'firstAppearance_animal',
+    choiceNextStory: firstAppearance_animal1},
     {choiceText: `You wait for ChosenName to get a drink or polish xis armor, then alter the reflection.`, // Visions in Reflective Surfaces: The spirit could communicate through visions that appear in reflective surfaces such as still water, mirrors, or polished metal. These visions could offer glimpses of the adventurers' future or provide cryptic clues about their destiny as the Chosen one
-    choiceModifiers: null,
-    choiceNextStory: undefined}],
+    choiceModifiers: 'firstAppearance_reflection',
+    choiceNextStory: firstAppearance_reflection1}],
     undefined)
 let methodOfContact1b = new storyElement('description',
     [`After a little bit of thinking and testing, far from the camp, you determine that all you can do for now as a Spirit, is to manipulate inanimate objects.`, `Theoretically, you also feel that you might be able to give little commands to non-human animals, and, if you concentrate hard, fill dreams of slumbering folks with images.`],
@@ -55,11 +80,11 @@ let chosePeculiar = new storyElement('description',
     undefined,
     methodOfContact1)
 let choseSnapdragon = new storyElement('description',
-    [`1`, `2`],
+    [`Captain Peculiar and Lysander are honorable, military types.`, `It will be much harder to trick them into believing that they are the chosen ones.`, `Snapdragon, who looks egotistical, handsome and popular, is the obvious choice.`, `He'll be easier to convince that he's the Chosen One.`, `Right?`],
     undefined,
     methodOfContact1)
 let choseLysander = new storyElement('description',
-    [`1`, `2`],
+    [`You stop yourself for a moment.`, `Not just your survival as a Spirit is at stake.`, `This choice will have consequence on the entire Fated Realm.`, `The person you appear to and try to convince that they are the Chosen of the Phoenix of Justice will become a big deal eventually.`, `Lysander, a true warrior, a dependable, no-nonsense soldier, will carry this status the best.`],
     undefined,
     methodOfContact1)
 // what are the stories of people talking to Spirits? mostly spirits acting like messengers of the Suns, choosing humans as their champions
@@ -522,6 +547,34 @@ let wakeUp1 = new storyElement('choice',
     choiceModifiers: 'wakeUpNight',
     choiceNextStory: wakeUpLie1}],
     undefined)
+// prologue
+let prologue4 = new storyElement('description',
+    [`You lost.`],
+    undefined,
+    wakeUp1)
+let prologue3 = new storyElement('description',
+    [`You won.`],
+    undefined,
+    wakeUp1)
+let prologue2 = new storyElement('falsecubes',
+    [`Mikey: "Hi, my name's Mikey."`, `Mikey: "Let's play Falsecubes!"`],
+    {opponentName: 'Mikey',
+    opponentLines: {
+        openLine: `Come on, let's play`,
+        bidLine: `Luck is on my side today`,
+        bluffLine: `I have good dice today, kid`,
+        accuseLine: `Yeah, I don't think so`,
+        winLine: `Gotcha, kid`,
+        loseLine: `Darn. You got lucky, pal`},
+    consequences: {
+        win: 'prologueFalsecubesWin',
+        lose: 'prologueFalsecubesLose'},
+    },
+    {win: prologue3, lose: prologue4})
+let prologue1 = new storyElement('description',
+    [`Something something.`, `Ooh, something.`, `Let's play Falsecubes.`],
+    undefined,
+    prologue2)
 // export
-let scriptObjects = { spiritAppear2 };
+let scriptObjects = { prologue1 };
 export { storyElement, scriptObjects };
