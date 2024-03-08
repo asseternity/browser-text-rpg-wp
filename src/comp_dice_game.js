@@ -25,7 +25,7 @@ function startDiceGame(opponentName, lines, callbackEnd, prize) {
     // instructions
     let instruction = document.createElement('p');
     instruction.setAttribute('style','color:yellow');
-    instruction.textContent = '[You are about to play Falsecubes. Here are the instructions.]';
+    instruction.textContent = '[You are about to play Falsecubes. Here are the instructions: You and opponent have 6 dice each. You roll them in secret. Then you take it in turns to make increasingly high bets about how many dice of a certain roll are in your hand until one of them calls the other out on a bluff and confirms which dice are really on the table.]';
     main_window.appendChild(instruction);
     // start game button
     let startDiceGameButton = document.createElement('button');

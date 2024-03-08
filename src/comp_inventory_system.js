@@ -171,8 +171,9 @@ let rustyArmor = newItem('Rusty Armor', 'armor', 0, 1, 'n8');
 let goldRing = newItem('Gold Ring', 'misc', 0, 1, 'n9');
 let healthPotion = newItem('Health Potion', 'quest item', 0, 0, 'n10');
 let wispBall = newItem('Dimly Glowing Ball', 'misc', 0, 1, 'n11');
+let goldenDagger = newItem('Dagger of the Highfate', 'weapon', 2, 0, 'n12');
 // exporting object
-let allItems = { wispBall, magicArmor, magicRing, magicSword, ultraArmor, ultraRing, ultraSword, rustyArmor, rustySword, goldRing, healthPotion };
+let allItems = { goldenDagger, wispBall, magicArmor, magicRing, magicSword, ultraArmor, ultraRing, ultraSword, rustyArmor, rustySword, goldRing, healthPotion };
 // export
 export {
     inventoryDialog,

@@ -100,10 +100,8 @@ Z -
 
 # TO DO LIST.
 --- for prototype ---
-// add music?
 // settings: change fontsize and change font (already done in guide!)
 // main menu - functionality
-// write a prologue with gambling with a real consequence if you win or lose + a story consequence (newPlayerConsequences)
 
 --- for entire game ---
 // how to save progress? - from TOP: We haven’t learned any techniques for actually storing our data anywhere, so when the user refreshes the page, all of their todos will disappear! You should add some persistence to this todo app using the Web Storage API.
@@ -114,4 +112,3 @@ Z -
 // - supporting characters academy: there are things in games that all supporting characters magically know how to do 
 // (hacking, opening doors, researching)
 // in this game - YOU do them. More minigames?
-

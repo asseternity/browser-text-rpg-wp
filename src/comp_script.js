@@ -549,32 +549,88 @@ let wakeUp1 = new storyElement('choice',
     undefined)
 // prologue
 let prologue4 = new storyElement('description',
-    [`You lost.`],
+    [`The Highfate bows as the game ends.`, `She won, but she shows respect and doesn't smile too much.`, `Before you politely excuse yourself to leave the table, she smiles at you. "Good game, Serah Somebody."`, `...`, `...`],
     undefined,
     wakeUp1)
-let prologue3 = new storyElement('description',
-    [`You won.`],
-    undefined,
+let prologue3 = new storyElement('item',
+    [`The Highfate bows as the game ends.`, `You won, but you try to show respect and don't smile too much.`, `Before you politely excuse yourself to leave the table, she hands you a long, beautiful dagger.`, `"For your win," she smiles, and moves on.`, `...`, `...`],
+    allItems.goldenDagger,
     wakeUp1)
-let prologue2 = new storyElement('falsecubes',
-    [`Mikey: "Hi, my name's Mikey."`, `Mikey: "Let's play Falsecubes!"`],
-    {opponentName: 'Mikey',
+let prologue2x = new storyElement('falsecubes',
+    [`The Highfate picks up the stone dice on her side of the marble table.`, `She rolls them, and covers the results with her hand, smiling.`],
+    {opponentName: 'The Highfate',
     opponentLines: {
-        openLine: `Come on, let's play`,
-        bidLine: `Luck is on my side today`,
-        bluffLine: `I have good dice today, kid`,
-        accuseLine: `Yeah, I don't think so`,
-        winLine: `Gotcha, kid`,
-        loseLine: `Darn. You got lucky, pal`},
+        openLine: `Oh, my. The dice are favoring me tonight.`,
+        bidLine: `My strategy tonight is quite bold.`,
+        bluffLine: `You may not believe me, but the dice speak for themselves.`,
+        accuseLine: `I conclude that this is a bluff, Serah.`,
+        winLine: `And this one's mine. Thank you for the game.`,
+        loseLine: `And this one's yours. You are indeed skilled.`},
     consequences: {
         win: 'prologueFalsecubesWin',
         lose: 'prologueFalsecubesLose'},
     },
     {win: prologue3, lose: prologue4})
-let prologue1 = new storyElement('description',
-    [`Something something.`, `Ooh, something.`, `Let's play Falsecubes.`],
+let prologue2c = new storyElement(
+    'dialogue',
+    [{ lineNumber: 0, npcLine: '"Serah Somebody," the Highfate says, her speech slow and deliberate. "Care to join me for a game of Falsecubes? We can catch up after we play."', responses: 
+        [{ dialogueChoice: `Certainly, your grace. It's my honor to be your first opponent tonight.`, dialogueNextLine: 1, points: 1 },
+        { dialogueChoice: `I suppose I will. I've always wanted to win at Falsecubes against the Highfate.`, dialogueNextLine: 2, points: -1 }]},
+    { lineNumber: 1, npcLine: '"Please, Serah Somebody," the Highfate gestures for you to relax. "You are off duty today. Enjoy the evening and do not fret about formalities."', responses: 
+        [{ dialogueChoice: 'Yes, you are quite right. May the dice favor you in the game, Serah.', dialogueNextLine: 3, points: 1 },
+        { dialogueChoice: 'This is how I speak with everybody, Serah Highfate. See? I am relaxing already.', dialogueNextLine: 4, points: -1 }]},
+    { lineNumber: 2, npcLine: '"Is that so?" the Highfate smirks. "Well, then I should be on my best game then."', responses: 
+        [{ dialogueChoice: 'You are always a formidable Falsecubes opponent, your grace. Let us play.', dialogueNextLine: 3, points: 1 },
+        { dialogueChoice: 'I can give you a few pointers after the game, Serah Highfate.', dialogueNextLine: 4, points: 0 }]},
+    { lineNumber: 3, npcLine: '"Thank you kindly," she says and smiles politely. "May the dice favor you, Serah Somebody."', responses: 
+        [{ dialogueChoice: 'May the better bluffer win.', dialogueNextLine: 5, points: 1 },
+        { dialogueChoice: `With all due respect, I've a feeling that luck is on my side tonight.`, dialogueNextLine: 5, points: -1 }]},
+    { lineNumber: 4, npcLine: `"I am glad you are in a joyful mood, Serah Somebody," she says, voice suddenly warm. "It's important for me that you're comfortable."`, responses: 
+        [{ dialogueChoice: `Likewise, your grace. Let me know if there's any way I can assist you throughout the reception.`, dialogueNextLine: 5, points: 1 },
+        { dialogueChoice: `Growing fond of me, your grace? You haven't seen my Falsecubes skill yet.`, dialogueNextLine: 5, points: -1 }]},
+    { lineNumber: 5, npcLine: `"Let us play, then. Shall we?" she says, gesturing to the table and the dice.`, responses: []}],
+    ['HighfatePolite', 'HighfateNeutral', 'HighfateBanter'],
+    prologue2x
+)
+let prologue2b = new storyElement(
+    'form',
+    ['The Highfate subtly nods in return, and smiles in recognition.', '[Please enter your name.]'],
+    undefined,
+    prologue2c
+)
+let prologue2 = new storyElement('description',
+    [`You take a deep breath, and approach the tall woman in the leather cuirass over a long, intricate, silver robe.`, `You do your best bow in greetings, and approach the Falsecubes table.`, `Six marble, four-sides stones painted black, sit at either side of the table.`],
+    undefined,
+    prologue2b)
+let prologue2y = new storyElement('description',
+    [`You turn away, to go and mingle with the other guests, when the Highfate's eyes meet yours.`, `Well, no getting out of it now.`],
     undefined,
     prologue2)
+let prologue1e = new storyElement('choice',
+    [`The Highfate beckons a guest to approach her for a game of Falsecubes.`, `Do you dare approach her - and be the first guest of today's reception to play the Highfate herself?`],
+    [{choiceText: `I approach the Highfate to play Falsecubes.`,
+    choiceModifiers: null,
+    choiceNextStory: prologue2},
+    {choiceText: `I stay in the reception hall and mingle with the guests.`,
+    choiceModifiers: null,
+    choiceNextStory: prologue2y}],
+    undefined) 
+let prologue1d = new storyElement('description',
+    [`The Highfate is a world-famous philosopher, and the leader of the Fated Realm.`, `The guests, however, couldn't be less concerned with philosophy.`, `Neither the monocles of rich traders, nor the decorative muskets of the adventurers, hint at any other agenda beyond impressing the Highfate.`],
+    undefined,
+    prologue1e)
+let prologue1c = new storyElement('description',
+    [`The host, the Highfate herself, presents the dice, each a work of art.`, `As the Highfate moves, the long silver robe that she wears over a leather cuirass flutters in the wind of the massive reception hall.`],
+    undefined,
+    prologue1d)
+let prologue1b = new storyElement('description',
+    [`Guests wear noble finery and adventurous attire, mingling by gas lamps.`, `They carry golden muskets, their mustaches twirled.`, `The room is alive with glass clinks and murmurs as they prepare to play Falsecubes, a dice game popular among the Fated Realm's adventuring rich.`],
+    undefined,
+    prologue1c)
+let prologue1 = new storyElement('description',
+    [`[Summer Estate of the Highfate, leader of the Fated Realm.]`, `Perched on a hill, the manor overlooks the city. Its stone facade is adorned with carvings.`, `Inside, the parlor is rich and textured, with velvet curtains framing tall windows.`],
+    undefined,
+    prologue1b)
 // export
 let scriptObjects = { prologue1 };
 export { storyElement, scriptObjects };

@@ -2,7 +2,7 @@
 import './index.css';
 import bgImg from './bg.jpg';
 import { char1 } from './comp_objects_and_methods';
-
+import song from './blacklake.mp3';
 // initialize spaces and buttons
 let top_bar = document.querySelector('.top_bar');
 let log_window = document.querySelector('.log');
@@ -50,6 +50,17 @@ mainMenuDialog.innerHTML =
     `
 mainMenuDialog.showModal();
 
+// song playing
+let audio = document.createElement('audio');
+audio.setAttribute('id', 'audio');
+audio.setAttribute('control', 'control');
+audio.setAttribute('loop', 'loop');
+let source = document.createElement('source');
+source.setAttribute('src', `${song}`);
+source.setAttribute('type', `audio/mpeg`);
+audio.appendChild(source);
+document.body.appendChild(audio);
+
 let blackMenu = document.createElement('div');
 blackMenu.setAttribute('style', `background-color:black;position:absolute;height:100%;width:100%;z-index:500;overflow:hidden;`);
 let bgMenu = document.createElement('div');
@@ -66,6 +77,7 @@ startButton.addEventListener('click', () => {
     mainMenuDialog.addEventListener('animationend', () => {
         dialogAnimationEnd(mainMenuDialog);
         mainMenuClosed = true;
+        audio.play();
         checkAnimationComplete();
     });
 });
@@ -76,6 +88,7 @@ function checkAnimationComplete() {
         document.body.style.overflow = 'visible';    
     }
 }
+
 // export spaces and buttons
 export {
     top_bar,

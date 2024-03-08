@@ -34,18 +34,6 @@ import {
 import { storyElement, scriptObjects } from './comp_script';
 import { Race, races } from './comp_races';
 const eventEmitter = require('./comp_event_emitter');
-import song from './comp_assets';
-// song playing
-let audio = document.createElement('audio');
-audio.setAttribute('id', 'audio');
-audio.setAttribute('control', 'control');
-audio.setAttribute('loop', 'loop');
-let source = document.createElement('source');
-source.setAttribute('src', `${song}`);
-source.setAttribute('type' `audio/mpeg`);
-audio.appendChild(source);
-document.body.appendChild(audio);
-audio.play();
 // game-long vars
 let newPlayerConsequences = [];
 let isPlayerExploring = false;
@@ -237,10 +225,10 @@ function textFlipper(storyElement, loop, style) {
         continueButton.addEventListener('click', () => {
             loop++;
             main_window.removeChild(continueButton);
+            textFlipper(storyElement, loop);
             if (loop == storyElement.text.length) {
                 switch (storyElement.type) {
                     case 'falsecubes':
-                        console.log('falsecubes called in textFlipper')
                         storyFalsecubes(storyElement);
                         break;
                     case 'description':
@@ -306,7 +294,6 @@ function textFlipper(storyElement, loop, style) {
                     }
                 }
             }
-            textFlipper(storyElement, loop);
         })
     }
 }
@@ -593,6 +580,7 @@ function newExploration(storyElement) {
             case 'w':
                 //Transform (translate): CALCULATES FROM THE INITIAL POSITION! SO, initialCircle WILL BE 0, 0 for transform translate
                 if (currentCircleY - step > boardUnderCollision.top && moveOn == true) {
+                    console.log('w')
                     currentCircleY -= step;
                     tileTriggers(whichTileIsPlayerOn(circle), storyElement);
                 }
@@ -806,17 +794,14 @@ function statsFlagsUpdater() {
 }
 // Falsecubes
 function storyFalsecubes(storyElement) {
-    console.log('falsecubes function called');
     startDiceGame(storyElement.modifiers.opponentName, storyElement.modifiers.opponentLines, storyFalsecubesEnd, storyElement);
 }
 function storyFalsecubesEnd(result, prize) {
     if (result == 'win') {
         newPlayerConsequences.push(prize.modifiers.consequences.win);
-        console.log(newPlayerConsequences);
         storyTeller(prize.nextStoryElement.win);
     } else {
         newPlayerConsequences.push(prize.modifiers.consequences.lose);
-        console.log(newPlayerConsequences);
         storyTeller(prize.nextStoryElement.lose);
     }
 }
